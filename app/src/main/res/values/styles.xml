@@ -1,0 +1,110 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="Umi.CustomActionBarStyle" parent="Widget.AppCompat.ActionBar">
+        <item name="contentInsetStart">0dp</item>
+        <item name="contentInsetEnd">0dp</item>
+        <item name="elevation">0dp</item>
+    </style>
+
+    <style name="Umi.ActionBarTheme.White" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="actionBarStyle">@style/Umi.CustomActionBarStyle</item>
+        <item name="actionBarSize">40dp</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <!-- AppCompatEditText默认状态状态设置底线颜色 -->
+        <item name="colorControlNormal">@color/gray</item>
+        <!-- AppCompatEditText选择的底线颜色 -->
+        <item name="colorControlActivated">@color/colorPrimary</item>
+    </style>
+
+    <style name="dialog_theme">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>
+        <item name="android:windowBackground">@color/transparent</item>
+        <!-- 背景透明 -->
+        <!-- 激活背景变暗遮罩 -->
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:backgroundDimAmount">0.5</item>
+    </style>
+
+    <style name="dialog_theme_no_dim">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>
+        <item name="android:windowBackground">@color/transparent</item>
+        <!-- 背景透明 -->
+        <!-- 激活背景变暗遮罩 -->
+        <item name="android:backgroundDimEnabled">false</item>
+        <item name="android:backgroundDimAmount">0.5</item>
+    </style>
+
+    <style name="Animation_Bottom_Dialog">
+        <item name="android:windowEnterAnimation">@anim/bottom_dialog_enter</item>
+        <item name="android:windowExitAnimation">@anim/bottom_dialog_exit</item>
+    </style>
+
+    <style name="FlowLayout">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">5dp</item>
+
+        //选项item文字默认值
+        <item name="item_textColor">#666666</item>
+
+        //选项item背景色
+        <item name="item_backgroundColor">#ffffff</item>
+
+        //选中后选项item的文字颜色
+        <item name="item_selectedTextColor">#ffffff</item>
+
+        //选中后选项item的背景颜色
+        <item name="item_selectedBackgroundColor">#7289ff</item>
+
+        //选项item的圆角大小
+        <item name="item_radius">0dp</item>
+
+        //选项item的边缘颜色
+        <item name="item_strokeColor">#939393</item>
+
+        //选项item选中后边缘颜色
+        <item name="item_selectedStrokeColor">#939393</item>
+
+        //选项item边缘的大小
+        <item name="item_strokeWidth">1px</item>
+
+        //水平方向，选项item的间距
+        <item name="item_horizontalSpacing">10dp</item>
+
+        //选项item内部padding
+        <item name="item_horizontalPadding">10dp</item>
+
+        ////竖直方向，选项item的间距
+        <item name="item_verticalPadding">5dp</item>
+
+        //选项item的大小，如果设置wrap_content则包裹它的内容，可设置固定值如80，单位dp
+        <item name="item_width">wrap_content</item>
+        <item name="item_height">wrap_content</item>
+
+
+        //限制item文字显示长度
+        <item name="item_maxEms">5</item>
+
+        //是否可以多选
+        <item name="item_multiChooseable">true</item>
+    </style>
+
+</resources>

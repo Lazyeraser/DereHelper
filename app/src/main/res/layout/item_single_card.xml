@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:bind="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.lazyeraser.imas.cgss.viewmodel.CardViewModel" />
+        <import type="com.lazyeraser.imas.derehelper.R" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/selector_white">
+
+        <ImageView
+            android:id="@+id/card_icon"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_centerVertical="true"
+            bind:placeholder="@{R.drawable.umi_bg_corners_solid}"
+            bind:imageUrl="@{viewModel.cardIconUrl}" />
+
+    </RelativeLayout>
+
+
+
+</layout>

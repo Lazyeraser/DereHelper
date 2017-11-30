@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical">
+
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.lazyeraser.imas.cgss.viewmodel.CharaListViewModel" />
+
+        <import type="android.view.View" />
+    </data>
+
+    <android.support.v4.widget.DrawerLayout
+        android:id="@+id/drawerLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
+        tools:openDrawer="end">
+
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ListView
+                android:id="@+id/card_list"
+                android:background="@color/back"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:divider="@null"
+                android:dividerHeight="0dp"
+                bind:itemView="@{viewModel.itemView}"
+                bind:items="@{viewModel.itemViewModel}"
+                bind:onListItemClickedWithView="@{viewModel.onListItemClickCommand}" />
+
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:layout_width="250dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="end"
+            android:clickable="true"
+            android:background="@color/white">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white">
+
+                <TextView
+                    android:layout_marginTop="30dp"
+                    android:layout_marginStart="12dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/card_type"/>
+
+                <com.ihidea.multilinechooselib.MultiLineChooseLayout
+                    android:layout_marginTop="5dp"
+                    style="@style/FlowLayout"
+                    android:layout_marginStart="12dp"
+                    android:id="@+id/typeChoose"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    bind:onSelChange="@{viewModel.onTypeSelCommand}"/>
+
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="16dp">
+
+                <Button
+                    android:layout_width="70dp"
+                    android:layout_height="30dp"
+                    android:background="@drawable/umi_bg_corners_solid"
+                    android:text="@string/filter_confirm"
+                    android:textColor="@color/white"
+                    bind:clickCommand="@{viewModel.filterCardsCommand}"/>
+
+                <Button
+                    android:layout_width="70dp"
+                    android:layout_height="30dp"
+                    android:background="@drawable/umi_bg_corners_solid"
+                    android:text="@string/filter_reset"
+                    android:layout_marginStart="8dp"
+                    android:textColor="@color/white"
+                    bind:clickCommand="@{viewModel.resetFilterCommand}"/>
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </android.support.v4.widget.DrawerLayout>
+
+
+</layout>

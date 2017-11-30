@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.lazyeraser.imas.cgss.viewmodel.FullScreenImageVM" />
+
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#000000">
+
+        <com.alexvasilkov.gestures.views.GestureImageView
+            android:id="@+id/big_pic"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            bind:imageUrl="@{viewModel.cardSpreadUrl}"/>
+
+    </RelativeLayout>
+
+
+</layout>

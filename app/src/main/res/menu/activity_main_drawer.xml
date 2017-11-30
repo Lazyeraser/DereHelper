@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:title="@string/menu_0">
+        <menu>
+            <item
+                android:id="@+id/nav_cards"
+                android:icon="@drawable/ic_card_black_24dp"
+                android:title="@string/card_list" />
+            <item
+                android:id="@+id/nav_idols"
+                android:icon="@drawable/ic_person_black_24dp"
+                android:title="@string/chara_list" />
+        </menu>
+    </item>
+
+    <item android:title="@string/menu_1">
+        <menu>
+            <item
+                android:id="@+id/nav_check_update"
+                android:icon="@drawable/ic_cloud_download_black_24dp"
+                android:title="@string/check_data_update" />
+
+            <item
+                android:id="@+id/nav_check_update_app"
+                android:icon="@drawable/ic_system_update_alt_black_24dp"
+                android:title="@string/check_app_update" />
+            <item
+                android:id="@+id/nav_about"
+                android:icon="@drawable/ic_assistant_black_24dp"
+                android:title="@string/about" />
+        </menu>
+    </item>
+
+</menu>

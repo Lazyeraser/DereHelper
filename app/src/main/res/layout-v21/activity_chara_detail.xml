@@ -1,0 +1,456 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:bind="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.lazyeraser.imas.cgss.viewmodel.CharaViewModel" />
+        <import type="android.view.View" />
+        <import type="com.lazyeraser.imas.derehelper.R" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/back"
+        android:focusable="true"
+        android:focusableInTouchMode="true">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="8dp"
+            android:textSize="56sp"
+            android:textColor="#30666666"
+            android:text="@{viewModel.chara.get().getType().toUpperCase()}"/>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.zhy.android.percent.support.PercentLinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <View
+                    android:layout_marginStart="5dp"
+                    android:layout_alignParentBottom="true"
+                    android:background="@color/divider"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"/>
+
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="70dp"
+                    android:background="@color/white">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <ImageView
+                            android:id="@+id/chara_icon"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="16dp"
+                            bind:placeholder="@{R.drawable.umi_bg_corners_solid}"
+                            bind:imageUrl="@{viewModel.charaIconUrl}" />
+
+                        <TextView
+                            android:id="@+id/item_txt"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:hint="chara name"
+                            android:layout_toEndOf="@+id/chara_icon"
+                            android:layout_alignTop="@id/chara_icon"
+                            android:layout_marginTop="4dp"
+                            android:layout_marginStart="8dp"
+                            android:textSize="@dimen/txt_2"
+                            android:textColor="@color/txtBlack"
+                            android:text="@{viewModel.chara.get().getName()}"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:hint="romachi"
+                            android:layout_toEndOf="@+id/chara_icon"
+                            android:layout_alignBottom="@id/chara_icon"
+                            android:layout_marginBottom="4dp"
+                            android:layout_marginStart="8dp"
+                            android:textSize="@dimen/txt_2"
+                            android:textColor="@color/txtGray"
+                            android:text="@{viewModel.chara.get().getConventional()}"/>
+
+                    </RelativeLayout>
+
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    android:layout_marginTop="8dp"
+                    android:layout_marginStart="@dimen/card_view_margin"
+                    android:layout_marginEnd="@dimen/card_view_margin"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/info_base"
+                                android:textColor="@color/txtBlack"
+                                android:textSize="@dimen/txt_2"
+                                android:layout_margin="10dp"/>
+
+                            <!--<TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:hint="@string/empty"
+                                android:text="@{viewModel.card.get().getSkill().getSkill_name()}"
+                                android:textColor="@color/txtGray"
+                                android:textSize="@dimen/txt_1"
+                                android:layout_marginTop="10dp"/>-->
+
+                        </LinearLayout>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/name_kana"
+                            android:textColor="@color/txtBlack"
+                            android:textSize="@dimen/txt_1"
+                            android:layout_margin="10dp"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginEnd="10dp"
+                            android:textSize="@dimen/txt_1"
+                            android:textColor="@color/txtGray"
+                            android:text="@{String.valueOf(viewModel.chara.get().getName_kana())}"
+                            android:hint="@string/empty"/>
+
+                      <LinearLayout
+                          android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:orientation="horizontal">
+
+                          <LinearLayout
+                              android:layout_weight="1"
+                              android:layout_width="0dp"
+                              android:layout_height="wrap_content"
+                              android:orientation="vertical">
+
+                              <TextView
+                                  android:layout_width="wrap_content"
+                                  android:layout_height="wrap_content"
+                                  android:text="@string/height"
+                                  android:textColor="@color/txtBlack"
+                                  android:textSize="@dimen/txt_1"
+                                  android:layout_margin="10dp"/>
+
+                              <TextView
+                                  android:layout_width="wrap_content"
+                                  android:layout_height="wrap_content"
+                                  android:layout_marginStart="10dp"
+                                  android:layout_marginEnd="10dp"
+                                  android:textSize="@dimen/txt_1"
+                                  android:textColor="@color/txtGray"
+                                  android:text='@{String.valueOf(viewModel.chara.get().getHeight()) + @string/unit_height}'
+                                  android:hint="@string/empty"/>
+
+                          </LinearLayout>
+
+                          <LinearLayout
+                              android:layout_weight="1"
+                              android:layout_width="0dp"
+                              android:layout_height="wrap_content"
+                              android:orientation="vertical">
+
+                              <TextView
+                                  android:layout_width="wrap_content"
+                                  android:layout_height="wrap_content"
+                                  android:text="@string/age"
+                                  android:textColor="@color/txtBlack"
+                                  android:textSize="@dimen/txt_1"
+                                  android:layout_margin="10dp"/>
+
+                              <TextView
+                                  android:layout_width="wrap_content"
+                                  android:layout_height="wrap_content"
+                                  android:layout_marginStart="10dp"
+                                  android:layout_marginEnd="10dp"
+                                  android:textSize="@dimen/txt_1"
+                                  android:textColor="@color/txtGray"
+                                  android:text='@{String.valueOf(viewModel.chara.get().getAge()) + @string/unit_age}'
+                                  android:hint="@string/empty"/>
+
+                          </LinearLayout>
+
+                      </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:layout_weight="1"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/weight"
+                                    android:textColor="@color/txtBlack"
+                                    android:textSize="@dimen/txt_1"
+                                    android:layout_margin="10dp"/>
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="10dp"
+                                    android:layout_marginEnd="10dp"
+                                    android:textSize="@dimen/txt_1"
+                                    android:textColor="@color/txtGray"
+                                    android:text='@{String.valueOf(viewModel.chara.get().getWeight())  + @string/unit_weight}'
+                                    android:hint="@string/empty"/>
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_weight="1"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/birthday"
+                                    android:textColor="@color/txtBlack"
+                                    android:textSize="@dimen/txt_1"
+                                    android:layout_margin="10dp"/>
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="10dp"
+                                    android:layout_marginEnd="10dp"
+                                    android:textSize="@dimen/txt_1"
+                                    android:textColor="@color/txtGray"
+                                    android:text='@{String.valueOf(viewModel.chara.get().getBirth_month()) + @string/unit_month + String.valueOf(viewModel.chara.get().getBirth_day()) + @string/unit_day}'
+                                    android:hint="@string/empty"/>
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:layout_weight="1"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/blood_type"
+                                    android:textColor="@color/txtBlack"
+                                    android:textSize="@dimen/txt_1"
+                                    android:layout_margin="10dp"/>
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="10dp"
+                                    android:layout_marginEnd="10dp"
+                                    android:textSize="@dimen/txt_1"
+                                    android:textColor="@color/txtGray"
+                                    android:text="@{viewModel.bloodType}"
+                                    android:hint="@string/empty"/>
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_weight="1"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/hand"
+                                    android:textColor="@color/txtBlack"
+                                    android:textSize="@dimen/txt_1"
+                                    android:layout_margin="10dp"/>
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="10dp"
+                                    android:layout_marginEnd="10dp"
+                                    android:textSize="@dimen/txt_1"
+                                    android:textColor="@color/txtGray"
+                                    android:text="@{viewModel.hand}"
+                                    android:hint="@string/empty"/>
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/three_size"
+                            android:textColor="@color/txtBlack"
+                            android:textSize="@dimen/txt_1"
+                            android:layout_margin="10dp"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginEnd="10dp"
+                            android:textSize="@dimen/txt_1"
+                            android:textColor="@color/txtGray"
+                            android:text="@{viewModel.threeSize}"
+                            android:hint="@string/empty"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/constellation"
+                            android:textColor="@color/txtBlack"
+                            android:textSize="@dimen/txt_1"
+                            android:layout_margin="10dp"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginEnd="10dp"
+                            android:textSize="@dimen/txt_1"
+                            android:textColor="@color/txtGray"
+                            android:text="@{viewModel.constellation}"
+                            android:hint="@string/empty"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/favourite_thing"
+                            android:textColor="@color/txtBlack"
+                            android:textSize="@dimen/txt_1"
+                            android:layout_margin="10dp"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginEnd="10dp"
+                            android:textSize="@dimen/txt_1"
+                            android:textColor="@color/txtGray"
+                            android:text="@{String.valueOf(viewModel.chara.get().getFavorite())}"
+                            android:hint="@string/empty"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="CV"
+                            android:textColor="@color/txtBlack"
+                            android:textSize="@dimen/txt_1"
+                            android:layout_margin="10dp"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginBottom="10dp"
+                            android:textSize="@dimen/txt_1"
+                            android:textColor="@color/txtGray"
+                            android:text="@{String.valueOf(viewModel.chara.get().getVoice())}"
+                            android:hint="@string/empty"/>
+
+                    </LinearLayout>
+
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    android:layout_marginTop="8dp"
+                    android:layout_marginStart="@dimen/card_view_margin"
+                    android:layout_marginEnd="@dimen/card_view_margin"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="@{viewModel.cardsVisible ? View.VISIBLE : View.GONE}">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/idol_cards"
+                            android:textColor="@color/txtBlack"
+                            android:textSize="@dimen/txt_2"
+                            android:layout_margin="10dp"/>
+
+                        <com.lazyeraser.imas.cgss.utils.view.MGridView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="10dp"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginEnd="16dp"
+                            android:numColumns="5"
+                            android:horizontalSpacing="0dp"
+                            android:verticalSpacing="8dp"
+                            android:stretchMode="columnWidth"
+                            android:gravity="center"
+                            bind:itemView="@{viewModel.itemView}"
+                            bind:items="@{viewModel.itemViewModel}"
+                            bind:onListItemClickedWithView="@{viewModel.onListItemClickCommand}"/>
+
+                    </LinearLayout>
+
+                </android.support.v7.widget.CardView>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"/>
+                
+            </com.zhy.android.percent.support.PercentLinearLayout>
+
+        </ScrollView>
+
+
+
+    </RelativeLayout>
+
+
+
+</layout>

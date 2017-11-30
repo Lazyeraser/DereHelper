@@ -1,0 +1,434 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:bind="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.lazyeraser.imas.cgss.viewmodel.CardViewModel" />
+        <import type="android.view.View" />
+        <import type="com.lazyeraser.imas.derehelper.R" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/back">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="8dp"
+            android:textSize="56sp"
+            android:textColor="#30666666"
+            android:text="@{viewModel.cardRare}"/>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.zhy.android.percent.support.PercentLinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    bind:layout_heightPercent="64.375%w"
+                    android:visibility="@{viewModel.card.get().getHas_spread() ? View.VISIBLE : View.GONE}">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:text="@string/loading_pic"
+                        android:textColor="@color/txtGrayL"/>
+
+                    <ImageView
+                        android:id="@+id/big_pic"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        bind:imageUrl="@{viewModel.cardSpreadUrl}"
+                        bind:clickCommand="@{viewModel.onBigPicClick}"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentStart="true" />
+
+                </RelativeLayout>
+
+                <View
+                    android:layout_marginStart="5dp"
+                    android:layout_alignParentBottom="true"
+                    android:background="@color/divider"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"/>
+
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="70dp"
+                    android:background="@color/white">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <ImageView
+                            android:id="@+id/card_icon"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="16dp"
+                            bind:placeholder="@{R.drawable.umi_bg_corners_solid}"
+                            bind:imageUrl="@{viewModel.cardIconUrl}" />
+
+                        <TextView
+                            android:id="@+id/item_txt"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:hint="chara name"
+                            android:layout_toEndOf="@+id/card_icon"
+                            android:layout_alignTop="@id/card_icon"
+                            android:layout_marginTop="4dp"
+                            android:layout_marginStart="8dp"
+                            android:textSize="@dimen/txt_2"
+                            android:textColor="@color/txtBlack"
+                            android:text="@{viewModel.card.get().getName_only()}"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:hint="card title"
+                            android:layout_toEndOf="@+id/card_icon"
+                            android:layout_alignBottom="@id/card_icon"
+                            android:layout_marginBottom="4dp"
+                            android:layout_marginStart="8dp"
+                            android:textSize="@dimen/txt_2"
+                            android:textColor="@color/txtGray"
+                            android:text="@{viewModel.cardTitle}"/>
+
+                        <android.support.v7.widget.SwitchCompat
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:text="@string/translate"
+                            android:textColor="@color/txtBlack"
+                            android:padding="8dp"
+                            bind:switchPadding="8dp"
+                            bind:onCheckChanged="@{viewModel.onTranSwitchCheck}"/>
+
+                    </RelativeLayout>
+
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    android:layout_marginTop="8dp"
+                    android:layout_marginStart="@dimen/card_view_margin"
+                    android:layout_marginEnd="@dimen/card_view_margin"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/appeal_max"
+                            android:textColor="@color/txtBlack"
+                            android:textSize="@dimen/txt_2"
+                            android:layout_margin="10dp"/>
+
+                        <LinearLayout
+                            android:id="@+id/status_tag"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginEnd="10dp">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:text="Vi"
+                                android:textColor="@color/txt_vi"
+                                android:textAlignment="center"
+                                android:layout_weight="1"/>
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:text="Vo"
+                                android:textColor="@color/txt_vo"
+                                android:textAlignment="center"
+                                android:layout_weight="1"/>
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:text="Da"
+                                android:textColor="@color/txt_da"
+                                android:textAlignment="center"
+                                android:layout_weight="1"/>
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:text="All"
+                                android:textColor="@color/txt_all"
+                                android:textAlignment="center"
+                                android:layout_weight="1"/>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/status_values"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginEnd="10dp"
+                            android:orientation="horizontal"
+                            android:layout_marginBottom="10dp">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:text="@{String.valueOf(viewModel.card.get().getVisual_max() + viewModel.card.get().getBonus_visual())}"
+                                android:textColor="@color/txt_vi"
+                                android:textAlignment="center"
+                                android:layout_weight="1"/>
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:text="@{String.valueOf(viewModel.card.get().getVocal_max() + viewModel.card.get().getBonus_vocal())}"
+                                android:textColor="@color/txt_vo"
+                                android:textAlignment="center"
+                                android:layout_weight="1"/>
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:text="@{String.valueOf(viewModel.card.get().getDance_max() + viewModel.card.get().getBonus_dance())}"
+                                android:textColor="@color/txt_da"
+                                android:textAlignment="center"
+                                android:layout_weight="1"/>
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:text="@{String.valueOf(viewModel.card.get().getOverall_max() + viewModel.card.get().getOverall_bonus())}"
+                                android:textColor="@color/txt_all"
+                                android:textAlignment="center"
+                                android:layout_weight="1"/>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    android:layout_marginTop="8dp"
+                    android:layout_marginStart="@dimen/card_view_margin"
+                    android:layout_marginEnd="@dimen/card_view_margin"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/skill_live"
+                                android:textColor="@color/txtBlack"
+                                android:textSize="@dimen/txt_2"
+                                android:layout_margin="10dp"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:hint="@string/empty"
+                                android:text="@{viewModel.card.get().getSkill().getSkill_name()}"
+                                android:textColor="@color/txtGray"
+                                android:textSize="@dimen/txt_1"
+                                android:layout_marginTop="10dp"/>
+
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/textView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginStart="10dp"
+                            android:hint="@string/empty"
+                            android:text="@{viewModel.tran.get() ? viewModel.card.get().getSkill().getExplain_en() : viewModel.card.get().getSkill().getExplain()}"
+                            android:textColor="@color/txtGray"
+                            android:textSize="@dimen/txt_1" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/skill_chance"
+                            android:textColor="@color/txtBlack"
+                            android:textSize="@dimen/txt_1"
+                            android:layout_margin="10dp"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginEnd="10dp"
+                            android:textSize="@dimen/txt_1"
+                            android:textColor="@color/txtGray"
+                            android:text="@{viewModel.skillChance}"
+                            android:hint="@string/empty"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/skill_effect_length"
+                            android:textColor="@color/txtBlack"
+                            android:textSize="@dimen/txt_1"
+                            android:layout_margin="10dp"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginEnd="10dp"
+                            android:textSize="@dimen/txt_1"
+                            android:textColor="@color/txtGray"
+                            android:text="@{viewModel.skillLength}"
+                            android:hint="@string/empty"
+                            android:layout_marginBottom="10dp"/>
+
+                    </LinearLayout>
+
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    android:layout_marginTop="8dp"
+                    android:layout_marginStart="@dimen/card_view_margin"
+                    android:layout_marginEnd="@dimen/card_view_margin"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/skill_centre"
+                                android:textColor="@color/txtBlack"
+                                android:textSize="@dimen/txt_2"
+                                android:layout_margin="10dp"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:hint="@string/empty"
+                                android:text="@{viewModel.card.get().getLead_skill().getName()}"
+                                android:textColor="@color/txtGray"
+                                android:textSize="@dimen/txt_1"
+                                android:layout_marginTop="10dp"/>
+
+                        </LinearLayout>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginStart="10dp"
+                            android:hint="@string/empty"
+                            android:text="@{viewModel.tran.get() ? viewModel.card.get().getLead_skill().getExplain_en() : viewModel.card.get().getLead_skill().getExplain()}"
+                            android:textColor="@color/txtGray"
+                            android:textSize="@dimen/txt_1"
+                            android:layout_marginBottom="10dp"/>
+
+                    </LinearLayout>
+
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    android:layout_marginTop="8dp"
+                    android:layout_marginStart="@dimen/card_view_margin"
+                    android:layout_marginEnd="@dimen/card_view_margin"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:foreground="?android:attr/selectableItemBackgroundBorderless"
+                    bind:clickCommand="@{viewModel.onIdolClick}">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/idol_info"
+                            android:textColor="@color/txtBlack"
+                            android:textSize="@dimen/txt_2"
+                            android:layout_centerVertical="true"
+                            android:layout_margin="10dp"/>
+
+                        <ImageView
+                            android:id="@+id/chara_icon"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:layout_margin="8dp"
+                            android:layout_centerVertical="true"
+                            android:layout_toStartOf="@+id/ic_to_chara"
+                            bind:placeholder="@{R.drawable.umi_bg_corners_solid}"
+                            bind:imageUrl="@{viewModel.charaIconUrl}" />
+
+                        <View
+                            android:id="@+id/ic_to_chara"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_centerVertical="true"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginEnd="16dp"
+                            android:background="@drawable/ic_keyboard_arrow_right_black_24dp"/>
+
+                    </RelativeLayout>
+
+                </android.support.v7.widget.CardView>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"/>
+                
+            </com.zhy.android.percent.support.PercentLinearLayout>
+
+        </ScrollView>
+
+
+
+    </RelativeLayout>
+
+
+
+</layout>
