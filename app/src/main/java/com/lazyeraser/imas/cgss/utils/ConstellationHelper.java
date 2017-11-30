@@ -33,7 +33,7 @@ public class ConstellationHelper {
             R.string.constellation_7,
             R.string.constellation_8,
             R.string.constellation_9,
-            R.string.constellation_10,
+            R.string.constellation_10
     };
 
     public static Integer getConstellation(int month, int day) {

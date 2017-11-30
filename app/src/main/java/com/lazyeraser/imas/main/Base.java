@@ -183,12 +183,22 @@ public class Base {
 
     public void showLoading() {
         Utils.hideAllInput(baseActivity);
-        if (!loadingDialog.isShowing() && !loaded) loadingDialog.show();
+        if (!loadingDialog.isShowing() && !loaded) {
+            try {
+                loadingDialog.show();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     public void dismissLoading() {
         if (loadingDialog.isShowing()) {
-            loadingDialog.dismiss();
+            try {
+                loadingDialog.dismiss();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 //            loadingDialog = new LoadingDialog(baseActivity);
         }
     }

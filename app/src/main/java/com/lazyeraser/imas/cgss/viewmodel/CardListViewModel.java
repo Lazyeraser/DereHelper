@@ -105,7 +105,9 @@ public class CardListViewModel extends BaseViewModel {
         cardDataList.addOnPropertyChangedCallback(new android.databinding.Observable.OnPropertyChangedCallback() {
             @Override
             public void onPropertyChanged(android.databinding.Observable sender, int propertyId) {
-                filterCards();
+                if (cardDataList.get().size() > 0){
+                    filterCards();
+                }
             }
         });
         Messenger.getDefault().register(mContext, MainActivity.TOKEN_DATA_UPDATED, this::loadData);
