@@ -1,8 +1,8 @@
 {
-	"appname": "derehelper",
-	"apkname": "derehelper.apk",
-	"verName": "1.0",
-	"url": "1.0",
-	"verInfo": "release",
-	"verCode": 1
+	"appname": "DereHelper",
+	"apkname": "DereHelper-0.9.2",
+	"verName": "0.9.2",
+	"url": "https://github.com/Lazyeraser/DereHelper/releases/download/v0.9.2/DereHelper-0.9.2.apk",
+	"verInfo": "1.修复了几率发生的数据校验错误\n2.完善部分细节",
+	"verCode": 2
 }
