@@ -24,6 +24,11 @@
         <item name="colorControlActivated">@color/colorPrimary</item>
     </style>
 
+    <style name="Umi.ActionBarTheme.White.NoActionBar" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">#FFFFFF</item>
+    </style>
+
+
     <style name="dialog_theme">
         <item name="android:windowFrame">@null</item>
         <item name="android:windowContentOverlay">@null</item>

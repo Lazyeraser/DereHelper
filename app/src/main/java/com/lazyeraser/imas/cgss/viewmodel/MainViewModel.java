@@ -71,20 +71,17 @@ public class MainViewModel extends BaseViewModel {
             subscriber.onCompleted();
         });
 
-        //get latest cards
-        Observable<List<CardIndex>> cardIdData = RetrofitProvider.getInstance().create(CardService.class)
-                .getCardIdList()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .compose(((ActivityLifecycleProvider) mContext).bindToLifecycle());
-
         obNow_card
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .compose(((ActivityLifecycleProvider) mContext).bindToLifecycle())
                 .subscribe(strings -> {
                     nowIds_card = strings;
-                    cardIdData
+                    RetrofitProvider.getInstance().create(CardService.class)
+                            .getCardIdList()
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .compose(((ActivityLifecycleProvider) mContext).bindToLifecycle())
                             .doAfterTerminate(this::checkData)
                             .subscribe(idList -> {
                                 for (CardIndex cardIndex : idList) {

@@ -147,6 +147,9 @@
             android:layout_height="wrap_content"
             android:textColor="@color/txtGray"
             android:layout_alignParentEnd="true"
+            android:layout_toEndOf="@+id/item_txt"
+            android:gravity="end"
+            android:ellipsize="start"
             android:layout_marginEnd="6dp"
             android:text="@{viewModel.skill}"/>
 

@@ -52,6 +52,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:gravity="center"
                 android:text="@string/about_api"
                 android:layout_margin="4dp"/>
 
@@ -59,6 +60,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:gravity="center"
                 android:text="@string/about_resource"
                 android:layout_margin="4dp"/>
 
@@ -68,6 +70,7 @@
                 android:layout_gravity="center"
                 android:text="@string/about_open_source"
                 android:layout_margin="4dp"
+                android:gravity="center"
                 bind:clickCommand="@{viewModel.gitUrlClick}"/>
 
         </LinearLayout>
