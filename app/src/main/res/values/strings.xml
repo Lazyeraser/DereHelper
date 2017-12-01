@@ -16,7 +16,7 @@
     <string name="sort_method_1">升序</string>
     <string name="no">否</string>
     <string name="yes">是</string>
-    <string name="update_hint0">Producer！有数据更新！</string>
+    <string name="update_hint0">Producerさん！有数据更新！</string>
     <string name="update_hint1">要现在更新吗（建议在wifi环境下进行）</string>
     <string name="update_hint2">下次再说</string>
     <string name="update_hint3">立即更新</string>
@@ -86,4 +86,10 @@
     <string name="dialog_downfailed_btnnext">重新下载</string>
     <string name="dialog_downloading_msg">正在下载更新</string>
     <string name="un_connect">当前网络不可用，请检查网络设置！</string>
+
+    <string name="about_author">作者：@lazyeraser</string>
+    <string name="about_api" translatable="false">API by: starlight.346lab.org</string>
+    <string name="about_resource" translatable="false">Resource from: hoshimoriuta.kirara.ca</string>
+    <string name="about_open_source" translatable="false">Open source：<u>https://github.com/lazyeraser/DereHelper</u></string>
+    <string name="about_copyright">本APP非官方，与THE iDOLM@STER Cinderella Girls: Starlight Stage(デレステ) 无任何直接关联。游戏内素材及数据的版权所属为BANDAI NAMCO Entertainment Inc.</string>
 </resources>

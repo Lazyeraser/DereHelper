@@ -15,6 +15,7 @@ import android.view.View;
 import com.kelin.mvvmlight.messenger.Messenger;
 import com.lazyeraser.imas.cgss.utils.DBHelper;
 import com.lazyeraser.imas.cgss.utils.UpdateManager;
+import com.lazyeraser.imas.cgss.view.fragments.AboutFrag;
 import com.lazyeraser.imas.cgss.view.fragments.CardListFrag;
 import com.lazyeraser.imas.cgss.view.fragments.CharaListFrag;
 import com.lazyeraser.imas.cgss.viewmodel.MainViewModel;
@@ -40,6 +41,7 @@ public class MainActivity extends BaseActivity {
 
     private CardListFrag cardListFrag;
     private CharaListFrag charaListFrag;
+    private AboutFrag aboutFrag;
     private Map<BaseFragment, Boolean> fragments;
 
     public final static int TOKEN_DATA_UPDATED = 0x12450;
@@ -73,7 +75,7 @@ public class MainActivity extends BaseActivity {
                     new UpdateManager(mContext).checkUpdate(true);
                     break;
                 case R.id.nav_about:
-//                    switchFrag(charaListFrag);
+                    switchFrag(aboutFrag);
                     break;
             }
             umi.moveDrawer(drawerLayout, Gravity.START);
@@ -85,8 +87,10 @@ public class MainActivity extends BaseActivity {
         fragments = new HashMap<>();
         cardListFrag = new CardListFrag();
         charaListFrag = new CharaListFrag();
+        aboutFrag = new AboutFrag();
         fragments.put(cardListFrag, false);
         fragments.put(charaListFrag, false);
+        fragments.put(aboutFrag, false);
         switchFrag(cardListFrag);
     }
 

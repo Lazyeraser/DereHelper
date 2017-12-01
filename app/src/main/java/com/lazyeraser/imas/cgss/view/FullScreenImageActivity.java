@@ -21,7 +21,8 @@ public class FullScreenImageActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setBinding(R.layout.activity_full_screen_img).setVariable(com.lazyeraser.imas.derehelper.BR.viewModel, new FullScreenImageVM(this, umi.getIntentString("picUrl")));
+        setBinding(R.layout.activity_full_screen_img)
+                .setVariable(com.lazyeraser.imas.derehelper.BR.viewModel, new FullScreenImageVM(this, umi.getIntentString("picUrl")));
         GestureImageView gestureImageView = (GestureImageView)getBView(R.id.big_pic);
         ViewCompat.setTransitionName(gestureImageView, "big_pic");
         gestureImageView.getController().setOnGesturesListener(new GestureController.OnGestureListener() {
