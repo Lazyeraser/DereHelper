@@ -155,16 +155,18 @@ public class Base {
     }
 
     public void destroyAllActivity() {
-        activityMap.values().stream().filter(activity -> activity != null).forEach(Activity::finish);
+        for (BaseActivity activity : activityMap.values()) {
+            if (activity != null){
+                activity.finish();
+            }
+        }
     }
 
     public void destroyActivity(String activityName) {
-        Set<String> keySet = activityMap.keySet();
-        keySet.stream().filter(key -> key.equals(activityName)).forEach(key -> activityMap.get(key).finish());
-    }
-
-    public void destroyAllActivityWithout(String... s) {
-        activityMap.keySet().stream().filter(key -> Utils.varArgsContain(key, s)).forEach(key -> activityMap.get(key).finish());
+        BaseActivity activity = activityMap.get(activityName);
+        if (activity != null){
+            activity.finish();
+        }
     }
 
     public BaseActivity getTheActivity(String activityName) {

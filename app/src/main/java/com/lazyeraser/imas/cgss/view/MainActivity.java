@@ -210,8 +210,7 @@ public class MainActivity extends BaseActivity {
             exitTime = System.currentTimeMillis();
             umi.makeSBar(R.string.app_exit_hint, drawerLayout);
         } else {
-            finish();
-            android.os.Process.killProcess(android.os.Process.myPid());
+            umi.destroyAllActivity();
         }
     }
 }
