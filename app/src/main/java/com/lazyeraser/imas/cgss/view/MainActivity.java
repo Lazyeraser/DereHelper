@@ -44,6 +44,7 @@ public class MainActivity extends BaseActivity {
     private AboutFrag aboutFrag;
     private Map<BaseFragment, Boolean> fragments;
 
+    private UpdateManager updateManager;
     public final static int TOKEN_DATA_UPDATED = 0x12450;
 
     @Override
@@ -55,7 +56,7 @@ public class MainActivity extends BaseActivity {
 
         MainViewModel mainViewModel = new MainViewModel(this);
         setBinding(R.layout.activity_main).setVariable(com.lazyeraser.imas.derehelper.BR.viewModel, mainViewModel);
-
+        updateManager = new UpdateManager(mContext);
         drawerLayout = (DrawerLayout)getBView(R.id.drawerLayout);
         NavigationView navigationView = (NavigationView)getBView(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(item -> {
@@ -72,7 +73,7 @@ public class MainActivity extends BaseActivity {
                     mainViewModel.checkDataUpdate();
                     break;
                 case R.id.nav_check_update_app:
-                    new UpdateManager(mContext).checkUpdate(true);
+                    updateManager.checkUpdate(true);
                     break;
                 case R.id.nav_about:
                     switchFrag(aboutFrag);
@@ -92,6 +93,7 @@ public class MainActivity extends BaseActivity {
         fragments.put(charaListFrag, false);
         fragments.put(aboutFrag, false);
         switchFrag(cardListFrag);
+        updateManager.checkUpdate(false);
     }
 
     private void initDialog(MainViewModel mainViewModel){

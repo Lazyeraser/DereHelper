@@ -106,6 +106,7 @@ public class UpdateManager {
     //检查更新
     public void checkUpdate(boolean needNoUpdateHint) {
         this.needNoUpdateHint = needNoUpdateHint;
+        Utils.mPrint("checkUpdate:" + needNoUpdateHint);
         hasNewVersion = false;
         //获取服务器端版本信息
         verjson = "";
@@ -123,7 +124,6 @@ public class UpdateManager {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 verjson = response.body().string();
-
                 try {
                     if (!TextUtils.isEmpty(verjson)) {
                         JSONObject obj = new JSONObject(verjson);
@@ -133,6 +133,7 @@ public class UpdateManager {
                             versionInfo = new String(obj.getString("verInfo").getBytes(), "UTF-8");
                             UPDATE_DOWNLOAD_URL = obj.getString("url");
                             updateInfo = "";
+                            Utils.mPrint("update info:" + JsonUtils.getJsonFromBean(obj));
                             if (newVersionCode > curVersionCode) {
                                 hasNewVersion = true;
                             }

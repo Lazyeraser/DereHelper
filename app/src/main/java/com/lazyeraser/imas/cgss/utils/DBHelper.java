@@ -138,11 +138,11 @@ public class DBHelper extends SQLiteOpenHelper  {
     }
 
     public List<String> go(){
+        List<String> result = new ArrayList<>();
         if (Utils.checkEmpty(nowTableName, nowColumn)){
-            List<String> result = new ArrayList<>();
             SQLiteDatabase db = getReadableDatabase();
             if (db == null){
-                return null;
+                return result;
             }
             Cursor cursor = db.rawQuery("select * from " + nowTableName, null);
             while (cursor.moveToNext()) {
@@ -151,7 +151,7 @@ public class DBHelper extends SQLiteOpenHelper  {
             cursor.close();
             return result;
         }else {
-            return null;
+            return result;
         }
     }
 

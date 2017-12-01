@@ -7,7 +7,6 @@ package com.lazyeraser.imas.cgss.entity;
 public class CardIndex {
 
     public int id;
-    public int chara_id;
-    public String title;
+    public int evolution_id;
 
 }

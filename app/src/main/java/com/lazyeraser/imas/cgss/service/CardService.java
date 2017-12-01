@@ -16,7 +16,7 @@ import rx.Observable;
 
 public interface CardService {
 
-    @GET("/api/v1/list/card_t?keys=id,chara_id,title")
+    @GET("/api/v1/list/card_t?keys=id,evolution_id")
     Observable<List<CardIndex>> getCardIdList();
 
     @GET("/api/v1/card_t/{ids}")

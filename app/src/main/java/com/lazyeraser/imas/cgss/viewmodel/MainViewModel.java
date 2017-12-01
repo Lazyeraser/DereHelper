@@ -40,7 +40,7 @@ import rx.schedulers.Schedulers;
 public class MainViewModel extends BaseViewModel {
 
 
-    private List<String> nowIds_card;
+//    private List<String> nowIds_card;
     private List<String> newIds_card = new ArrayList<>();
 
     private Integer total = 0;
@@ -63,7 +63,7 @@ public class MainViewModel extends BaseViewModel {
         umi.showLoading();
         newIds_card.clear();
         //cards
-        Observable<List<String>> obNow_card = Observable.create(subscriber -> {
+        Observable<List<String>> now_cardIdList = Observable.create(subscriber -> {
             subscriber.onNext(DBHelper.with(mContext)
                     .queryTable(DBHelper.TABLE_NAME_Card)
                     .column("id")
@@ -71,29 +71,35 @@ public class MainViewModel extends BaseViewModel {
             subscriber.onCompleted();
         });
 
-        obNow_card
-                .subscribeOn(Schedulers.io())
+        Observable<List<CardIndex>> newestCardIndex = RetrofitProvider.getInstance()
+                .create(CardService.class)
+                .getCardIdList();
+
+        Observable.combineLatest(now_cardIdList, newestCardIndex, (nowIdList, newestIdList) -> {
+            Utils.mPrint("startup1:::" + (nowIdList == null));
+            Utils.mPrint("startup2:::" + (newestIdList== null));
+            if (nowIdList == null || newestIdList == null) {
+                return false;
+            }
+            for (CardIndex cardIndex : newestIdList) {
+                if (!nowIdList.contains(String.valueOf(cardIndex.id))){
+                    newIds_card.add(String.valueOf(cardIndex.id));
+                }
+                if (!nowIdList.contains(String.valueOf(cardIndex.evolution_id))){
+                    newIds_card.add(String.valueOf(cardIndex.evolution_id));
+                }
+            }
+            return true;
+        }).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .compose(((ActivityLifecycleProvider) mContext).bindToLifecycle())
-                .subscribe(strings -> {
-                    nowIds_card = strings;
-                    RetrofitProvider.getInstance().create(CardService.class)
-                            .getCardIdList()
-                            .subscribeOn(Schedulers.io())
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .compose(((ActivityLifecycleProvider) mContext).bindToLifecycle())
-                            .doAfterTerminate(this::checkData)
-                            .subscribe(idList -> {
-                                for (CardIndex cardIndex : idList) {
-                                    if (!nowIds_card.contains(String.valueOf(cardIndex.id))){
-                                        newIds_card.add(String.valueOf(cardIndex.id));
-                                    }
-                                    if (!nowIds_card.contains(String.valueOf(cardIndex.id + 1))){
-                                        newIds_card.add(String.valueOf(cardIndex.id + 1));
-                                    }
-                                }
-                            }, ExceptionHandler::handleException);
+                .subscribe(aBoolean -> {
+                    if (aBoolean){
+                        checkData();
+                    }
                 });
+
+
     }
 
     private void checkData(){
