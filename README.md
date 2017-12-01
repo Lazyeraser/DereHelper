@@ -9,14 +9,14 @@ Helper Android APP for THE iDOLM@STER Cinderella Girls: Starlight Stage(デレ�
 * **Image** https://hoshimoriuta.kirara.ca
 
 
-##Screenshot
+## Screenshot
 
 ![](https://github.com/Lazyeraser/DereHelper/raw/master/art/card_detail.jpg)
 
-##Features
+## Features
 * Card
 * Chara
 
 And more in development
-##Language
+## Language
 Only chinese  now, provides UI string resource file for localization in `/app/src/main/res/values/strings.xml`
