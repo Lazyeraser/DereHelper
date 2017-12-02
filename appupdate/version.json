@@ -1,8 +1,8 @@
 {
 	"appname": "DereHelper",
-	"apkname": "DereHelper-0.9.3",
-	"verName": "0.9.3",
-	"url": "http://45.32.111.67:8080/derehelper/DereHelper-0.9.3.apk",
-	"verInfo": "1.增加按技能类型筛选，优化筛选性能\n2.修复错误的数据更新提示\n3.增加多个设置项\n（如果APP内更新下载过慢请到更新帖寻找网盘分流地址）",
-	"verCode": 3
+	"apkname": "DereHelper.apk",
+	"verName": "0.9.4",
+	"url": "http://45.32.111.67:8080/derehelper/DereHelper-0.9.4.apk",
+	"verInfo": "重要：修复安卓6.0以上的APP自动更新下载失败问题（本次更新需要手动到贴吧发布贴的网盘分流地址下载……）",
+	"verCode": 4
 }
