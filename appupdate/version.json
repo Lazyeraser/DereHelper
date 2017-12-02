@@ -2,7 +2,7 @@
 	"appname": "DereHelper",
 	"apkname": "DereHelper-0.9.3",
 	"verName": "0.9.3",
-	"url": "https://github.com/Lazyeraser/DereHelper/releases/download/v0.9.3/DereHelper-0.9.3.apk",
+	"url": "http://45.32.111.67:8080/derehelper/DereHelper-0.9.3.apk",
 	"verInfo": "1.增加按技能类型筛选，优化筛选性能\n2.修复错误的数据更新提示\n3.增加多个设置项\n（如果APP内更新下载过慢请到更新帖寻找网盘分流地址）",
 	"verCode": 3
 }
