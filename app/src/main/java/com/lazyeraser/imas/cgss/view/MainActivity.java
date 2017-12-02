@@ -1,13 +1,19 @@
 package com.lazyeraser.imas.cgss.view;
 
+import android.Manifest;
+import android.app.Activity;
 import android.app.Dialog;
+import android.content.pm.PackageManager;
 import android.databinding.Observable;
 import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
 import android.databinding.ObservableFloat;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Gravity;
 import android.view.View;
@@ -47,6 +53,7 @@ public class MainActivity extends BaseActivity {
 
     private UpdateManager updateManager;
     public final static int TOKEN_DATA_UPDATED = 0x12450;
+    private boolean needUpdateHint;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,7 +81,7 @@ public class MainActivity extends BaseActivity {
                     mainViewModel.checkDataUpdate();
                     break;
                 case R.id.nav_check_update_app:
-                    updateManager.checkUpdate(true);
+                    checkUpdate(true);
                     break;
                 case R.id.nav_settings:
                     umi.jumpTo(SettingsActivity.class);
@@ -100,7 +107,27 @@ public class MainActivity extends BaseActivity {
 
         switchFrag(cardListFrag);
         if (umi.getSP(SharedHelper.KEY_AUTO_APP)){
-            updateManager.checkUpdate(false);
+            checkUpdate(false);
+        }
+    }
+    private void checkUpdate(boolean hint){
+        needUpdateHint = hint;
+        if (ContextCompat.checkSelfPermission(mContext, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions((Activity) mContext, new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+        }else {
+            updateManager.checkUpdate(hint);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == 1 && permissions[0].equals(Manifest.permission.WRITE_EXTERNAL_STORAGE)){
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                updateManager.checkUpdate(needUpdateHint);
+            }else {
+                umi.makeToast(R.string.permission_denied_hint);
+            }
         }
     }
 

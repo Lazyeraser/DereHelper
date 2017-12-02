@@ -102,5 +102,6 @@
     <string name="settings_auto_data">自动检查数据更新</string>
     <string name="settings_auto_app">自动检查APP更新</string>
     <string name="settings_default_tran">默认开启翻译</string>
+    <string name="permission_denied_hint">Producer，请授予千寻权限以正常下载自动更新哦</string>
 
 </resources>
