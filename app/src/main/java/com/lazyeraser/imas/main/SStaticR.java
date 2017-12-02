@@ -1,7 +1,5 @@
 package com.lazyeraser.imas.main;
 
-import android.annotation.SuppressLint;
-
 import com.lazyeraser.imas.derehelper.BuildConfig;
 
 import java.util.LinkedHashMap;
@@ -26,13 +24,14 @@ public class SStaticR {
     public final static String API = SERVER_URL + "/api/v1";
 
     //static data
-    @SuppressLint("UseSparseArrays")
     public final static Map<Integer, String> rarityMap = new LinkedHashMap<>();
     public final static Map<String, Integer> rarityMap_rev = new LinkedHashMap<>();
     public final static Map<Integer, String> rarityMap_lite = new LinkedHashMap<>();
     public final static Map<String, String> typeMap = new LinkedHashMap<>();
     public final static Map<String, Integer> typeMap_int = new LinkedHashMap<>();
     public final static Map<String, Integer> sortTypeMap = new LinkedHashMap<>();
+    public static Map<String, Integer> skillTypeMap = new LinkedHashMap<>();
+
     static {
         rarityMap.put(1, "N");
         rarityMap.put(2, "N+");

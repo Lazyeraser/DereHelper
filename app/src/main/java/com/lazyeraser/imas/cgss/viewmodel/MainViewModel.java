@@ -5,7 +5,6 @@ import android.content.ContentValues;
 import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
 import android.databinding.ObservableFloat;
-import android.util.SparseArray;
 
 import com.lazyeraser.imas.cgss.entity.Card;
 import com.lazyeraser.imas.cgss.entity.CardIndex;
@@ -14,8 +13,8 @@ import com.lazyeraser.imas.cgss.entity.CharaIndex;
 import com.lazyeraser.imas.cgss.service.CardService;
 import com.lazyeraser.imas.cgss.utils.DBHelper;
 import com.lazyeraser.imas.cgss.utils.JsonUtils;
+import com.lazyeraser.imas.cgss.utils.SharedHelper;
 import com.lazyeraser.imas.cgss.utils.Utils;
-import com.lazyeraser.imas.derehelper.R;
 import com.lazyeraser.imas.main.BaseActivity;
 import com.lazyeraser.imas.main.BaseViewModel;
 import com.lazyeraser.imas.retrofit.ExceptionHandler;
@@ -23,8 +22,6 @@ import com.lazyeraser.imas.retrofit.RetrofitProvider;
 import com.trello.rxlifecycle.ActivityLifecycleProvider;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -56,7 +53,9 @@ public class MainViewModel extends BaseViewModel {
 
     public MainViewModel(BaseActivity mContext) {
         super(mContext);
-        checkDataUpdate();
+        if (umi.getSP(SharedHelper.KEY_AUTO_DATA)){
+            checkDataUpdate();
+        }
     }
 
     public void checkDataUpdate(){
@@ -76,8 +75,8 @@ public class MainViewModel extends BaseViewModel {
                 .getCardIdList();
 
         Observable.combineLatest(now_cardIdList, newestCardIndex, (nowIdList, newestIdList) -> {
-            Utils.mPrint("startup1:::" + (nowIdList == null));
-            Utils.mPrint("startup2:::" + (newestIdList== null));
+//            Utils.mPrint("startup1:::" + (nowIdList == null));
+//            Utils.mPrint("startup2:::" + (newestIdList== null));
             if (nowIdList == null || newestIdList == null) {
                 return false;
             }

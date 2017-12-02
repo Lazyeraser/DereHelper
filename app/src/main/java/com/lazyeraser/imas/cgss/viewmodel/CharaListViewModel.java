@@ -17,7 +17,6 @@ import com.lazyeraser.imas.cgss.utils.DBHelper;
 import com.lazyeraser.imas.cgss.utils.JsonUtils;
 import com.lazyeraser.imas.cgss.view.CharaDetailActivity;
 import com.lazyeraser.imas.cgss.view.MainActivity;
-import com.lazyeraser.imas.cgss.view.fragments.CardListFrag;
 import com.lazyeraser.imas.cgss.view.fragments.CharaListFrag;
 import com.lazyeraser.imas.derehelper.R;
 import com.lazyeraser.imas.main.BaseActivity;

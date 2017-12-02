@@ -4,19 +4,18 @@
     package="com.lazyeraser.imas.derehelper">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:name="com.lazyeraser.imas.main.LIVE"
         android:allowBackup="false"
         android:icon="@drawable/ic_chihiro"
-        tools:replace="android:icon,allowBackup"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-
+        android:theme="@style/AppTheme"
+        tools:replace="android:icon,allowBackup">
         <activity
             android:name="com.lazyeraser.imas.cgss.view.MainActivity"
             android:exported="true"
@@ -30,7 +29,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name="com.lazyeraser.imas.cgss.view.CardDetailActivity"
             android:exported="false"
@@ -38,7 +36,6 @@
             android:screenOrientation="portrait"
             android:theme="@style/Umi.ActionBarTheme.White"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
-
         <activity
             android:name="com.lazyeraser.imas.cgss.view.CharaDetailActivity"
             android:exported="false"
@@ -46,15 +43,21 @@
             android:screenOrientation="portrait"
             android:theme="@style/Umi.ActionBarTheme.White"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
-
         <activity
             android:name="com.lazyeraser.imas.cgss.view.FullScreenImageActivity"
             android:exported="false"
             android:label="@string/app_name"
             android:theme="@style/Umi.ActionBarTheme.White.NoActionBar"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
-
-        <!--      <activity
+        <activity
+            android:name="com.lazyeraser.imas.cgss.view.SettingsActivity"
+            android:exported="false"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@style/Umi.ActionBarTheme.White"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+        <!--
+                  <activity
                   android:name="com.jinhe.umibase.view.threeListView.ThreeActivity"
                   android:exported="false"
                   android:label="@string/app_name"
@@ -67,14 +70,14 @@
                   android:label="@string/app_name"
                   android:screenOrientation="portrait"
                   android:theme="@style/Umi.ActionBarTheme.White"
-                  android:windowSoftInputMode="adjustUnspecified|stateHidden"/>-->
+                  android:windowSoftInputMode="adjustUnspecified|stateHidden"/>
+        -->
         <activity
             android:name="me.iwf.photopicker.PhotoPickerActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
             android:name="me.iwf.photopicker.PhotoPagerActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
-
     </application>
 
 </manifest>

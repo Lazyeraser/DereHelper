@@ -3,6 +3,7 @@ package com.lazyeraser.imas.main;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.IdRes;
@@ -48,6 +49,13 @@ public class BaseActivity extends RxAppCompatActivity implements View.OnClickLis
         if (umi == null) umi = new Base();
         umi.init(this);
         mContext = this;
+        if (Build.VERSION.SDK_INT >= 21) {
+            View decorView = getWindow().getDecorView();
+            int option = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                    | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
+            decorView.setSystemUiVisibility(option);
+            getWindow().setStatusBarColor(0xFFB08870);
+        }
     }
 
     public BaseActivity setBinding(@LayoutRes int layoutId){

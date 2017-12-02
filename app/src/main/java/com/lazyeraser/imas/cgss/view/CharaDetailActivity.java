@@ -4,12 +4,8 @@ import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.ViewCompat;
 
-import com.lazyeraser.imas.cgss.entity.Card;
 import com.lazyeraser.imas.cgss.entity.Chara;
-import com.lazyeraser.imas.cgss.entity.CharaIndex;
 import com.lazyeraser.imas.cgss.utils.JsonUtils;
-import com.lazyeraser.imas.cgss.viewmodel.CardListViewModel;
-import com.lazyeraser.imas.cgss.viewmodel.CardViewModel;
 import com.lazyeraser.imas.cgss.viewmodel.CharaViewModel;
 import com.lazyeraser.imas.derehelper.R;
 import com.lazyeraser.imas.main.BaseActivity;

@@ -8,7 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.ihidea.multilinechooselib.MultiLineChooseLayout;
+import com.lazyeraser.imas.cgss.utils.view.MultiLineChooseLayout;
 import com.kelin.mvvmlight.messenger.Messenger;
 import com.lazyeraser.imas.cgss.viewmodel.CardListViewModel;
 import com.lazyeraser.imas.derehelper.BR;
@@ -28,6 +28,8 @@ import java.util.List;
 public class CardListFrag extends BaseFragment {
 
     DrawerLayout drawerLayout;
+    MultiLineChooseLayout skillTypeC;
+    List<String> skillTypeList;
 
     public final static int TOKEN_CLOSE_FILTER = 450;
     public final static int TOKEN_RESET_FILTER = 451;
@@ -50,6 +52,7 @@ public class CardListFrag extends BaseFragment {
         drawerLayout = (DrawerLayout)getBView(R.id.drawerLayout);
         // filter button
         initChooseSet();
+        getBView(R.id.empty_skill_type_choose).setOnClickListener(v -> skillTypeC.cancelAllSelectedItems());
     }
 
     @Override
@@ -66,31 +69,38 @@ public class CardListFrag extends BaseFragment {
         });
     }
 
-    private void initChooseSet(){
+    public void initChooseSet(){
         MultiLineChooseLayout rareChoose = (MultiLineChooseLayout)getBView(R.id.rareChoose);
         MultiLineChooseLayout typeChoose = (MultiLineChooseLayout)getBView(R.id.typeChoose);
         MultiLineChooseLayout evoC = (MultiLineChooseLayout)getBView(R.id.evoChoose);
         MultiLineChooseLayout sttC = (MultiLineChooseLayout)getBView(R.id.sttChoose);
         MultiLineChooseLayout stmC = (MultiLineChooseLayout)getBView(R.id.stmChoose);
+        skillTypeC = (MultiLineChooseLayout)getBView(R.id.skillTypeChoose);
 
         List<String> rare = new ArrayList<>();
         List<String> type = new ArrayList<>();
         List<String> stt = new ArrayList<>();
+        skillTypeList = new ArrayList<>();
         List<String> evo = Arrays.asList(getString(R.string.no), getString(R.string.yes));
         List<String> stm = Arrays.asList(getString(R.string.sort_method_0), getString(R.string.sort_method_1));
         rare.addAll(SStaticR.rarityMap_lite.values());
         type.addAll(SStaticR.typeMap.values());
         stt.addAll(SStaticR.sortTypeMap.keySet());
+        skillTypeList.addAll(SStaticR.skillTypeMap.keySet());
 
         rareChoose.setList(rare);
         typeChoose.setList(type);
         evoC.setList(evo);
         sttC.setList(stt);
         stmC.setList(stm);
+        skillTypeC.setList(skillTypeList);
         rareChoose.setIndexItemSelected(2);
         rareChoose.setIndexItemSelected(3); // default SSR SR
         for (int i = 0; i < type.size(); i++) {
             typeChoose.setIndexItemSelected(i);
+        }
+        for (int i = 0; i < skillTypeList.size(); i++) {
+            skillTypeC.setIndexItemSelected(i);
         }
         evoC.setIndexItemSelected(0); // default before evo
         sttC.setIndexItemSelected(0);

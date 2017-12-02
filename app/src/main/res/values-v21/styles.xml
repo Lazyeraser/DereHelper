@@ -31,17 +31,17 @@
 
     <style name="Umi.ActionBarTheme.White.NoActionBar" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">#FFFFFF</item>
-        <item name="android:statusBarColor">#000000</item>
+        <!--<item name="android:statusBarColor">#000000</item>-->
     </style>
 
     <style name="Umi.Splash" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="android:statusBarColor">#000000</item>
+        <!--<item name="android:statusBarColor">#000000</item>-->
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowFullscreen">false</item>
     </style>
 
     <style name="Umi.TranslucentTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="android:statusBarColor">#000000</item>
+        <!--<item name="android:statusBarColor">#000000</item>-->
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:colorBackgroundCacheHint">@null</item>
         <item name="android:windowIsTranslucent">true</item>

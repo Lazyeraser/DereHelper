@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:bind="http://schemas.android.com/apk/res-auto">
+
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.lazyeraser.imas.cgss.viewmodel.SettingsViewModel" />
+
+        <import type="android.view.View" />
+    </data>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/back"
+        android:fitsSystemWindows="true">
+
+        <RelativeLayout
+            android:background="@color/white"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/setting_div_height">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/settings_auto_data"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="20dp"
+                android:textSize="@dimen/txt_3"
+                android:textColor="@color/txtBlack"/>
+
+            <android.support.v7.widget.SwitchCompat
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:padding="8dp"
+                android:textColor="@color/txtBlack"
+                bind:onCheckChanged="@{viewModel.onAutoDataSwitchCheck}"
+                android:checked="@{viewModel.autoData}"
+                android:layout_marginEnd="20dp" />
+
+            <View
+                android:layout_marginStart="5dp"
+                android:layout_alignParentBottom="true"
+                android:background="@color/divider"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:background="@color/white"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/setting_div_height">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="20dp"
+                android:text="@string/settings_auto_app"
+                android:textColor="@color/txtBlack"
+                android:textSize="@dimen/txt_3"
+                android:id="@+id/textView2" />
+
+            <android.support.v7.widget.SwitchCompat
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="20dp"
+                android:checked="@{viewModel.autoApp}"
+                android:padding="8dp"
+                android:textColor="@color/txtBlack"
+                bind:onCheckChanged="@{viewModel.onAutoAppSwitchCheck}"
+                android:layout_alignBaseline="@+id/textView2"
+                android:layout_alignBottom="@+id/textView2"
+                android:layout_alignParentEnd="true" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="5dp"
+                android:background="@color/divider" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:background="@color/white"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/setting_div_height">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/settings_default_tran"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="20dp"
+                android:textSize="@dimen/txt_3"
+                android:textColor="@color/txtBlack"/>
+
+            <android.support.v7.widget.SwitchCompat
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:padding="8dp"
+                android:textColor="@color/txtBlack"
+                bind:onCheckChanged="@{viewModel.onDefaultTranSwitchCheck}"
+                android:checked="@{viewModel.defaultTran}"
+                android:layout_marginEnd="20dp" />
+
+            <View
+                android:layout_marginStart="5dp"
+                android:layout_alignParentBottom="true"
+                android:background="@color/divider"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"/>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+
+</layout>

@@ -26,6 +26,10 @@
                 android:icon="@drawable/ic_system_update_alt_black_24dp"
                 android:title="@string/check_app_update" />
             <item
+                android:id="@+id/nav_settings"
+                android:icon="@drawable/ic_settings_black_24dp"
+                android:title="@string/settings" />
+            <item
                 android:id="@+id/nav_about"
                 android:icon="@drawable/ic_assistant_black_24dp"
                 android:title="@string/about" />

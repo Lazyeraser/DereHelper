@@ -12,7 +12,6 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
-
 import com.lazyeraser.imas.derehelper.R;
 
 import java.util.ArrayList;

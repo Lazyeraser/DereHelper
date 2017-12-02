@@ -47,98 +47,146 @@
             android:clickable="true"
             android:background="@color/white">
 
-            <LinearLayout
-                android:orientation="vertical"
+            <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/white">
+                android:layout_above="@+id/filter_btn"
+                android:layout_marginBottom="16dp">
 
-                <TextView
-                    android:layout_marginTop="30dp"
-                    android:layout_marginStart="12dp"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/card_rare"/>
+                    android:background="@color/white">
 
-                <com.ihidea.multilinechooselib.MultiLineChooseLayout
-                    android:layout_marginTop="5dp"
-                    style="@style/FlowLayout"
-                    android:layout_marginStart="12dp"
-                    android:id="@+id/rareChoose"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    bind:onSelChange="@{viewModel.onRareSelCommand}"/>
+                    <TextView
+                        android:layout_marginTop="30dp"
+                        android:layout_marginStart="12dp"
+                        android:textColor="@color/txtBlack"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/card_rare"/>
 
-                <TextView
-                    android:layout_marginTop="10dp"
-                    android:layout_marginStart="12dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/card_type"/>
+                    <com.lazyeraser.imas.cgss.utils.view.MultiLineChooseLayout
+                        android:layout_marginTop="5dp"
+                        style="@style/FlowLayout"
+                        android:layout_marginStart="12dp"
+                        android:id="@+id/rareChoose"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        bind:onSelChange="@{viewModel.onRareSelCommand}"/>
 
-                <com.ihidea.multilinechooselib.MultiLineChooseLayout
-                    android:layout_marginTop="5dp"
-                    style="@style/FlowLayout"
-                    android:layout_marginStart="12dp"
-                    android:id="@+id/typeChoose"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    bind:onSelChange="@{viewModel.onTypeSelCommand}"/>
+                    <TextView
+                        android:layout_marginTop="10dp"
+                        android:layout_marginStart="12dp"
+                        android:layout_width="wrap_content"
+                        android:textColor="@color/txtBlack"
+                        android:layout_height="wrap_content"
+                        android:text="@string/card_type"/>
 
-                <TextView
-                    android:layout_marginTop="10dp"
-                    android:layout_marginStart="12dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/is_evolution"/>
+                    <com.lazyeraser.imas.cgss.utils.view.MultiLineChooseLayout
+                        android:layout_marginTop="5dp"
+                        style="@style/FlowLayout"
+                        android:layout_marginStart="12dp"
+                        android:id="@+id/typeChoose"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        bind:onSelChange="@{viewModel.onTypeSelCommand}"/>
 
-                <com.ihidea.multilinechooselib.MultiLineChooseLayout
-                    android:layout_marginTop="5dp"
-                    style="@style/FlowLayout"
-                    bind:item_multiChooseable="false"
-                    android:layout_marginStart="12dp"
-                    android:id="@+id/evoChoose"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    bind:onSelChangeIndex="@{viewModel.onEvoSelCommand}"/>
+                    <TextView
+                        android:layout_marginTop="10dp"
+                        android:layout_marginStart="12dp"
+                        android:textColor="@color/txtBlack"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/is_evolution"/>
 
-                <TextView
-                    android:layout_marginTop="10dp"
-                    android:layout_marginStart="12dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/sort_type"/>
+                    <com.lazyeraser.imas.cgss.utils.view.MultiLineChooseLayout
+                        android:layout_marginTop="5dp"
+                        style="@style/FlowLayout"
+                        bind:item_multiChooseable="false"
+                        android:layout_marginStart="12dp"
+                        android:id="@+id/evoChoose"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        bind:onSelChangeIndex="@{viewModel.onEvoSelCommand}"/>
 
-                <com.ihidea.multilinechooselib.MultiLineChooseLayout
-                    android:layout_marginTop="5dp"
-                    style="@style/FlowLayout"
-                    bind:item_multiChooseable="false"
-                    android:layout_marginStart="12dp"
-                    android:id="@+id/sttChoose"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    bind:onSelChange="@{viewModel.sortTypeCommand}"/>
+                    <TextView
+                        android:layout_marginTop="10dp"
+                        android:layout_marginStart="12dp"
+                        android:layout_width="wrap_content"
+                        android:textColor="@color/txtBlack"
+                        android:layout_height="wrap_content"
+                        android:text="@string/sort_type"/>
 
-                <TextView
-                    android:layout_marginTop="10dp"
-                    android:layout_marginStart="12dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/sort_method"/>
+                    <com.lazyeraser.imas.cgss.utils.view.MultiLineChooseLayout
+                        android:layout_marginTop="5dp"
+                        style="@style/FlowLayout"
+                        bind:item_multiChooseable="false"
+                        android:layout_marginStart="12dp"
+                        android:id="@+id/sttChoose"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        bind:onSelChange="@{viewModel.sortTypeCommand}"/>
 
-                <com.ihidea.multilinechooselib.MultiLineChooseLayout
-                    android:layout_marginTop="5dp"
-                    style="@style/FlowLayout"
-                    bind:item_multiChooseable="false"
-                    android:layout_marginStart="12dp"
-                    android:id="@+id/stmChoose"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    bind:onSelChangeIndex="@{viewModel.sortMethodCommand}"/>
+                    <TextView
+                        android:layout_marginTop="10dp"
+                        android:layout_marginStart="12dp"
+                        android:textColor="@color/txtBlack"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/sort_method"/>
 
-            </LinearLayout>
+                    <com.lazyeraser.imas.cgss.utils.view.MultiLineChooseLayout
+                        android:layout_marginTop="5dp"
+                        style="@style/FlowLayout"
+                        bind:item_multiChooseable="false"
+                        android:layout_marginStart="12dp"
+                        android:id="@+id/stmChoose"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        bind:onSelChangeIndex="@{viewModel.sortMethodCommand}"/>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="10dp">
+
+                        <TextView
+                            android:layout_marginStart="12dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/txtBlack"
+                            android:text="@string/skill_type"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:text="@string/empty_filter_choose"
+                            android:layout_marginEnd="16dp"
+                            android:id="@+id/empty_skill_type_choose"/>
+
+                    </RelativeLayout>
+
+                    <com.lazyeraser.imas.cgss.utils.view.MultiLineChooseLayout
+                        android:layout_marginTop="5dp"
+                        style="@style/FlowLayout"
+                        bind:item_multiChooseable="true"
+                        android:layout_marginStart="12dp"
+                        android:id="@+id/skillTypeChoose"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        bind:onSelChange="@{viewModel.skillTypeCommand}"/>
+
+                </LinearLayout>
+
+            </ScrollView>
+
 
             <LinearLayout
+                android:id="@+id/filter_btn"
                 android:orientation="horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

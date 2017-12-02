@@ -2,7 +2,6 @@ package com.lazyeraser.imas.retrofit;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.lazyeraser.imas.cgss.service.CardService;
 import com.lazyeraser.imas.main.SStaticR;
 
 import java.util.concurrent.TimeUnit;

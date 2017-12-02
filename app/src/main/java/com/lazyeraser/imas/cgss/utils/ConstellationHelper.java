@@ -1,15 +1,6 @@
 package com.lazyeraser.imas.cgss.utils;
 
-import android.annotation.SuppressLint;
-import android.support.annotation.Nullable;
-
 import com.lazyeraser.imas.derehelper.R;
-
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by lazyeraser on 2017/11/29.

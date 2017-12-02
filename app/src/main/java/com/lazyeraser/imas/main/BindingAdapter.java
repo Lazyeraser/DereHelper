@@ -2,19 +2,15 @@ package com.lazyeraser.imas.main;
 
 import android.support.annotation.IdRes;
 import android.support.v4.util.Pair;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.SwitchCompat;
-import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
 
-import com.ihidea.multilinechooselib.MultiLineChooseLayout;
 import com.kelin.mvvmlight.command.ReplyCommand;
+import com.lazyeraser.imas.cgss.utils.view.MultiLineChooseLayout;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;

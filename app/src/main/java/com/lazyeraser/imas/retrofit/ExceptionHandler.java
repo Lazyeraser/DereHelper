@@ -4,8 +4,6 @@ import android.net.ParseException;
 
 import com.google.gson.JsonParseException;
 import com.lazyeraser.imas.main.BaseActivity;
-import com.lazyeraser.imas.main.SStaticR;
-
 
 import org.apache.http.conn.ConnectTimeoutException;
 import org.json.JSONException;

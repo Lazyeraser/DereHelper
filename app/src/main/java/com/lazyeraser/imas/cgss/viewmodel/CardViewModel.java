@@ -9,12 +9,12 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.text.TextUtils;
 
-
 import com.kelin.mvvmlight.command.ReplyCommand;
 import com.lazyeraser.imas.cgss.entity.Card;
 import com.lazyeraser.imas.cgss.service.TranslationService;
 import com.lazyeraser.imas.cgss.utils.DBHelper;
 import com.lazyeraser.imas.cgss.utils.JsonUtils;
+import com.lazyeraser.imas.cgss.utils.SharedHelper;
 import com.lazyeraser.imas.cgss.utils.Utils;
 import com.lazyeraser.imas.cgss.view.CardDetailActivity;
 import com.lazyeraser.imas.cgss.view.CharaDetailActivity;
@@ -52,7 +52,7 @@ public class CardViewModel extends BaseViewModel {
     public final ObservableField<String> skillLength = new ObservableField<>();
     public final ObservableField<String> charaIconUrl = new ObservableField<>();
 
-    public final ObservableBoolean tran = new ObservableBoolean(false); // 是否翻译
+
 
     private Map<String, String> translationMap;
     private List<String> stringsToTranslate;
@@ -85,11 +85,18 @@ public class CardViewModel extends BaseViewModel {
         ActivityCompat.startActivity(mContext, intent, bundle);
     });
 
-    public final ReplyCommand<Boolean> onTranSwitchCheck = new ReplyCommand<>(check -> {
+    public final ObservableBoolean tran = new ObservableBoolean(umi.getSP(SharedHelper.KEY_DEFAULT_TRAN)); // 是否翻译
+
+    public final ReplyCommand<Boolean> onTranSwitchCheck = new ReplyCommand<>(this::onTranSwitchChanged);
+
+    private void onTranSwitchChanged(boolean check){
+        /*if (!(mContext instanceof CardDetailActivity)){
+            return;
+        }*/
         tran.set(check);
         if (check){
             if (stringsToTranslate.size() > 0){
-                umi.showLoading();
+//                umi.showLoading();
                 Observable<Map<String, String>> translation = RetrofitProvider.getInstance()
                         .create(TranslationService.class)
                         .getTranslations(stringsToTranslate)
@@ -123,8 +130,7 @@ public class CardViewModel extends BaseViewModel {
             card.set(originCard);
             cardTitle.set("[" + Utils.emptyLessString(mContext, card.get().getTitle()) + "]");
         }
-
-    });
+    }
 
     private void translateTheCard(){
         Card theCard = JsonUtils.getBeanFromJson(JsonUtils.getJsonFromBean(card.get()), Card.class);

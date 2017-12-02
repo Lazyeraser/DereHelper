@@ -60,7 +60,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/card_type"/>
 
-                <com.ihidea.multilinechooselib.MultiLineChooseLayout
+                <com.lazyeraser.imas.cgss.utils.view.MultiLineChooseLayout
                     android:layout_marginTop="5dp"
                     style="@style/FlowLayout"
                     android:layout_marginStart="12dp"

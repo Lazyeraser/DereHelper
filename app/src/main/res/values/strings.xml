@@ -3,9 +3,10 @@
     <string name="app_name">千寻记事本</string>
     <string name="other">其他</string>
     <string name="empty">无</string>
+    <string name="empty_skill">无技能</string>
     <string name="app_exit_hint">再按一次退出程序</string>
-    <string name="loading">加载中……</string>
-    <string name="loading_pic">大图加载中……</string>
+    <string name="loading">加载中…</string>
+    <string name="loading_pic">大图加载中…</string>
     <string name="menu_0">偶像</string>
     <string name="card_list">卡片列表</string>
     <string name="card_detail">卡片详情</string>
@@ -13,6 +14,8 @@
     <string name="is_evolution">特训</string>
     <string name="sort_type">排序类型</string>
     <string name="sort_method">排序方法</string>
+    <string name="skill_type">技能类型</string>
+    <string name="empty_filter_choose">清空</string>
     <string name="sort_method_0">降序</string>
     <string name="sort_method_1">升序</string>
     <string name="no">否</string>
@@ -38,6 +41,7 @@
     <string name="check_data_update">检查数据更新</string>
     <string name="check_app_update">检查APP更新</string>
     <string name="about">关于</string>
+    <string name="settings">设置</string>
     <string name="translate">翻译</string>
     <string name="appeal_max">最大表现值</string>
     <string name="skill_live">LIVE技能</string>
@@ -93,4 +97,10 @@
     <string name="about_resource" translatable="false">Resource from: hoshimoriuta.kirara.ca</string>
     <string name="about_open_source" translatable="false">Open source：<u>https://github.com/lazyeraser/DereHelper</u></string>
     <string name="about_copyright">本APP非官方，与THE iDOLM@STER Cinderella Girls: Starlight Stage(デレステ) 无任何直接关联。游戏内素材及数据的版权所属为BANDAI NAMCO Entertainment Inc.</string>
+    <string name="title_activity_settings">Settings</string>
+
+    <string name="settings_auto_data">自动检查数据更新</string>
+    <string name="settings_auto_app">自动检查APP更新</string>
+    <string name="settings_default_tran">默认开启翻译</string>
+
 </resources>

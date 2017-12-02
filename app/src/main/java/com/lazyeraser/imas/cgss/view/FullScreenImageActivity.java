@@ -1,10 +1,13 @@
 package com.lazyeraser.imas.cgss.view;
 
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.ViewCompat;
 import android.view.MotionEvent;
+import android.view.View;
 
 import com.alexvasilkov.gestures.GestureController;
 import com.alexvasilkov.gestures.views.GestureImageView;
@@ -25,6 +28,13 @@ public class FullScreenImageActivity extends BaseActivity {
                 .setVariable(com.lazyeraser.imas.derehelper.BR.viewModel, new FullScreenImageVM(this, umi.getIntentString("picUrl")));
         GestureImageView gestureImageView = (GestureImageView)getBView(R.id.big_pic);
         ViewCompat.setTransitionName(gestureImageView, "big_pic");
+        if (Build.VERSION.SDK_INT >= 21) {
+            View decorView = getWindow().getDecorView();
+            int option = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                    | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
+            decorView.setSystemUiVisibility(option);
+            getWindow().setStatusBarColor(Color.TRANSPARENT);
+        }
         gestureImageView.getController().setOnGesturesListener(new GestureController.OnGestureListener() {
             @Override
             public void onDown(@NonNull MotionEvent event) {

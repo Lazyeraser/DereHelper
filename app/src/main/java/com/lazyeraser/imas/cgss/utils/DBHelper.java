@@ -7,19 +7,13 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.text.TextUtils;
 
-
 import com.lazyeraser.imas.main.BaseActivity;
-import com.trello.rxlifecycle.ActivityLifecycleProvider;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import rx.Observable;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 /**
  * Created by lazyeraser on 2017/9/18.
@@ -42,10 +36,10 @@ public class DBHelper extends SQLiteOpenHelper  {
     }
 
     public static DBHelper with(BaseActivity context){
-        if (instance == null){
+        /*if (instance == null){
             instance = new DBHelper(context);
-        }
-        return instance;
+        }*/
+        return new DBHelper(context);
     }
 
     @Override

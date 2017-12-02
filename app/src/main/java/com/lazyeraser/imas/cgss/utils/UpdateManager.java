@@ -13,7 +13,6 @@ import android.widget.Toast;
 import com.lazyeraser.imas.derehelper.R;
 import com.lazyeraser.imas.main.SStaticR;
 
-
 import org.json.JSONObject;
 
 import java.io.File;

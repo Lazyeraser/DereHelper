@@ -13,10 +13,10 @@ import android.view.View;
 import com.google.gson.reflect.TypeToken;
 import com.kelin.mvvmlight.command.ReplyCommand;
 import com.kelin.mvvmlight.messenger.Messenger;
-import com.lazyeraser.imas.cgss.view.CardDetailActivity;
 import com.lazyeraser.imas.cgss.entity.Card;
 import com.lazyeraser.imas.cgss.utils.DBHelper;
 import com.lazyeraser.imas.cgss.utils.JsonUtils;
+import com.lazyeraser.imas.cgss.view.CardDetailActivity;
 import com.lazyeraser.imas.cgss.view.MainActivity;
 import com.lazyeraser.imas.cgss.view.fragments.CardListFrag;
 import com.lazyeraser.imas.derehelper.R;
@@ -67,6 +67,7 @@ public class CardListViewModel extends BaseViewModel {
     /*-------------commands for filter---------------*/
     private List<Integer> rareFilter = new ArrayList<>();
     private List<String> typeFilter = new ArrayList<>();
+    private List<Integer> skillFilter = new ArrayList<>();
     private Integer sortMethod;
     private Integer sortType;
 
@@ -85,27 +86,32 @@ public class CardListViewModel extends BaseViewModel {
 
     public final ReplyCommand<List<Integer>> sortMethodCommand = new ReplyCommand<>(integers -> sortMethod = integers.get(0));
 
+    public final ReplyCommand<List<String>> skillTypeCommand = new ReplyCommand<>(strings -> {
+        skillFilter.clear();
+        for (String skillTypeName : strings) {
+            skillFilter.add(SStaticR.skillTypeMap.get(skillTypeName));
+        }
+    });
+
     public final ReplyCommand filterCardsCommand = new ReplyCommand(() ->{
         filterCards();
         Messenger.getDefault().sendNoMsg(CardListFrag.TOKEN_CLOSE_FILTER);
 
     });
 
-    public final ReplyCommand resetFilterCommand = new ReplyCommand(() -> {
-        initFilter();
-        Messenger.getDefault().sendNoMsg(CardListFrag.TOKEN_RESET_FILTER);
-    });
+    public final ReplyCommand resetFilterCommand = new ReplyCommand(this::initFilter);
     /*-------------commands for filter---------------*/
 
 
     public CardListViewModel(BaseActivity context) {
         super(context);
-        initFilter();
+
         loadData();
         cardDataList.addOnPropertyChangedCallback(new android.databinding.Observable.OnPropertyChangedCallback() {
             @Override
             public void onPropertyChanged(android.databinding.Observable sender, int propertyId) {
                 if (cardDataList.get().size() > 0){
+                    initFilter();
                     filterCards();
                 }
             }
@@ -116,11 +122,15 @@ public class CardListViewModel extends BaseViewModel {
     private void initFilter(){
         rareFilter.clear();
         typeFilter.clear();
+        skillFilter.clear();
+        SStaticR.skillTypeMap.put(mContext.getString(R.string.empty_skill), Integer.MAX_VALUE);
         rareFilter.add(SStaticR.rarityMap_rev.get("SSR"));
         rareFilter.add(SStaticR.rarityMap_rev.get("SR"));
         typeFilter.addAll(SStaticR.typeMap.values());
+        skillFilter.addAll(SStaticR.skillTypeMap.values());
         sortMethod = 0; // default desc
         sortType = 0; // default ID
+        Messenger.getDefault().sendNoMsg(CardListFrag.TOKEN_RESET_FILTER);
     }
 
     private void loadData(){
@@ -153,8 +163,12 @@ public class CardListViewModel extends BaseViewModel {
                     cardsJsonBuilder.append("]");
                     List<Card> cards = JsonUtils.getArrayFromJson(cardsJsonBuilder.toString(), new TypeToken<List<Card>>(){});
                     Map<Card, CardViewModel> map = new HashMap<>();
+                    boolean fillSkill = SStaticR.skillTypeMap.size() == 0;
                     for (Card card : cards) {
                         map.put(card, new CardViewModel(mContext, card));
+                        if (fillSkill && card.getSkill() != null){
+                            SStaticR.skillTypeMap.put(card.getSkill().getSkill_type(), card.getSkill().getSkill_type_id());
+                        }
                     }
                     subscriber.onNext(map);
                 }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
@@ -162,12 +176,19 @@ public class CardListViewModel extends BaseViewModel {
 
     }
 
-    private void filterCards(){
+    private boolean checkSkillType(Card card){
+        if (card.getSkill() == null){
+            return skillFilter.contains(Integer.MAX_VALUE);
+        }
+        return skillFilter.contains(card.getSkill().getSkill_type_id());
+    }
 
+    private void filterCards(){
         // 过滤
         for (Card card : cardDataList.get().keySet()) {
             CardViewModel vm = cardDataList.get().get(card);
-            if (typeFilter.contains(card.getAttribute().toUpperCase()) && rareFilter.contains(card.getRarity().getRarity() - (isEvo ? 1 : 0))) {
+            if (typeFilter.contains(card.getAttribute().toUpperCase()) && rareFilter.contains(card.getRarity().getRarity() - (isEvo ? 1 : 0))
+                    && checkSkillType(card)) {
                 // 符合条件 如不在当前显示的列表中则加入
                 if (!itemViewModel.contains(vm)){
                     itemViewModel.add(vm);

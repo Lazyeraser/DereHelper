@@ -13,7 +13,7 @@ import android.view.Gravity;
 import android.view.View;
 
 import com.kelin.mvvmlight.messenger.Messenger;
-import com.lazyeraser.imas.cgss.utils.DBHelper;
+import com.lazyeraser.imas.cgss.utils.SharedHelper;
 import com.lazyeraser.imas.cgss.utils.UpdateManager;
 import com.lazyeraser.imas.cgss.view.fragments.AboutFrag;
 import com.lazyeraser.imas.cgss.view.fragments.CardListFrag;
@@ -42,6 +42,7 @@ public class MainActivity extends BaseActivity {
     private CardListFrag cardListFrag;
     private CharaListFrag charaListFrag;
     private AboutFrag aboutFrag;
+
     private Map<BaseFragment, Boolean> fragments;
 
     private UpdateManager updateManager;
@@ -75,6 +76,9 @@ public class MainActivity extends BaseActivity {
                 case R.id.nav_check_update_app:
                     updateManager.checkUpdate(true);
                     break;
+                case R.id.nav_settings:
+                    umi.jumpTo(SettingsActivity.class);
+                    break;
                 case R.id.nav_about:
                     switchFrag(aboutFrag);
                     break;
@@ -89,11 +93,15 @@ public class MainActivity extends BaseActivity {
         cardListFrag = new CardListFrag();
         charaListFrag = new CharaListFrag();
         aboutFrag = new AboutFrag();
+
         fragments.put(cardListFrag, false);
         fragments.put(charaListFrag, false);
         fragments.put(aboutFrag, false);
+
         switchFrag(cardListFrag);
-        updateManager.checkUpdate(false);
+        if (umi.getSP(SharedHelper.KEY_AUTO_APP)){
+            updateManager.checkUpdate(false);
+        }
     }
 
     private void initDialog(MainViewModel mainViewModel){

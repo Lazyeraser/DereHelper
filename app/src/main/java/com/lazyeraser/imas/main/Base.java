@@ -1,24 +1,21 @@
 package com.lazyeraser.imas.main;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.IdRes;
 import android.support.annotation.StringRes;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.DrawerLayout;
 import android.text.TextUtils;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.Toast;
 
-import com.lazyeraser.imas.cgss.utils.view.LoadingDialog;
 import com.lazyeraser.imas.cgss.utils.SharedHelper;
 import com.lazyeraser.imas.cgss.utils.Utils;
+import com.lazyeraser.imas.cgss.utils.view.LoadingDialog;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -152,6 +149,11 @@ public class Base {
 
     public String spRead(String key) {
         return sh.read(key);
+    }
+
+    public boolean getSP(String key){
+        String value = spRead(key);
+        return !TextUtils.isEmpty(value) && value.equals("true");
     }
 
     public void destroyAllActivity() {
