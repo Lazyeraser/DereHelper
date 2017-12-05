@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">ちひろのメモ帳</string>
+    <string name="app_name">DereHelper</string><!--ちひろのメモ帳-->
     <string name="other">その他</string>
     <string name="empty">なし</string>
-    <string name="empty_skill">スキルなし</string>
+    <string name="empty_skill">特技なし</string>
     <string name="app_exit_hint">もう一度押すとアプリが終了します</string>
     <string name="loading">読み込み中…</string>
     <string name="loading_pic">画像を読み込み中…</string>
@@ -12,10 +12,10 @@
     <string name="card_detail">カードの詳細</string>
     <string name="check_hint">データは最新です</string>
     <string name="is_evolution">特訓</string>
-    <string name="sort_type">並び替え方法</string>
-    <string name="sort_method">並び替え方法</string>
-    <string name="skill_type">特技のタイプ</string>
-    <string name="empty_filter_choose">データを空にする</string>
+    <string name="sort_type">並べ替え順</string>
+    <string name="sort_method">表示順</string>
+    <string name="skill_type">特技タイプ</string>
+    <string name="empty_filter_choose">全非選択</string>
     <string name="sort_method_0">降順</string>
     <string name="sort_method_1">昇順</string>
     <string name="no">前</string>
@@ -24,31 +24,31 @@
     <string name="update_hint1">直ちに更新しますか（Wi-Fi環境で行って下さるようおすすめします）</string>
     <string name="update_hint2">更新しない</string>
     <string name="update_hint3">更新する</string>
-    <string name="update_hint4">データをダウンロード中</string>
+    <string name="update_hint4">データをダウンロード中</string><!--ちひろメモ中-->
     <string name="update_hint5">更新中</string>
     <string name="update_hint_finish">更新完了</string>
-    <string name="card_type">属性</string>
-    <string name="card_rare">カードのレア度</string>
-    <string name="filter_confirm">設定完了</string>
+    <string name="card_type">タイプ</string>
+    <string name="card_rare">レア度</string>
+    <string name="filter_confirm">完了</string>
     <string name="filter_reset">リセット</string>
     <string name="low">低</string>
     <string name="middle">中</string>
     <string name="high">高</string>
-    <string name="only_one_title">君は僕が欲しかった唯一のカード</string>
+    <string name="only_one_title">君は僕が欲しかった唯一のカード</string><!--neta-->
     <string name="chara_list">キャラリスト</string>
-    <string name="list_empty_hint">リストが空です、もう一度データをダウンロード/更新してください</string>
-    <string name="menu_1">プロダクション</string>
-    <string name="check_data_update">更新データをチェック</string>
-    <string name="check_app_update">アップデートをチェック</string>
-    <string name="about">ABOUT</string>
+    <string name="list_empty_hint">データがありません、もう一度データをダウンロード/更新してください</string>
+    <string name="menu_1">事務所</string>
+    <string name="check_data_update">更新データを確認</string>
+    <string name="check_app_update">アップデートを確認</string>
+    <string name="about">アプリについて</string>
     <string name="settings">設定</string>
-    <string name="translate">翻訳</string>
+    <string name="translate">翻訳</string><!--Should be hidden in Japanese-->
     <string name="appeal_max">アピール最大値</string>
-    <string name="skill_live">LIVEでの特技</string>
-    <string name="skill_chance">特技の発動率</string>
-    <string name="skill_effect_length">特技の発動時間</string>
-    <string name="skill_centre">リーダースキル</string>
-    <string name="idol_info">アイドルの詳細</string>
+    <string name="skill_live">LIVE特技</string>
+    <string name="skill_chance">発動率</string>
+    <string name="skill_effect_length">継続時間</string>
+    <string name="skill_centre">センター効果</string>
+    <string name="idol_info">アイドルの詳細情報</string>
     <string name="info_base">個人情報</string>
     <string name="birthday">誕生日</string>
     <string name="height">身長</string>
@@ -79,9 +79,9 @@
     <string name="constellation_10">山羊座</string>
     <string name="constellation_11">水瓶座</string>
     <string name="constellation_12">魚座</string>
-    <string name="idol_cards">キャラカード</string>
+    <string name="idol_cards">キャラのカード</string>
 
-    <string name="no_update">アップデートはありません</string>
+    <string name="no_update">すでに最新のバージョンです</string>
     <string name="dialog_update_title">アップデート</string>
     <string name="dialog_update_msg">アップデートがあります</string>
     <string name="dialog_update_btnupdate">いま更新する</string>
@@ -92,7 +92,8 @@
     <string name="dialog_downloading_msg">更新データをダウンロード中</string>
     <string name="un_connect">只今ネットワークに接続できません、ネット設定をチェックしてください</string>
 
-    <string name="about_author">作者：@lazyeraser @lot_gi @shaguasanshi</string>
+    <string name="about_author">Author：@lazyeraser</string>
+    <!--Should add a new column for translator--><!--Translator: @lot_gi / @shaguasanshi / @cai_miao-->
     <string name="about_api" translatable="false">API by: starlight.346lab.org</string>
     <string name="about_resource" translatable="false">Resource from: hoshimoriuta.kirara.ca</string>
     <string name="about_open_source" translatable="false">Open source：<u>https://github.com/lazyeraser/DereHelper</u></string>
@@ -101,7 +102,7 @@
 
     <string name="settings_auto_data">自動的にデータを更新します</string>
     <string name="settings_auto_app">自動的にアプリを更新します</string>
-    <string name="settings_default_tran">常に「翻訳」をオンにします</string>
-    <string name="permission_denied_hint">更新データを自動的にダウンロードできるよう許可を得る必要があります</string>
+    <string name="settings_default_tran">常に「翻訳」をオンにします</string><!--Should be hidden in Japanese-->
+    <string name="permission_denied_hint">更新データをダウンロードできるようアクセス許可を得る必要があります</string>
 
 </resources>
