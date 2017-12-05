@@ -1,4 +1,107 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">ちひろメモ帳</string>
+    <string name="app_name">ちひろのメモ帳</string>
+    <string name="other">その他</string>
+    <string name="empty">なし</string>
+    <string name="empty_skill">スキルなし</string>
+    <string name="app_exit_hint">もう一度押すとアプリが終了します</string>
+    <string name="loading">読み込み中…</string>
+    <string name="loading_pic">画像を読み込み中…</string>
+    <string name="menu_0">アイドル</string>
+    <string name="card_list">カードリスト</string>
+    <string name="card_detail">カードの詳細</string>
+    <string name="check_hint">データは最新です</string>
+    <string name="is_evolution">特訓</string>
+    <string name="sort_type">並び替え方法</string>
+    <string name="sort_method">並び替え方法</string>
+    <string name="skill_type">特技のタイプ</string>
+    <string name="empty_filter_choose">データを空にする</string>
+    <string name="sort_method_0">降順</string>
+    <string name="sort_method_1">昇順</string>
+    <string name="no">前</string>
+    <string name="yes">後</string>
+    <string name="update_hint0">プロデューサーさん、更新データがあります！</string>
+    <string name="update_hint1">直ちに更新しますか（Wi-Fi環境で行って下さるようおすすめします）</string>
+    <string name="update_hint2">更新しない</string>
+    <string name="update_hint3">更新する</string>
+    <string name="update_hint4">データをダウンロード中</string>
+    <string name="update_hint5">更新中</string>
+    <string name="update_hint_finish">更新完了</string>
+    <string name="card_type">属性</string>
+    <string name="card_rare">カードのレア度</string>
+    <string name="filter_confirm">設定完了</string>
+    <string name="filter_reset">リセット</string>
+    <string name="low">低</string>
+    <string name="middle">中</string>
+    <string name="high">高</string>
+    <string name="only_one_title">君は僕が欲しかった唯一のカード</string>
+    <string name="chara_list">キャラリスト</string>
+    <string name="list_empty_hint">リストが空です、もう一度データをダウンロード/更新してください</string>
+    <string name="menu_1">プロダクション</string>
+    <string name="check_data_update">更新データをチェック</string>
+    <string name="check_app_update">アップデートをチェック</string>
+    <string name="about">ABOUT</string>
+    <string name="settings">設定</string>
+    <string name="translate">翻訳</string>
+    <string name="appeal_max">アピール最大値</string>
+    <string name="skill_live">LIVEでの特技</string>
+    <string name="skill_chance">特技の発動率</string>
+    <string name="skill_effect_length">特技の発動時間</string>
+    <string name="skill_centre">リーダースキル</string>
+    <string name="idol_info">アイドルの詳細</string>
+    <string name="info_base">個人情報</string>
+    <string name="birthday">誕生日</string>
+    <string name="height">身長</string>
+    <string name="weight">体重</string>
+    <string name="three_size">スリーサイズ</string>
+    <string name="age">年齢</string>
+    <string name="blood_type">血液型</string>
+    <string name="constellation">星座</string>
+    <string name="hand">利き手</string>
+    <string name="name_kana">ふりがな</string>
+    <string name="favourite_thing">趣味</string>
+    <string name="unit_weight" translatable="false">kg</string>
+    <string name="unit_height" translatable="false">cm</string>
+    <string name="unit_age">歳</string>
+    <string name="unit_month">月</string>
+    <string name="unit_day">日</string>
+    <string name="right">右</string>
+    <string name="left">左</string>
+    <string name="constellation_1">牡羊座</string>
+    <string name="constellation_2">牡牛座</string>
+    <string name="constellation_3">双子座</string>
+    <string name="constellation_4">蟹座</string>
+    <string name="constellation_5">獅子座</string>
+    <string name="constellation_6">乙女座ﾀ</string>
+    <string name="constellation_7">天秤座</string>
+    <string name="constellation_8">蠍座</string>
+    <string name="constellation_9">射手座</string>
+    <string name="constellation_10">山羊座</string>
+    <string name="constellation_11">水瓶座</string>
+    <string name="constellation_12">魚座</string>
+    <string name="idol_cards">キャラカード</string>
+
+    <string name="no_update">アップデートはありません</string>
+    <string name="dialog_update_title">アップデート</string>
+    <string name="dialog_update_msg">アップデートがあります</string>
+    <string name="dialog_update_btnupdate">いま更新する</string>
+    <string name="dialog_update_btnnext">後で更新する</string>
+    <string name="dialog_error_title">エラー</string>
+    <string name="dialog_downfailed_msg">ダウンロード失敗</string>
+    <string name="dialog_downfailed_btnnext">再ダウンロードする</string>
+    <string name="dialog_downloading_msg">更新データをダウンロード中</string>
+    <string name="un_connect">只今ネットワークに接続できません、ネット設定をチェックしてください</string>
+
+    <string name="about_author">作者：@lazyeraser @lot_gi @shaguasanshi</string>
+    <string name="about_api" translatable="false">API by: starlight.346lab.org</string>
+    <string name="about_resource" translatable="false">Resource from: hoshimoriuta.kirara.ca</string>
+    <string name="about_open_source" translatable="false">Open source：<u>https://github.com/lazyeraser/DereHelper</u></string>
+    <string name="about_copyright">THE iDOLM@STER Cinderella Girls: Starlight Stage</string>
+    <string name="title_activity_settings">Settings</string>
+
+    <string name="settings_auto_data">自動的にデータを更新します</string>
+    <string name="settings_auto_app">自動的にアプリを更新します</string>
+    <string name="settings_default_tran">常に「翻訳」をオンにします</string>
+    <string name="permission_denied_hint">更新データを自動的にダウンロードできるよう許可を得る必要があります</string>
+
 </resources>

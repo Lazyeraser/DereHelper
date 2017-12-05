@@ -19,9 +19,12 @@ Helper Android APP for THE iDOLM@STER Cinderella Girls: Starlight Stage(デレ�
 
 And more in development
 ## Language
-Only Chinese now, provides UI string resource file for localization in 
+Provides UI string resource file `strings.xml` for localization in `/app/src/main/res`
+### Folders
 
-`/app/src/main/res/values/strings.xml`
+    values - Chinese // Original
+    values-ja - Japanese  // Translation in progress
+    values-en - English
 
 ## License
     Copyright(C) 2017 Lazyeraser
