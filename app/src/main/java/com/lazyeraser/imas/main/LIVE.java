@@ -6,6 +6,10 @@ import android.os.Build;
 import android.os.StrictMode;
 import android.support.multidex.MultiDex;
 
+import com.lazyeraser.imas.cgss.utils.Utils;
+
+import java.util.Locale;
+
 
 /**
  * Created by lazyEraser on 2017/4/20.
@@ -22,6 +26,7 @@ public class LIVE extends Application {
             StrictMode.setVmPolicy(builder.build());
             builder.detectFileUriExposure();
         }
+        Utils.mPrint("os language:" + Locale.getDefault().getLanguage());
     }
 
     @Override

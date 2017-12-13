@@ -2,6 +2,7 @@ package com.lazyeraser.imas.cgss.utils;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.Configuration;
 import android.support.design.widget.Snackbar;
 import android.text.TextUtils;
 import android.view.Gravity;
@@ -15,6 +16,8 @@ import android.widget.TextView;
 
 import com.lazyeraser.imas.derehelper.R;
 import com.lazyeraser.imas.main.SStaticR;
+
+import java.util.Locale;
 
 /**
  * Created by lazyeraser on 2017/9/14.
@@ -32,6 +35,10 @@ public class Utils {
         if(imm != null) {
             imm.hideSoftInputFromWindow(activity.getWindow().getDecorView().getWindowToken(), 0);
         }
+    }
+
+    public static boolean isChinese(){
+        return Locale.getDefault().getLanguage().endsWith("zh");
     }
 
     @SafeVarargs

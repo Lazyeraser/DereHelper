@@ -27,7 +27,7 @@
             android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="8dp"
-            android:text="@{viewModel.chara.get().getType().toUpperCase()}"
+            android:text="@{viewModel.chara.getType().toUpperCase()}"
             android:textColor="#30666666"
             android:textSize="56sp" />
 
@@ -74,7 +74,7 @@
                             android:layout_marginTop="4dp"
                             android:layout_toEndOf="@+id/chara_icon"
                             android:hint="chara name"
-                            android:text="@{viewModel.chara.get().getName()}"
+                            android:text="@{viewModel.chara.getName()}"
                             android:textColor="@color/txtBlack"
                             android:textSize="@dimen/txt_2" />
 
@@ -86,7 +86,7 @@
                             android:layout_marginStart="8dp"
                             android:layout_toEndOf="@+id/chara_icon"
                             android:hint="romachi"
-                            android:text="@{viewModel.chara.get().getConventional()}"
+                            android:text="@{viewModel.chara.getConventional()}"
                             android:textColor="@color/txtGray"
                             android:textSize="@dimen/txt_2" />
 
@@ -123,7 +123,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:hint="@string/empty"
-                                android:text="@{viewModel.card.get().getSkill().getSkill_name()}"
+                                android:text="@{viewModel.card.getSkill().getSkill_name()}"
                                 android:textColor="@color/txtGray"
                                 android:textSize="@dimen/txt_1"
                                 android:layout_marginTop="10dp"/>-->
@@ -144,7 +144,7 @@
                             android:layout_marginEnd="10dp"
                             android:layout_marginStart="10dp"
                             android:hint="@string/empty"
-                            android:text="@{String.valueOf(viewModel.chara.get().getName_kana())}"
+                            android:text="@{String.valueOf(viewModel.chara.getName_kana())}"
                             android:textColor="@color/txtGray"
                             android:textSize="@dimen/txt_1" />
 
@@ -173,7 +173,7 @@
                                     android:layout_marginEnd="10dp"
                                     android:layout_marginStart="10dp"
                                     android:hint="@string/empty"
-                                    android:text='@{String.valueOf(viewModel.chara.get().getHeight()) + @string/unit_height}'
+                                    android:text='@{String.valueOf(viewModel.chara.getHeight()) + @string/unit_height}'
                                     android:textColor="@color/txtGray"
                                     android:textSize="@dimen/txt_1" />
 
@@ -199,7 +199,7 @@
                                     android:layout_marginEnd="10dp"
                                     android:layout_marginStart="10dp"
                                     android:hint="@string/empty"
-                                    android:text='@{String.valueOf(viewModel.chara.get().getAge()) + @string/unit_age}'
+                                    android:text='@{String.valueOf(viewModel.chara.getAge()) + @string/unit_age}'
                                     android:textColor="@color/txtGray"
                                     android:textSize="@dimen/txt_1" />
 
@@ -232,7 +232,7 @@
                                     android:layout_marginEnd="10dp"
                                     android:layout_marginStart="10dp"
                                     android:hint="@string/empty"
-                                    android:text='@{String.valueOf(viewModel.chara.get().getWeight())  + @string/unit_weight}'
+                                    android:text='@{String.valueOf(viewModel.chara.getWeight())  + @string/unit_weight}'
                                     android:textColor="@color/txtGray"
                                     android:textSize="@dimen/txt_1" />
 
@@ -258,7 +258,7 @@
                                     android:layout_marginEnd="10dp"
                                     android:layout_marginStart="10dp"
                                     android:hint="@string/empty"
-                                    android:text='@{String.valueOf(viewModel.chara.get().getBirth_month()) + @string/unit_month + String.valueOf(viewModel.chara.get().getBirth_day()) + @string/unit_day}'
+                                    android:text='@{String.valueOf(viewModel.chara.getBirth_month()) + @string/unit_month + String.valueOf(viewModel.chara.getBirth_day()) + @string/unit_day}'
                                     android:textColor="@color/txtGray"
                                     android:textSize="@dimen/txt_1" />
 
@@ -376,7 +376,7 @@
                             android:layout_marginEnd="10dp"
                             android:layout_marginStart="10dp"
                             android:hint="@string/empty"
-                            android:text="@{String.valueOf(viewModel.chara.get().getFavorite())}"
+                            android:text="@{String.valueOf(viewModel.chara.getFavorite())}"
                             android:textColor="@color/txtGray"
                             android:textSize="@dimen/txt_1" />
 
@@ -395,7 +395,7 @@
                             android:layout_marginEnd="10dp"
                             android:layout_marginStart="10dp"
                             android:hint="@string/empty"
-                            android:text="@{String.valueOf(viewModel.chara.get().getVoice())}"
+                            android:text="@{String.valueOf(viewModel.chara.getVoice())}"
                             android:textColor="@color/txtGray"
                             android:textSize="@dimen/txt_1" />
 

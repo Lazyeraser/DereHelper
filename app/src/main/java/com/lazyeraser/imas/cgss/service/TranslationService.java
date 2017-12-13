@@ -13,7 +13,7 @@ import rx.Observable;
 
 public interface TranslationService {
 
-    @POST("/api/v1/read_tl")
+    @POST("read_tl")
     Observable<Map<String, String>> getTranslations(@Body List<String> body);
 
 }

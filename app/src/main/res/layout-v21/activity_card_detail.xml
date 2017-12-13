@@ -9,7 +9,7 @@
             type="com.lazyeraser.imas.cgss.viewmodel.CardViewModel" />
 
         <import type="android.view.View" />
-
+        <import type="com.lazyeraser.imas.main.SStaticR" />
         <import type="com.lazyeraser.imas.derehelper.R" />
     </data>
 
@@ -122,7 +122,8 @@
                                 android:checked="@{viewModel.tran}"
                                 android:textColor="@color/txtBlack"
                                 bind:onCheckChanged="@{viewModel.onTranSwitchCheck}"
-                                bind:switchPadding="8dp" />
+                                bind:switchPadding="8dp"
+                                android:visibility="@{SStaticR.isJp ? View.GONE : View.VISIBLE}"/>
 
                         </RelativeLayout>
 

@@ -3,6 +3,7 @@ package com.lazyeraser.imas.main;
 import com.lazyeraser.imas.derehelper.BuildConfig;
 
 import java.util.LinkedHashMap;
+import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -21,7 +22,10 @@ public class SStaticR {
 
     public final static String SERVER_URL = isDebug ? SERVER_URL_DEBUG : SERVER_URL_RELEASE;
 
-    public final static String API = SERVER_URL + "/api/v1";
+    public final static String API = SERVER_URL + "/api/v1/";
+
+    public static boolean isCn = Locale.getDefault().getLanguage().endsWith("zh");
+    public static boolean isJp = Locale.getDefault().getLanguage().endsWith("ja");
 
     //static data
     public final static Map<Integer, String> rarityMap = new LinkedHashMap<>();

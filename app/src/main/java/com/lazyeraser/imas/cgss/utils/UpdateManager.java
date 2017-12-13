@@ -129,7 +129,15 @@ public class UpdateManager {
                         try {
                             newVersionCode = Integer.parseInt(obj.getString("verCode"));
                             newVersion = obj.getString("verName");
-                            versionInfo = new String(obj.getString("verInfo").getBytes(), "UTF-8");
+                            String verInfoKey;
+                            if (SStaticR.isCn){
+                                verInfoKey = "verInfo";
+                            }else if (SStaticR.isJp){
+                                verInfoKey = "verInfo_jp";
+                            }else {
+                                verInfoKey = "verInfo_en";
+                            }
+                            versionInfo = new String(obj.getString(verInfoKey).getBytes(), "UTF-8");
                             UPDATE_DOWNLOAD_URL = obj.getString("url");
                             updateInfo = "";
                             Utils.mPrint("update info:" + JsonUtils.getJsonFromBean(obj));

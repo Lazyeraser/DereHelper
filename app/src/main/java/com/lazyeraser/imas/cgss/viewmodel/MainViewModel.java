@@ -13,6 +13,7 @@ import com.lazyeraser.imas.cgss.entity.CharaIndex;
 import com.lazyeraser.imas.cgss.service.CardService;
 import com.lazyeraser.imas.cgss.utils.DBHelper;
 import com.lazyeraser.imas.cgss.utils.JsonUtils;
+import com.lazyeraser.imas.cgss.utils.LZ4Helper;
 import com.lazyeraser.imas.cgss.utils.SharedHelper;
 import com.lazyeraser.imas.cgss.utils.Utils;
 import com.lazyeraser.imas.main.BaseActivity;
@@ -21,7 +22,14 @@ import com.lazyeraser.imas.retrofit.ExceptionHandler;
 import com.lazyeraser.imas.retrofit.RetrofitProvider;
 import com.trello.rxlifecycle.ActivityLifecycleProvider;
 
+import net.jpountz.lz4.LZ4Factory;
+import net.jpountz.lz4.LZ4FastDecompressor;
+
+import java.io.ByteArrayInputStream;
+import java.io.DataInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,6 +37,8 @@ import java.util.Map;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+
+import static com.lazyeraser.imas.main.SStaticR.isDebug;
 
 /**
  * Created by lazyeraser on 2017/9/18.
@@ -55,6 +65,14 @@ public class MainViewModel extends BaseViewModel {
         super(mContext);
         if (umi.getSP(SharedHelper.KEY_AUTO_DATA)){
             checkDataUpdate();
+        }
+        if (isDebug){
+            RetrofitProvider.getInstance(false).create(CardService.class)
+                    .getMaster().subscribeOn(Schedulers.io()).subscribe(body -> {
+                String data = null;
+
+                Utils.mPrint("emmmm:::" + data);
+            }, ExceptionHandler::handleException);
         }
     }
 
@@ -173,7 +191,7 @@ public class MainViewModel extends BaseViewModel {
                     total ++;
                 }
 
-                if (!oldChara && !charaIndexMap_new.containsKey(card.getChara_id())){
+                if (!oldChara && !charaIndexMap_new.containsKey(card.getChara_id())){ // 新偶像，先新增
                     Chara chara = card.getChara();
                     charaMap.put(card.getChara_id(), chara);
                     CharaIndex charaIndex = new CharaIndex();

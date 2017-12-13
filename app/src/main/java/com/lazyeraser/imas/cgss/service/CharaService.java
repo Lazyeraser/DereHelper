@@ -15,10 +15,10 @@ import rx.Observable;
 
 public interface CharaService {
 
-    @GET("/api/v1/list/char_t")
+    @GET("list/char_t")
     Observable<List<CharaIndex>> getCharaIndex();
 
-    @GET("/api/v1/char_t/{ids}")
+    @GET("char_t/{ids}")
     Observable<List<Chara>> getCharaList(@Path("ids") String ids);
 
 }

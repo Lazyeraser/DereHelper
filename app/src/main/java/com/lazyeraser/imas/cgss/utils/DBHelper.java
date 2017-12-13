@@ -15,6 +15,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.lazyeraser.imas.main.SStaticR.isCn;
+
 /**
  * Created by lazyeraser on 2017/9/18.
  */
@@ -22,17 +24,18 @@ import java.util.Map;
 
 public class DBHelper extends SQLiteOpenHelper  {
 
-    private static DBHelper instance;
+//    private static DBHelper instance;
     private static final String DB_NAME = "DereHelper.db";
     private static final int DB_VERSION = 1;
 
-    public static final String TABLE_NAME_Card = "t_card";
-    public static final String TABLE_NAME_Chara_Index = "t_chara_index";
-    public static final String TABLE_NAME_Chara_Detail = "t_chara";
-    public static final String TABLE_NAME_Translation = "t_tran";
+    public static final String TABLE_NAME_Card = isCn ? "t_card" : "t_card_en";
+    public static final String TABLE_NAME_Chara_Index = isCn ? "t_chara_index" : "t_chara_index_en";
+    public static final String TABLE_NAME_Chara_Detail = isCn ? "t_chara" : "t_chara_en";
+    public static final String TABLE_NAME_Translation = isCn ? "t_tran" : "t_tran_en";
 
     private DBHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
+        onCreate(getReadableDatabase());
     }
 
     public static DBHelper with(BaseActivity context){

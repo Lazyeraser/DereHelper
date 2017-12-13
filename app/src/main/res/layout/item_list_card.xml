@@ -45,7 +45,7 @@
             android:layout_marginStart="8dp"
             android:textSize="@dimen/txt_2"
             android:textColor="@color/txtBlack"
-            android:text="@{viewModel.card.get().getName_only()}"/>
+            android:text="@{viewModel.card.getName_only()}"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -110,7 +110,7 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="@{String.valueOf(viewModel.card.get().getVisual_max() + viewModel.card.get().getBonus_visual())}"
+                android:text="@{String.valueOf(viewModel.card.getVisual_max() + viewModel.card.getBonus_visual())}"
                 android:textColor="@color/txt_vi"
                 android:textAlignment="center"
                 android:layout_weight="1"/>
@@ -118,7 +118,7 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="@{String.valueOf(viewModel.card.get().getVocal_max() + viewModel.card.get().getBonus_vocal())}"
+                android:text="@{String.valueOf(viewModel.card.getVocal_max() + viewModel.card.getBonus_vocal())}"
                 android:textColor="@color/txt_vo"
                 android:textAlignment="center"
                 android:layout_weight="1"/>
@@ -126,7 +126,7 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="@{String.valueOf(viewModel.card.get().getDance_max() + viewModel.card.get().getBonus_dance())}"
+                android:text="@{String.valueOf(viewModel.card.getDance_max() + viewModel.card.getBonus_dance())}"
                 android:textColor="@color/txt_da"
                 android:textAlignment="center"
                 android:layout_weight="1"/>
@@ -134,7 +134,7 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="@{String.valueOf(viewModel.card.get().getOverall_max() + viewModel.card.get().getOverall_bonus())}"
+                android:text="@{String.valueOf(viewModel.card.getOverall_max() + viewModel.card.getOverall_bonus())}"
                 android:textColor="@color/txt_all"
                 android:textAlignment="center"
                 android:layout_weight="1"/>

@@ -7,7 +7,7 @@
         <variable
             name="viewModel"
             type="com.lazyeraser.imas.cgss.viewmodel.SettingsViewModel" />
-
+        <import type="com.lazyeraser.imas.main.SStaticR" />
         <import type="android.view.View" />
     </data>
 
@@ -89,6 +89,7 @@
         </RelativeLayout>
 
         <RelativeLayout
+            android:visibility="@{SStaticR.isJp ? View.GONE : View.VISIBLE}"
             android:background="@color/white"
             android:layout_width="match_parent"
             android:layout_height="@dimen/setting_div_height">

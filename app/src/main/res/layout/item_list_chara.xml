@@ -34,7 +34,7 @@
             android:layout_marginStart="10dp"
             android:textSize="@dimen/txt_2"
             android:textColor="@color/txtBlack"
-            android:text="@{viewModel.chara.get().getName()}"/>
+            android:text="@{viewModel.chara.getName()}"/>
 
         <View
             android:layout_marginStart="5dp"

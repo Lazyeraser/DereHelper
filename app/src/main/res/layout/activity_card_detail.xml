@@ -9,7 +9,7 @@
             type="com.lazyeraser.imas.cgss.viewmodel.CardViewModel" />
 
         <import type="android.view.View" />
-
+        <import type="com.lazyeraser.imas.main.SStaticR" />
         <import type="com.lazyeraser.imas.derehelper.R" />
     </data>
 
@@ -41,7 +41,7 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:visibility="@{viewModel.card.get().getHas_spread() ? View.VISIBLE : View.GONE}"
+                    android:visibility="@{viewModel.card.getHas_spread() ? View.VISIBLE : View.GONE}"
                     bind:layout_heightPercent="64.375%w">
 
                     <TextView
@@ -122,7 +122,8 @@
                             android:checked="@{viewModel.tran}"
                             android:textColor="@color/txtBlack"
                             bind:onCheckChanged="@{viewModel.onTranSwitchCheck}"
-                            bind:switchPadding="8dp" />
+                            bind:switchPadding="8dp"
+                            android:visibility="@{SStaticR.isJp ? View.GONE : View.VISIBLE}"/>
 
                     </RelativeLayout>
 
@@ -203,7 +204,7 @@
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:text="@{String.valueOf(viewModel.card.get().getVisual_max() + viewModel.card.get().getBonus_visual())}"
+                                android:text="@{String.valueOf(viewModel.card.getVisual_max() + viewModel.card.getBonus_visual())}"
                                 android:textAlignment="center"
                                 android:textColor="@color/txt_vi" />
 
@@ -211,7 +212,7 @@
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:text="@{String.valueOf(viewModel.card.get().getVocal_max() + viewModel.card.get().getBonus_vocal())}"
+                                android:text="@{String.valueOf(viewModel.card.getVocal_max() + viewModel.card.getBonus_vocal())}"
                                 android:textAlignment="center"
                                 android:textColor="@color/txt_vo" />
 
@@ -219,7 +220,7 @@
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:text="@{String.valueOf(viewModel.card.get().getDance_max() + viewModel.card.get().getBonus_dance())}"
+                                android:text="@{String.valueOf(viewModel.card.getDance_max() + viewModel.card.getBonus_dance())}"
                                 android:textAlignment="center"
                                 android:textColor="@color/txt_da" />
 
@@ -227,7 +228,7 @@
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:text="@{String.valueOf(viewModel.card.get().getOverall_max() + viewModel.card.get().getOverall_bonus())}"
+                                android:text="@{String.valueOf(viewModel.card.getOverall_max() + viewModel.card.getOverall_bonus())}"
                                 android:textAlignment="center"
                                 android:textColor="@color/txt_all" />
 
@@ -267,7 +268,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="10dp"
                                 android:hint="@string/empty"
-                                android:text="@{viewModel.card.get().getSkill().getSkill_name()}"
+                                android:text="@{viewModel.card.getSkill().getSkill_name()}"
                                 android:textColor="@color/txtGray"
                                 android:textSize="@dimen/txt_1" />
 
@@ -280,7 +281,7 @@
                             android:layout_marginEnd="10dp"
                             android:layout_marginStart="10dp"
                             android:hint="@string/empty"
-                            android:text="@{viewModel.tran ? viewModel.card.get().getSkill().getExplain_en() : viewModel.card.get().getSkill().getExplain()}"
+                            android:text="@{viewModel.tran ? viewModel.card.getSkill().getExplain_en() : viewModel.card.getSkill().getExplain()}"
                             android:textColor="@color/txtGray"
                             android:textSize="@dimen/txt_1" />
 
@@ -355,7 +356,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="10dp"
                                 android:hint="@string/empty"
-                                android:text="@{viewModel.card.get().getLead_skill().getName()}"
+                                android:text="@{viewModel.card.getLead_skill().getName()}"
                                 android:textColor="@color/txtGray"
                                 android:textSize="@dimen/txt_1" />
 
@@ -368,7 +369,7 @@
                             android:layout_marginEnd="10dp"
                             android:layout_marginStart="10dp"
                             android:hint="@string/empty"
-                            android:text="@{viewModel.tran.get() ? viewModel.card.get().getLead_skill().getExplain_en() : viewModel.card.get().getLead_skill().getExplain()}"
+                            android:text="@{viewModel.tran.get() ? viewModel.card.getLead_skill().getExplain_en() : viewModel.card.getLead_skill().getExplain()}"
                             android:textColor="@color/txtGray"
                             android:textSize="@dimen/txt_1" />
 
