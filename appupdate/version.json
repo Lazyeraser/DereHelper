@@ -1,8 +1,10 @@
 {
 	"appname": "DereHelper",
 	"apkname": "DereHelper.apk",
-	"verName": "0.9.4",
-	"url": "http://45.32.111.67:8080/derehelper/DereHelper-0.9.4.apk",
-	"verInfo": "重要：修复安卓6.0以上的APP自动更新下载失败问题（本次更新需要手动到贴吧发布贴的网盘分流地址下载……）",
-	"verCode": 4
+	"verName": "0.9.5",
+	"url": "http://45.32.111.67:8080/derehelper/DereHelper-0.9.5.apk",
+	"verInfo": "1.修复更新数据时错误的进度显示及造成的假死 \n2.增加界面语言：日语",
+	"verInfo_jp": "日本語対応",
+	"verInfo_en": "",
+	"verCode": 5
 }

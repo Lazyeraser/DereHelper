@@ -29,10 +29,11 @@
             android:id="@+id/card_icon"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_centerVertical="true"
             android:layout_marginStart="16dp"
             bind:placeholder="@{R.drawable.umi_bg_corners_solid}"
-            bind:imageUrl="@{viewModel.cardIconUrl}" />
+            bind:imageUrl="@{viewModel.cardIconUrl}"
+            android:layout_centerVertical="true"
+            android:layout_alignParentStart="true" />
 
         <TextView
             android:id="@+id/item_txt"
@@ -154,7 +155,8 @@
             android:text="@{viewModel.skill}"/>
 
         <View
-            android:layout_marginStart="5dp"
+            android:layout_marginStart="-4dp"
+            android:layout_alignStart="@+id/card_icon"
             android:layout_alignParentBottom="true"
             android:background="@color/divider"
             android:layout_width="match_parent"

@@ -8,8 +8,8 @@ android {
         applicationId "com.lazyeraser.imas.derehelper"
         minSdkVersion 17
         targetSdkVersion 25
-        versionCode 4
-        versionName "0.9.4"
+        versionCode 5
+        versionName "0.9.5"
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
     }
@@ -24,10 +24,23 @@ android {
         checkReleaseBuilds false
         abortOnError false
     }
+    signingConfigs {
+        release {
+            storeFile file(System.properties['key.file'])
+            storePassword System.properties['key.pwd']
+            keyAlias System.properties['key.ali']
+            keyPassword System.properties['key.ali.pwd']
+            v2SigningEnabled false
+        }
+    }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
+        debug {
+            signingConfig signingConfigs.release
         }
     }
     android.applicationVariants.all { variant ->
@@ -39,6 +52,7 @@ android {
             }
         }
     }
+
 
 
 }

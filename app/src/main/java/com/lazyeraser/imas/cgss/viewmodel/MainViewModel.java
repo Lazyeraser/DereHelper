@@ -13,23 +13,16 @@ import com.lazyeraser.imas.cgss.entity.CharaIndex;
 import com.lazyeraser.imas.cgss.service.CardService;
 import com.lazyeraser.imas.cgss.utils.DBHelper;
 import com.lazyeraser.imas.cgss.utils.JsonUtils;
-import com.lazyeraser.imas.cgss.utils.LZ4Helper;
 import com.lazyeraser.imas.cgss.utils.SharedHelper;
 import com.lazyeraser.imas.cgss.utils.Utils;
+import com.lazyeraser.imas.derehelper.R;
 import com.lazyeraser.imas.main.BaseActivity;
 import com.lazyeraser.imas.main.BaseViewModel;
 import com.lazyeraser.imas.retrofit.ExceptionHandler;
 import com.lazyeraser.imas.retrofit.RetrofitProvider;
 import com.trello.rxlifecycle.ActivityLifecycleProvider;
 
-import net.jpountz.lz4.LZ4Factory;
-import net.jpountz.lz4.LZ4FastDecompressor;
-
-import java.io.ByteArrayInputStream;
-import java.io.DataInputStream;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,8 +30,6 @@ import java.util.Map;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
-
-import static com.lazyeraser.imas.main.SStaticR.isDebug;
 
 /**
  * Created by lazyeraser on 2017/9/18.
@@ -66,14 +57,14 @@ public class MainViewModel extends BaseViewModel {
         if (umi.getSP(SharedHelper.KEY_AUTO_DATA)){
             checkDataUpdate();
         }
-        if (isDebug){
+        /*if (isDebug){
             RetrofitProvider.getInstance(false).create(CardService.class)
                     .getMaster().subscribeOn(Schedulers.io()).subscribe(body -> {
                 String data = null;
 
                 Utils.mPrint("emmmm:::" + data);
             }, ExceptionHandler::handleException);
-        }
+        }*/
     }
 
     public void checkDataUpdate(){
@@ -187,8 +178,10 @@ public class MainViewModel extends BaseViewModel {
                 boolean oldChara = charaIndexMap_exist.containsKey(card.getChara_id());
 
                 if (oldChara){ // 旧偶像有新卡
+                    if (!charaIndexMap_update.containsKey(card.getChara_id())){
+                        total ++;
+                    }
                     charaIndexMap_update.put(card.getChara_id(), charaIndexMap_exist.get(card.getChara_id()));
-                    total ++;
                 }
 
                 if (!oldChara && !charaIndexMap_new.containsKey(card.getChara_id())){ // 新偶像，先新增
@@ -242,13 +235,22 @@ public class MainViewModel extends BaseViewModel {
 //                    .observeOn(AndroidSchedulers.mainThread())
                     .compose(((ActivityLifecycleProvider) mContext).bindToLifecycle())
                     .doAfterTerminate(() -> {
-                        if (newCardList.size() == total){ // 完成下载，开始写入数据库
+                        if (newCardList.size() >= total){ // 完成下载，开始写入数据库
                             dataBaseOB.subscribeOn(Schedulers.io())
                                     .observeOn(AndroidSchedulers.mainThread())
                                     .compose(((ActivityLifecycleProvider) mContext).bindToLifecycle())
                                     .subscribe(b -> { // 更新处理进度
-                                        progress.set((float)++solved / (float) total);
-                                        progressTxt.set(solved + "/" + total);
+                                        if (b){
+                                            if (solved <= total){
+                                                progress.set((float)++solved / (float) total);
+                                                progressTxt.set(solved + "/" + total);
+                                            }else {
+                                                progress.set(1);
+                                                progressTxt.set(total + "/" + total);
+                                            }
+                                        }else {
+                                            progressTxt.set(mContext.getString(R.string.update_error));
+                                        }
                                     });
                         }
                     })
