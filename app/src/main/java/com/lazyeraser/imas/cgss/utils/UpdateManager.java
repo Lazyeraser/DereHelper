@@ -48,7 +48,7 @@ public class UpdateManager {
     //存放更新APK文件的路径
     public static String UPDATE_DOWNLOAD_URL;
     //存放更新APK文件相应的版本说明路径
-    public static final String UPDATE_CHECKURL = SStaticR.SERVER_URL_UPDATE + "version.json";
+    public static final String UPDATE_CHECKURL = SStaticR.SERVER_URL_UPDATE + (SStaticR.isDebug ? "version_test.json" : "version.json");
 
     public static final String UPDATE_SAVE_NAME = "derehelper.apk";
     private static final int UPDATE_CHECKCOMPLETED = 1; //检测更新

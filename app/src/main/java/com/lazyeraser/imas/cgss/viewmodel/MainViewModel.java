@@ -5,7 +5,7 @@ import android.content.ContentValues;
 import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
 import android.databinding.ObservableFloat;
-import android.os.Handler;
+import android.support.v4.util.Pair;
 import android.text.TextUtils;
 
 import com.lazyeraser.imas.cgss.entity.Card;
@@ -31,7 +31,6 @@ import com.lazyeraser.imas.retrofit.RetrofitProvider;
 import com.trello.rxlifecycle.ActivityLifecycleProvider;
 
 import java.io.IOException;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -178,10 +177,13 @@ public class MainViewModel extends BaseViewModel {
                                 .getBeanList(DBHelper.CGSS_TABLE_NAME_Manifest, Manifest.class,
                                         "name", Collections.singletonList("master.mdb"));
                         String masterHash = list.get(0).getHash();
-                        List<Observable<Boolean>> obList = new ArrayList<>();
+
+
+                        fileToDownload = new HashMap<>();
+                        hashToDownload = new ArrayList<>();
                         if (!masterHash.equals(umi.spRead(SharedHelper.KEY_MasterDbHash))) {
                             // update master.db
-                            obList.add(createFileOB(masterHash, DBHelper.DB_NAME_master, mContext.getFilesDir().getAbsolutePath()));
+                            addFileDownloadMission(masterHash, DBHelper.DB_NAME_master, mContext.getFilesDir().getAbsolutePath());
                         }
                         // update music (beatMap
                         List<Manifest> musicList = DBHelper.with(mContext, DBHelper.DB_NAME_manifest)
@@ -190,39 +192,16 @@ public class MainViewModel extends BaseViewModel {
                         String musicDataPath = mContext.getFilesDir().getAbsolutePath() + "/musicscores";
                         for (Manifest manifest : musicList) {
                             if (!FileHelper.isFileExists(musicDataPath, manifest.getName())) {
-                                obList.add(createFileOB(manifest.getHash(), manifest.getName(), musicDataPath));
+                                addFileDownloadMission(manifest.getHash(), manifest.getName(), musicDataPath);
                             }
                         }
-                        total = obList.size();
+                        hashToDownload.addAll(fileToDownload.keySet());
+                        total = fileToDownload.size();
                         solved = 0;
                         if (total == 0){
-                            Observable.just(true)
-                                    .observeOn(AndroidSchedulers.mainThread())
-                                    .subscribe(b -> {
-                                        progress.set(1);
-                                        progressTxt.set("100%");
-                                        // update masterHash
-                                        if (!masterHash.equals(umi.spRead(SharedHelper.KEY_MasterDbHash))) {
-                                            umi.spSave(SharedHelper.KEY_MasterDbHash, masterHash);
-                                        }
-                                        // update truth version
-                                        umi.spSave(SharedHelper.KEY_TruthVersion, truthVersion);
-                                    });
+                            finishManifestUpdate(masterHash, truthVersion);
                         }else {
-                            Observable.combineLatest(obList, args -> true)
-                                    .subscribeOn(Schedulers.io())
-                                    .observeOn(AndroidSchedulers.mainThread())
-                                    .compose(((ActivityLifecycleProvider) mContext).bindToLifecycle())
-                                    .subscribe(b -> {
-                                        progress.set(1);
-                                        progressTxt.set("100%");
-                                        // update masterHash
-                                        if (!masterHash.equals(umi.spRead(SharedHelper.KEY_MasterDbHash))) {
-                                            umi.spSave(SharedHelper.KEY_MasterDbHash, masterHash);
-                                        }
-                                        // update truth version
-                                        umi.spSave(SharedHelper.KEY_TruthVersion, truthVersion);
-                                    });
+                            downLoadFiles(0, masterHash, truthVersion);
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -230,26 +209,49 @@ public class MainViewModel extends BaseViewModel {
                 }, ExceptionHandler::handleException);
     }
 
-    private Observable<Boolean> createFileOB(String hash, String fileName, String filePath) {
-        return Observable.create(subscriber -> {
+    private Map<String, Pair<String, String>> fileToDownload;
+    private List<String> hashToDownload;
+
+    private void addFileDownloadMission(String hash, String fileName, String filePath) {
+        fileToDownload.put(hash, new Pair<>(filePath, fileName));
+    }
+
+    private void downLoadFiles(int i, String masterHash, String truthVersion){
+        if (i < hashToDownload.size()){
+            String hash = hashToDownload.get(i);
             RetrofitProvider.getInstance(false).create(CgssService.class)
                     .getResources(hash)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(responseBody -> {
                         try {
-                            FileHelper.writeFile(LZ4Helper.uncompressCGSS(responseBody.bytes()), filePath, fileName);
+                            FileHelper.writeFile(LZ4Helper.uncompressCGSS(responseBody.bytes()), fileToDownload.get(hash).first, fileToDownload.get(hash).second);
                             progress.set((float) ++solved / (float) total);
                             progressTxt.set(getProgress());
-                            subscriber.onNext(true);
-                            subscriber.onCompleted();
+                            downLoadFiles(i + 1, masterHash, truthVersion);
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
                     });
-        });
+        }else {
+            finishManifestUpdate(masterHash, truthVersion);
+        }
     }
 
+    private void finishManifestUpdate(String masterHash, String truthVersion){
+        Observable.just(true)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(b -> {
+                    progress.set(1);
+                    progressTxt.set("100%");
+                    // update masterHash
+                    if (!masterHash.equals(umi.spRead(SharedHelper.KEY_MasterDbHash))) {
+                        umi.spSave(SharedHelper.KEY_MasterDbHash, masterHash);
+                    }
+                    // update truth version
+                    umi.spSave(SharedHelper.KEY_TruthVersion, truthVersion);
+                });
+    }
 
     private String getProgress(){
         return (int)((float)solved * 100 / (float)total) + "%";
