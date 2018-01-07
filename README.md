@@ -11,11 +11,13 @@ Helper Android APP for THE iDOLM@STER Cinderella Girls: Starlight Stage(デレ�
 
 ## Screenshot
 
+![](https://github.com/Lazyeraser/DereHelper/raw/master/art/beat_map.jpg)
 ![](https://github.com/Lazyeraser/DereHelper/raw/master/art/card_list.png)
 
 ## Features
 * Card
 * Chara
+* BeatMap
 
 And more in development
 ## Language
