@@ -91,6 +91,6 @@ dependencies {
 
     compile 'net.jpountz.lz4:lz4:1.3.0'
 
-    compile 'com.umeng.sdk:common:latest.integration'
-    compile 'com.umeng.sdk:analytics:latest.integration'
+//    compile 'com.umeng.sdk:common:latest.integration'
+//    compile 'com.umeng.sdk:analytics:latest.integration'
 }

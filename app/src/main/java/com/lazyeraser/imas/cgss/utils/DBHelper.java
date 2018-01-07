@@ -29,7 +29,7 @@ public class DBHelper extends SQLiteOpenHelper  {
 
     private static volatile Map<String, DBHelper> instances;
 
-    private static final int DB_VERSION = 2;
+    private static final int DB_VERSION = 1;
 
     // db to create
     private static final String DB_NAME = isCn ? "DereHelper.db" : "DereHelper_EN.db";

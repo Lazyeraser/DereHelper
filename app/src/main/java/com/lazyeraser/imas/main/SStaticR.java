@@ -59,7 +59,7 @@ public class SStaticR {
             skillTypeMap.put("ダメージガード" ,12);
             skillTypeMap.put("オーバーロード" ,14);
             skillTypeMap.put("コンセントレーション" ,15);
-            skillTypeMap.put("模倣" ,16);
+            skillTypeMap.put("アンコール" ,16);
             skillTypeMap.put("ライフ回復" ,17);
             skillTypeMap.put("スキルブースト" ,20);
             skillTypeMap.put("Cuteフォーカス" ,21);

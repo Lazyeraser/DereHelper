@@ -9,8 +9,6 @@ import android.support.multidex.MultiDex;
 import com.jakewharton.picasso.OkHttp3Downloader;
 import com.lazyeraser.imas.cgss.utils.Utils;
 import com.squareup.picasso.Picasso;
-import com.umeng.analytics.MobclickAgent;
-import com.umeng.commonsdk.UMConfigure;
 
 import java.util.Locale;
 
@@ -37,10 +35,10 @@ public class LIVE extends Application {
         built.setIndicatorsEnabled(false);
         built.setLoggingEnabled(true);
         Picasso.setSingletonInstance(built);
-        UMConfigure.init(this, "5a51be59b27b0a6d310004c2", "ALL", UMConfigure.DEVICE_TYPE_PHONE, null);
+        /*MobclickAgent.setLocation(233, 233);
+        UMConfigure.init(this, "5a51be59b27b0a6d310004c2", "ALL", UMConfigure.DEVICE_TYPE_BOX, null);
         UMConfigure.setEncryptEnabled(true);
-        MobclickAgent.setLocation(0, 0);
-        MobclickAgent.setScenarioType(getApplicationContext(), MobclickAgent.EScenarioType.E_UM_NORMAL);
+        MobclickAgent.setScenarioType(getApplicationContext(), MobclickAgent.EScenarioType.E_UM_NORMAL);*/
     }
 
     @Override

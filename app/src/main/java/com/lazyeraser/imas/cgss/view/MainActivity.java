@@ -36,7 +36,7 @@ import com.lazyeraser.imas.cgss.viewmodel.MainViewModel;
 import com.lazyeraser.imas.derehelper.R;
 import com.lazyeraser.imas.main.BaseActivity;
 import com.lazyeraser.imas.main.BaseFragment;
-import com.umeng.analytics.MobclickAgent;
+
 
 import java.util.HashMap;
 import java.util.Map;
@@ -158,7 +158,7 @@ public class MainActivity extends BaseActivity {
                     }else{
                         mgr.setExact(AlarmManager.RTC, System.currentTimeMillis() + 500, restartIntent);
                     }
-                    MobclickAgent.onKillProcess(this);
+//                    MobclickAgent.onKillProcess(this);
                     System.exit(0);
                 });
         sweetAlertDialog.setCancelable(false);
@@ -198,6 +198,7 @@ public class MainActivity extends BaseActivity {
                 .setCancelClickListener(dialog ->{
                     dialog.dismiss();
                     mainViewModel.haveUpdate.set(false);
+                    Messenger.getDefault().sendNoMsg(TOKEN_DATA_UPDATED);
                 })
                 .setConfirmClickListener(alertDialog -> {
                     alertDialog.dismiss();
