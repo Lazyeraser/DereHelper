@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:bind="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.lazyeraser.imas.cgss.viewmodel.LiveVm" />
+
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="32dp"
+        android:background="@drawable/selector_white"
+        bind:clickCommand="@{viewModel.goBeatMapView}">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="difficulty name"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="16dp"
+            android:textSize="@dimen/txt_1"
+            android:textColor="@color/txtBlack"
+            android:text="@{viewModel.difficultyName}"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="music difficulty level"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="8dp"
+            android:layout_alignParentEnd="true"
+            android:textSize="@dimen/txt_1"
+            android:textColor="@color/txtGray"
+            android:text='@{@string/music_level + viewModel.level}'/>
+
+        <View
+            android:layout_marginStart="8dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/divider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"/>
+
+    </RelativeLayout>
+
+
+
+</layout>

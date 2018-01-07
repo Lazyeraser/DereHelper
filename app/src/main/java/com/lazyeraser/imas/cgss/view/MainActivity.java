@@ -2,12 +2,19 @@ package com.lazyeraser.imas.cgss.view;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.AlarmManager;
 import android.app.Dialog;
+import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.databinding.Observable;
 import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
 import android.databinding.ObservableFloat;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -24,10 +31,12 @@ import com.lazyeraser.imas.cgss.utils.UpdateManager;
 import com.lazyeraser.imas.cgss.view.fragments.AboutFrag;
 import com.lazyeraser.imas.cgss.view.fragments.CardListFrag;
 import com.lazyeraser.imas.cgss.view.fragments.CharaListFrag;
+import com.lazyeraser.imas.cgss.view.fragments.SongListFrag;
 import com.lazyeraser.imas.cgss.viewmodel.MainViewModel;
 import com.lazyeraser.imas.derehelper.R;
 import com.lazyeraser.imas.main.BaseActivity;
 import com.lazyeraser.imas.main.BaseFragment;
+import com.umeng.analytics.MobclickAgent;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -47,13 +56,17 @@ public class MainActivity extends BaseActivity {
 
     private CardListFrag cardListFrag;
     private CharaListFrag charaListFrag;
+    private SongListFrag songListFrag;
     private AboutFrag aboutFrag;
+
 
     private Map<BaseFragment, Boolean> fragments;
 
     private UpdateManager updateManager;
     public final static int TOKEN_DATA_UPDATED = 0x12450;
     private boolean needUpdateHint;
+
+    private BroadcastReceiver broadcastReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,6 +102,9 @@ public class MainActivity extends BaseActivity {
                 case R.id.nav_about:
                     switchFrag(aboutFrag);
                     break;
+                case R.id.nav_song:
+                    switchFrag(songListFrag);
+                    break;
             }
             umi.moveDrawer(drawerLayout, Gravity.START);
             return true;
@@ -99,17 +115,56 @@ public class MainActivity extends BaseActivity {
         fragments = new HashMap<>();
         cardListFrag = new CardListFrag();
         charaListFrag = new CharaListFrag();
+        songListFrag = new SongListFrag();
         aboutFrag = new AboutFrag();
 
         fragments.put(cardListFrag, false);
         fragments.put(charaListFrag, false);
+        fragments.put(songListFrag, false);
         fragments.put(aboutFrag, false);
 
         switchFrag(cardListFrag);
         if (umi.getSP(SharedHelper.KEY_AUTO_APP)){
             checkUpdate(false);
         }
+        // 监听语言设置改变
+        if (broadcastReceiver == null){
+            broadcastReceiver = new BroadcastReceiver() {
+                @Override
+                public void onReceive(Context arg1, Intent arg2) {
+                    if (arg2.getAction().equals(Intent.ACTION_LOCALE_CHANGED)){
+                        askRestart();
+                    }
+                }
+            };
+            IntentFilter intentFilter = new IntentFilter(Intent.ACTION_LOCALE_CHANGED);
+            intentFilter.addAction(Intent.ACTION_LOCALE_CHANGED);
+            registerReceiver(broadcastReceiver, intentFilter);
+        }
     }
+
+    private void askRestart(){
+        SweetAlertDialog sweetAlertDialog = new SweetAlertDialog(mContext, SweetAlertDialog.WARNING_TYPE)
+                .setTitleText(getString(R.string.locale_changed))
+                .setContentText(getString(R.string.locale_changed_need_restart))
+                .setConfirmText("OK")
+                .setConfirmClickListener(dialog -> {
+                    Intent intent = getBaseContext().getPackageManager()
+                            .getLaunchIntentForPackage(getBaseContext().getPackageName());
+                    PendingIntent restartIntent = PendingIntent.getActivity(getApplicationContext(), 0, intent, PendingIntent.FLAG_ONE_SHOT);
+                    AlarmManager mgr = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+                    if(Build.VERSION.SDK_INT < 19){
+                        mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 500, restartIntent);
+                    }else{
+                        mgr.setExact(AlarmManager.RTC, System.currentTimeMillis() + 500, restartIntent);
+                    }
+                    MobclickAgent.onKillProcess(this);
+                    System.exit(0);
+                });
+        sweetAlertDialog.setCancelable(false);
+        sweetAlertDialog.show();
+    }
+
     private void checkUpdate(boolean hint){
         needUpdateHint = hint;
         if (ContextCompat.checkSelfPermission(mContext, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
@@ -162,6 +217,8 @@ public class MainActivity extends BaseActivity {
                     if (manualCheck){
                         umi.dismissLoading();
                         upToDateDialog.show();
+                    }else {
+                        Messenger.getDefault().sendNoMsg(TOKEN_DATA_UPDATED);
                     }
                     mainViewModel.upToDate.set(false);
                     manualCheck = false;
@@ -171,7 +228,7 @@ public class MainActivity extends BaseActivity {
         mainViewModel.haveUpdate.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
             @Override
             public void onPropertyChanged(Observable observable, int i) {
-                if (((ObservableBoolean)observable).get()){
+                if (((ObservableBoolean)observable).get() && !haveUpdateDialog.isShowing()){
                     haveUpdateDialog.show();
                 }
             }
@@ -247,5 +304,14 @@ public class MainActivity extends BaseActivity {
         } else {
             umi.destroyAllActivity();
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (broadcastReceiver != null){
+            unregisterReceiver(broadcastReceiver);
+        }
+
     }
 }

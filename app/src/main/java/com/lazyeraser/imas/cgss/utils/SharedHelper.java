@@ -17,6 +17,10 @@ public class SharedHelper {
     public final static String KEY_AUTO_APP = "autoAppUpdate";
     public final static String KEY_DEFAULT_TRAN = "defaultTranslated";
 
+    public final static String KEY_TruthVersion = "truthVersion";
+    public final static String KEY_MasterDbHash = "masterHash";
+
+    private static boolean inited = false;
     static {
         defaultKeyValues = new HashMap<>();
         defaultKeyValues.put(KEY_AUTO_DATA, "true");
@@ -26,6 +30,8 @@ public class SharedHelper {
 
     public SharedHelper(Context mContext) {
         this.mContext = mContext;
+        if (inited)
+            return;
         SharedPreferences sp = mContext.getSharedPreferences("DereHelperSp", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sp.edit();
         for (String key : defaultKeyValues.keySet()) {
@@ -34,6 +40,7 @@ public class SharedHelper {
             }
         }
         editor.apply();
+        inited = true;
     }
 
     //保存

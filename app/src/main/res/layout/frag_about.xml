@@ -80,8 +80,18 @@
             android:layout_centerHorizontal="true"
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="20dp"
-            android:text="@string/about_author"/>
+            android:text='@{@string/about_author + @string/about_translator}'/>
 
+<!--        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbarThumbVertical="@color/red_btn_bg_color">
+
+            <com.lazyeraser.imas.cgss.utils.view.BeatMapView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </ScrollView>-->
 
     </RelativeLayout>
 

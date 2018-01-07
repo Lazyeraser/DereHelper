@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@drawable/selector_white"
+    android:layout_width="match_parent"
+    android:layout_height="56dp">
+
+
+    <TextView
+        android:id="@+id/setting_opt_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="20dp"
+        android:textSize="@dimen/txt_2"
+        android:textColor="@color/txtBlack"/>
+
+    <android.support.v7.widget.SwitchCompat
+        android:id="@+id/setting_opt_switch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:padding="8dp"
+        android:textColor="@color/txtBlack"
+        android:layout_marginEnd="20dp" />
+
+    <View
+        android:layout_marginStart="16dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"/>
+
+</RelativeLayout>

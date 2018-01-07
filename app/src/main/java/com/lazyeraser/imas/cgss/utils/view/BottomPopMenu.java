@@ -46,12 +46,14 @@ public class BottomPopMenu extends AlertDialog {
         super.onCreate(savedInstanceState);
         setContentView(view);
         Window window = getWindow();
-        window.setWindowAnimations(R.style.Animation_Bottom_Dialog); //设置进出动画
-        window.setGravity(Gravity.BOTTOM);
-        WindowManager.LayoutParams lp = window.getAttributes();
-        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
-        //lp.height = WindowManager.LayoutParams.MATCH_PARENT;
-        window.setAttributes(lp);
+        if (window != null){
+            window.setWindowAnimations(R.style.Animation_Bottom_Dialog); //设置进出动画
+            window.setGravity(Gravity.BOTTOM);
+            WindowManager.LayoutParams lp = window.getAttributes();
+            lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+            //lp.height = WindowManager.LayoutParams.MATCH_PARENT;
+            window.setAttributes(lp);
+        }
     }
 
     private void init(){
@@ -62,23 +64,17 @@ public class BottomPopMenu extends AlertDialog {
         Button cancel = (Button) view.findViewById(R.id.bottom_menu_cancel);
         lp = (LinearLayout.LayoutParams) cancel.getLayoutParams();
         lp.topMargin = 10;
-        cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dismiss();
-            }
-        });
+        cancel.setOnClickListener(v -> dismiss());
     }
 
 
     public BottomPopMenu addBtn(String btnTxt, final int i){
         Button button = new Button(mContext);
         buttonMap.put(i, button);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dismiss();
-                onBtnClickListener.forEach(onBtnClickListener1 -> onBtnClickListener1.onBtnClick(i));
+        button.setOnClickListener(v -> {
+            dismiss();
+            for (OnBtnClickListener btnClickListener : onBtnClickListener) {
+                btnClickListener.onBtnClick(i);
             }
         });
         button.setBackgroundResource(R.drawable.umi_bg_corners_solid);

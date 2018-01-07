@@ -20,7 +20,7 @@
             android:layout_height="50dp"
             android:layout_centerVertical="true"
             bind:placeholder="@{R.drawable.umi_bg_corners_solid}"
-            bind:imageUrl="@{viewModel.cardIconUrl}" />
+            bind:imageUrl="@{viewModel.card.getIcon_image_ref()}" />
 
     </RelativeLayout>
 

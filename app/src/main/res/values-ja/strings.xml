@@ -3,7 +3,7 @@
     <string name="app_name">DereHelper</string><!--ちひろのメモ帳-->
     <string name="other">その他</string>
     <string name="empty">なし</string>
-    <string name="empty_skill">特技なし</string>
+    <string name="skill_empty">特技なし</string>
     <string name="app_exit_hint">もう一度押すとアプリが終了します</string>
     <string name="loading">読み込み中…</string>
     <string name="loading_pic">画像を読み込み中…</string>
@@ -18,8 +18,8 @@
     <string name="empty_filter_choose">全非選択</string>
     <string name="sort_method_0">降順</string>
     <string name="sort_method_1">昇順</string>
-    <string name="no">前</string>
-    <string name="yes">後</string>
+    <string name="evo_before">前</string>
+    <string name="evo_after">後</string>
     <string name="update_hint0">プロデューサーさん、更新データがあります！</string>
     <string name="update_hint1">直ちに更新しますか（Wi-Fi環境で行って下さるようおすすめします）</string>
     <string name="update_hint2">更新しない</string>
@@ -48,7 +48,7 @@
     <string name="skill_chance">発動率</string>
     <string name="skill_effect_length">継続時間</string>
     <string name="skill_centre">センター効果</string>
-    <string name="idol_info">アイドルの詳細情報</string>
+    <string name="idol_info">アイドル</string>
     <string name="info_base">個人情報</string>
     <string name="birthday">誕生日</string>
     <string name="height">身長</string>
@@ -60,8 +60,6 @@
     <string name="hand">利き手</string>
     <string name="name_kana">ふりがな</string>
     <string name="favourite_thing">趣味</string>
-    <string name="unit_weight" translatable="false">kg</string>
-    <string name="unit_height" translatable="false">cm</string>
     <string name="unit_age">歳</string>
     <string name="unit_month">月</string>
     <string name="unit_day">日</string>
@@ -94,15 +92,45 @@
 
     <string name="about_author">Author：@lazyeraser</string>
     <!--Should add a new column for translator--><!--Translator: @lot_gi / @shaguasanshi / @cai_miao-->
-    <string name="about_api" translatable="false">API by: starlight.346lab.org</string>
-    <string name="about_resource" translatable="false">Resource from: hoshimoriuta.kirara.ca</string>
-    <string name="about_open_source" translatable="false">Open source：<u>https://github.com/lazyeraser/DereHelper</u></string>
     <string name="about_copyright">THE iDOLM@STER Cinderella Girls: Starlight Stage</string>
-    <string name="title_activity_settings">Settings</string>
+    <string name="about_translator">\nTranslator(JP): @lot_gi / @shaguasanshi / @cai_miao</string>
 
     <string name="settings_auto_data">自動的にデータを更新します</string>
     <string name="settings_auto_app">自動的にアプリを更新します</string>
     <string name="settings_default_tran">常に「翻訳」をオンにします</string><!--Should be hidden in Japanese-->
     <string name="permission_denied_hint">更新データをダウンロードできるようアクセス許可を得る必要があります</string>
+    <string name="beat_map_view">譜面</string>
+    <string name="get_type">入手方法</string>
+    <string name="get_type_event">イベント</string>
+    <string name="get_type_fes">フェス限ガシャ</string>
+    <string name="get_type_limit">限定ガシャ</string>
+    <string name="get_type_normal">恒常ガシャ</string>
+    <string name="got_online">実装</string>
+    <string name="hand_both">両手</string>
+    <string name="hometown">出身地</string>
+    <string name="idol_mv">出演MV</string>
+    <string name="locale_changed">言語が変更されました</string>
+    <string name="locale_changed_need_restart">アプリの再起動が必要</string>
+    <string name="music_level">楽曲Lv：</string>
+    <string name="network_error_0">通信エラー</string>
+    <string name="network_error_1">通信エラー</string>
+    <string name="network_error_2">解析エラー</string>
+    <string name="network_error_3">エラー</string>
+    <string name="network_error_4">エラー</string>
+    <string name="network_error_5">アンノウンエラー</string>
+    <string name="online_date">実装時間</string>
+    <string name="save_error">保存失敗</string>
+    <string name="update_hint_manifest">譜面リスト更新中</string>
+    <string name="update_error">更新エラー、アプリを再起動してください。</string>
+    <string name="type_unknown">タイプ不明</string>
+    <string name="song_name_kana">ふりがな</string>
+    <string name="song_mv_position">MVポジション</string>
+    <string name="song_list">楽曲リスト</string>
+    <string name="song_info">楽曲情報</string>
+    <string name="song_detail">楽曲</string>
+    <string name="song_description">説明</string>
+    <string name="song_beat_map">譜面</string>
+    <string name="save_to_gallery">アルバムに保存</string>
+    <string name="save_success">保存成功</string>
 
 </resources>

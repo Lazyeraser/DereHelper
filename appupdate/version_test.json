@@ -1,0 +1,10 @@
+{
+	"appname": "DereHelper",
+	"apkname": "DereHelper.apk",
+	"verName": "0.9.5",
+	"url": "http://45.32.111.67:8080/derehelper/DereHelper-0.9.5.apk",
+	"verInfo": "1.新增谱面预览 \n2.卡片列表新增按卡池筛选 \n3.优化图片缓存策略 \n4.修复无网络时的闪退 \n5.新增卡面大图保存到手机相册功能（全屏看图下长按图片）",
+	"verInfo_jp": "日本語対応",
+	"verInfo_en": "",
+	"verCode": 5
+}

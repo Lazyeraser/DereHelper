@@ -38,8 +38,8 @@ public class RetrofitProvider {
         if (okHttpClient == null){
             okHttpClient = new OkHttpClient.Builder()
                     .connectTimeout(60, TimeUnit.SECONDS)
-                    .readTimeout(60, TimeUnit.SECONDS)
-                    .writeTimeout(60, TimeUnit.SECONDS)
+                    .readTimeout(300, TimeUnit.SECONDS)
+                    .writeTimeout(300, TimeUnit.SECONDS)
                     .build();
         }
         if (gson == null){
@@ -52,12 +52,12 @@ public class RetrofitProvider {
                 retrofit_normal = new Retrofit.Builder()
                         .baseUrl(baseUrl)
                         .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                        .addConverterFactory(new Converter.Factory() {
+                        /*.addConverterFactory(new Converter.Factory() {
                             @Override
                             public Converter<ResponseBody, ?> responseBodyConverter(Type type, Annotation[] annotations, Retrofit retrofit) {
                                 return new ToStringConverter();
                             }
-                        })
+                        })*/
                         .client(okHttpClient)
                         .build();
             }

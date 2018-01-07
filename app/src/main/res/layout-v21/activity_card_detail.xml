@@ -58,7 +58,7 @@
                             android:layout_alignParentStart="true"
                             android:layout_alignParentTop="true"
                             bind:clickCommand="@{viewModel.onBigPicClick}"
-                            bind:imageUrl="@{viewModel.cardSpreadUrl}" />
+                            bind:imageUrl="@{viewModel.card.getSpread_image_ref()}" />
 
                     </RelativeLayout>
 
@@ -84,7 +84,7 @@
                                 android:layout_height="50dp"
                                 android:layout_centerVertical="true"
                                 android:layout_marginStart="16dp"
-                                bind:imageUrl="@{viewModel.cardIconUrl}"
+                                bind:imageUrl="@{viewModel.card.getIcon_image_ref()}"
                                 bind:placeholder="@{R.drawable.umi_bg_corners_solid}" />
 
                             <TextView
@@ -407,7 +407,7 @@
                                 android:layout_centerVertical="true"
                                 android:layout_margin="8dp"
                                 android:layout_toStartOf="@+id/ic_to_chara"
-                                bind:imageUrl="@{viewModel.charaIconUrl}"
+                                bind:imageUrl="@{viewModel.card.getChara().getIcon_image_ref()}"
                                 bind:placeholder="@{R.drawable.umi_bg_corners_solid}" />
 
                             <ImageView

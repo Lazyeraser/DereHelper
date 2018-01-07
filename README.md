@@ -6,12 +6,12 @@ Helper Android APP for THE iDOLM@STER Cinderella Girls: Starlight Stage(デレ�
 
 ## API used
 * **Card and Character** http://starlight.346lab.org
-* **Image** https://hoshimoriuta.kirara.ca
+* **Image** https://truecolor.kirara.ca
 
 
 ## Screenshot
 
-![](https://github.com/Lazyeraser/DereHelper/raw/master/art/card_detail.jpg)
+![](https://github.com/Lazyeraser/DereHelper/raw/master/art/card_list.png)
 
 ## Features
 * Card

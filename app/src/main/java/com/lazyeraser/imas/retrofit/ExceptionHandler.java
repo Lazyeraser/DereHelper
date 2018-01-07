@@ -1,8 +1,10 @@
 package com.lazyeraser.imas.retrofit;
 
 import android.net.ParseException;
+import android.support.annotation.StringRes;
 
 import com.google.gson.JsonParseException;
+import com.lazyeraser.imas.derehelper.R;
 import com.lazyeraser.imas.main.BaseActivity;
 
 import org.apache.http.conn.ConnectTimeoutException;
@@ -25,8 +27,8 @@ public class ExceptionHandler {
     private static final int GATEWAY_TIMEOUT = 504;
 
     public static void handleException(Throwable e) {
-        BaseActivity.umi.dismissLoading();
         ResponseThrowable ex;
+        @StringRes int msg = R.string.network_error_0;
         if (e instanceof HttpException) {
             HttpException httpException = (HttpException) e;
             ex = new ResponseThrowable(e, ERROR.HTTP_ERROR);
@@ -41,6 +43,7 @@ public class ExceptionHandler {
                 case SERVICE_UNAVAILABLE:
                 default:
                     ex.message = "网络错误";
+                    msg = R.string.network_error_0;
                     break;
             }
         } else if (e instanceof ServerException) {
@@ -53,36 +56,38 @@ public class ExceptionHandler {
                 || e instanceof ParseException) {
             ex = new ResponseThrowable(e, ERROR.PARSE_ERROR);
             ex.message = "解析错误";
-
+            msg = R.string.network_error_2;
 
         } else if (e instanceof ConnectException) {
-            ex = new ResponseThrowable(e, ERROR.NETWORD_ERROR);
+            ex = new ResponseThrowable(e, ERROR.NETWORK_ERROR);
             ex.message = "连接失败";
-
+            msg = R.string.network_error_1;
 
         } else if (e instanceof javax.net.ssl.SSLHandshakeException) {
             ex = new ResponseThrowable(e, ERROR.SSL_ERROR);
             ex.message = "证书验证失败";
-
+            msg = R.string.network_error_3;
 
         } else if (e instanceof ConnectTimeoutException){
             ex = new ResponseThrowable(e, ERROR.TIMEOUT_ERROR);
             ex.message = "连接超时";
-
+            msg = R.string.network_error_4;
 
         } else if (e instanceof java.net.SocketTimeoutException) {
             ex = new ResponseThrowable(e, ERROR.TIMEOUT_ERROR);
             ex.message = "连接超时";
-
+            msg = R.string.network_error_4;
 
         }
         else {
             ex = new ResponseThrowable(e, ERROR.UNKNOWN);
             ex.message = "未知错误";
-
+            msg = R.string.network_error_5;
 
         }
-        BaseActivity.umi.makeToast(ex.message);
+        if (msg != R.string.network_error_5){
+            BaseActivity.umi.makeToast(msg);
+        }
         ex.printStackTrace();
     }
 
@@ -90,49 +95,49 @@ public class ExceptionHandler {
     /**
      * 约定异常
      */
-    class ERROR {
+    private class ERROR {
         /**
          * 未知错误
          */
-        public static final int UNKNOWN = 1000;
+        static final int UNKNOWN = 1000;
         /**
          * 解析错误
          */
-        public static final int PARSE_ERROR = 1001;
+        static final int PARSE_ERROR = 1001;
         /**
          * 网络错误
          */
-        public static final int NETWORD_ERROR = 1002;
+        static final int NETWORK_ERROR = 1002;
         /**
          * 协议出错
          */
-        public static final int HTTP_ERROR = 1003;
+        static final int HTTP_ERROR = 1003;
 
         /**
          * 证书出错
          */
-        public static final int SSL_ERROR = 1005;
+        static final int SSL_ERROR = 1005;
 
         /**
          * 连接超时
          */
-        public static final int TIMEOUT_ERROR = 1006;
+        static final int TIMEOUT_ERROR = 1006;
     }
 
-    public static class ResponseThrowable extends Exception {
+    private static class ResponseThrowable extends Exception {
 
-        public int code;
-        public String message;
+        int code;
+        String message;
 
-        public ResponseThrowable(Throwable throwable, int code) {
+        ResponseThrowable(Throwable throwable, int code) {
             super(throwable);
             this.code = code;
         }
     }
 
-    public class ServerException extends RuntimeException {
-        public int code;
-        public String message;
+    private class ServerException extends RuntimeException {
+        int code;
+        String message;
     }
 }
 

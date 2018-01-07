@@ -8,6 +8,9 @@ import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.annotation.StringRes;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.util.Pair;
 import android.support.v4.widget.DrawerLayout;
 import android.text.TextUtils;
 import android.view.View;
@@ -65,7 +68,11 @@ public class Base {
     }
     //弹Toast
     public void makeToast(String str) {
-        Toast.makeText(baseActivity, str, Toast.LENGTH_SHORT).show();
+        try {
+            Toast.makeText(baseActivity, str, Toast.LENGTH_SHORT).show();
+        }catch (Exception e){
+            //
+        }
     }
 
     //弹SnackBar
@@ -133,6 +140,37 @@ public class Base {
         intent.setClass(baseActivity, dst);
         baseActivity.startActivityForResult(intent, requestCode);
     }
+
+    @SafeVarargs
+    public final void jumpWithTran(BaseActivity mContext, Class dst, View view, String name, Pair<String, String>... data) {
+        Pair<Intent, Bundle> pair = prepareTran(mContext, dst, view, name, data);
+        ActivityCompat.startActivity(mContext, pair.first, pair.second);
+    }
+
+    @SafeVarargs
+    public final void jumpForResultWithTran(int code, BaseActivity mContext, Class dst, View view, String name, Pair<String, String>... data) {
+        Pair<Intent, Bundle> pair = prepareTran(mContext, dst, view, name, data);
+        ActivityCompat.startActivityForResult(mContext, pair.first, code, pair.second);
+    }
+
+    @SafeVarargs
+    private final Pair<Intent, Bundle> prepareTran(BaseActivity mContext, Class dst, View view, String name, Pair<String, String>... data) {
+        ActivityOptionsCompat transitionActivityOptions = ActivityOptionsCompat.makeSceneTransitionAnimation(mContext, view, name);
+        Bundle bundle = transitionActivityOptions.toBundle();
+        if (bundle == null) {
+            bundle = new Bundle();
+        }
+        for (Pair<String, String> p : data) {
+            bundle.putString(p.first, p.second);
+        }
+        Intent intent = new Intent();
+        intent.setClass(mContext, dst);
+        intent.putExtras(bundle);
+        return new Pair<>(intent, bundle);
+    }
+
+
+
 
     public String getIntentString(String key) {
         try {

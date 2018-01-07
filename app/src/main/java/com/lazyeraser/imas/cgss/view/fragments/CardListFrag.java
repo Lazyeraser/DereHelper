@@ -81,11 +81,11 @@ public class CardListFrag extends BaseFragment {
         List<String> type = new ArrayList<>();
         List<String> stt = new ArrayList<>();
         skillTypeList = new ArrayList<>();
-        List<String> evo = Arrays.asList(getString(R.string.no), getString(R.string.yes));
+        List<String> evo = Arrays.asList(getString(R.string.evo_before), getString(R.string.evo_after));
         List<String> stm = Arrays.asList(getString(R.string.sort_method_0), getString(R.string.sort_method_1));
         rare.addAll(SStaticR.rarityMap_lite.values());
         type.addAll(SStaticR.typeMap.values());
-        stt.addAll(SStaticR.sortTypeMap.keySet());
+        stt.addAll(SStaticR.sortTypeMap_Card.keySet());
         skillTypeList.addAll(SStaticR.skillTypeMap.keySet());
 
         rareChoose.setList(rare);
@@ -105,5 +105,9 @@ public class CardListFrag extends BaseFragment {
         evoC.setIndexItemSelected(0); // default before evo
         sttC.setIndexItemSelected(0);
         stmC.setIndexItemSelected(0);
+
+        MultiLineChooseLayout getTypeC = (MultiLineChooseLayout)getBView(R.id.getTypeChoose);
+        getTypeC.setResList(CardListViewModel.getTypeMap_UI.values());
+        getTypeC.selectAll();
     }
 }

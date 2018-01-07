@@ -22,7 +22,7 @@
             android:layout_centerVertical="true"
             android:layout_marginStart="16dp"
             bind:placeholder="@{R.drawable.umi_bg_corners_solid}"
-            bind:imageUrl="@{viewModel.charaIconUrl}" />
+            bind:imageUrl="@{viewModel.chara.getIcon_image_ref()}" />
 
         <TextView
             android:id="@+id/item_txt"

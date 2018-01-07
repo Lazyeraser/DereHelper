@@ -47,7 +47,7 @@ public class LZ4Helper {
         return baos.toByteArray();
     }
 
-    public static byte[] uncompressCGSSDB(byte[] src) throws IOException {
+    public static byte[] uncompressCGSS(byte[] src) throws IOException {
         byte[] buf = new byte[4];
         System.arraycopy(src, 4, buf, 0, 4);
         int destL = getInt(buf, 0);
@@ -59,9 +59,7 @@ public class LZ4Helper {
 
         LZ4Factory factory = LZ4Factory.fastestInstance();
         LZ4FastDecompressor decompresser = factory.fastDecompressor();
-        Utils.mPrint("size:::" + decompresser.decompress(source, destL).length);
         decompresser.decompress(source, dest, destL);
-        FileHelper.writeFile(dest, "/sdcard/cgss", "song.mdb");
         return dest;
     }
 

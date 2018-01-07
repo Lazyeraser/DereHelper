@@ -1,0 +1,364 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:bind="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.lazyeraser.imas.cgss.viewmodel.SongVM" />
+
+        <import type="android.view.View" />
+
+        <import type="com.lazyeraser.imas.derehelper.R" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/back"
+        android:fitsSystemWindows="true"
+        android:focusable="true"
+        android:focusableInTouchMode="true">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    android:background="@color/white">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <ImageView
+                            android:id="@+id/song_jacket"
+                            android:layout_width="120dp"
+                            android:layout_height="120dp"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="16dp"
+                            bind:imageUrl="@{viewModel.songJacketUrl}"
+                            bind:placeholder="@{R.drawable.umi_bg_corners_solid}" />
+
+                        <TextView
+                            android:id="@+id/item_txt"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignTop="@id/song_jacket"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginTop="4dp"
+                            android:layout_toEndOf="@+id/song_jacket"
+                            android:hint="song name"
+                            android:text="@{viewModel.song.name}"
+                            android:textColor="@color/txtBlack"
+                            android:textSize="@dimen/txt_3" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/item_txt"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginTop="4dp"
+                            android:layout_toEndOf="@+id/song_jacket"
+                            android:hint="online date"
+                            android:text='@{String.valueOf(viewModel.song.start_date).substring(0, 10) + " " +@string/got_online}'
+                            android:textColor="@color/txtGray"
+                            android:textSize="@dimen/txt_2" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignBottom="@id/song_jacket"
+                            android:layout_marginBottom="4dp"
+                            android:layout_marginStart="8dp"
+                            android:layout_toEndOf="@+id/song_jacket"
+                            android:hint="bpm"
+                            android:text='@{@string/bpm + " " + viewModel.song.bpm}'
+                            android:textColor="@color/txtGray"
+                            android:textSize="@dimen/txt_3" />
+
+                        <ImageView
+                            android:id="@+id/song_icon"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginEnd="16dp"
+                            bind:imgR="@{viewModel.songIcon}" />
+
+                    </RelativeLayout>
+
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/card_view_margin"
+                    android:layout_marginStart="@dimen/card_view_margin"
+                    android:layout_marginTop="8dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="10dp"
+                                android:text="@string/song_beat_map"
+                                android:textColor="@color/txtBlack"
+                                android:textSize="@dimen/txt_2" />
+
+                        </LinearLayout>
+
+                        <com.lazyeraser.imas.cgss.utils.view.ListViewForScrollView
+                            android:id="@+id/beat_map_list"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:divider="@null"
+                            android:dividerHeight="0dp"
+                            bind:itemView="@{viewModel.itemView}"
+                            bind:items="@{viewModel.itemViewModel}"
+                            android:layout_marginBottom="16dp"/>
+
+                    </LinearLayout>
+
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/card_view_margin"
+                    android:layout_marginStart="@dimen/card_view_margin"
+                    android:layout_marginTop="8dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="10dp"
+                                android:text="@string/song_info"
+                                android:textColor="@color/txtBlack"
+                                android:textSize="@dimen/txt_2" />
+
+                        </LinearLayout>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="10dp"
+                            android:text="@string/song_name_kana"
+                            android:textColor="@color/txtBlack"
+                            android:textSize="@dimen/txt_1" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginStart="10dp"
+                            android:hint="@string/empty"
+                            android:text="@{viewModel.song.name_kana}"
+                            android:textColor="@color/txtGray"
+                            android:textSize="@dimen/txt_1" />
+
+                        <!--<TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="10dp"
+                            android:text="@string/song_composer"
+                            android:textColor="@color/txtBlack"
+                            android:textSize="@dimen/txt_1" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginStart="10dp"
+                            android:hint="@string/empty"
+                            android:text="@{viewModel.song.composer}"
+                            android:textColor="@color/txtGray"
+                            android:textSize="@dimen/txt_1" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="10dp"
+                            android:text="@string/song_lyricist"
+                            android:textColor="@color/txtBlack"
+                            android:textSize="@dimen/txt_1" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginStart="10dp"
+                            android:hint="@string/empty"
+                            android:text='@{viewModel.song.lyricist}'
+                            android:textColor="@color/txtGray"
+                            android:textSize="@dimen/txt_1" />-->
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="10dp"
+                            android:text="@string/song_description"
+                            android:textColor="@color/txtBlack"
+                            android:textSize="@dimen/txt_1" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="16dp"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginStart="10dp"
+                            android:hint="@string/empty"
+                            android:text="@{viewModel.song.discription}"
+                            android:textColor="@color/txtGray"
+                            android:textSize="@dimen/txt_1" />
+
+
+                    </LinearLayout>
+
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginEnd="@dimen/card_view_margin"
+                    android:layout_marginStart="@dimen/card_view_margin"
+                    android:layout_marginTop="8dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="10dp"
+                            android:text="@string/song_mv_position"
+                            android:textColor="@color/txtBlack"
+                            android:textSize="@dimen/txt_2" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="10dp"
+                            android:layout_marginEnd="16dp"
+                            android:layout_marginStart="16dp"
+                            android:gravity="center">
+
+                            <RelativeLayout
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1">
+
+                                <ImageView
+                                    android:layout_width="50dp"
+                                    android:layout_height="50dp"
+                                    android:layout_centerHorizontal="true"
+                                    bind:charaID="@{viewModel.song.chara_position_4}"
+                                    bind:goDetailWithCharaId="@{viewModel.song.chara_position_4}"
+                                    bind:placeholder="@{R.drawable.umi_bg_corners_solid}" />
+
+                            </RelativeLayout>
+
+                            <RelativeLayout
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1">
+
+                                <ImageView
+                                    android:layout_width="50dp"
+                                    android:layout_height="50dp"
+                                    android:layout_centerHorizontal="true"
+                                    bind:charaID="@{viewModel.song.chara_position_2}"
+                                    bind:goDetailWithCharaId="@{viewModel.song.chara_position_2}"
+                                    bind:placeholder="@{R.drawable.umi_bg_corners_solid}" />
+
+                            </RelativeLayout>
+
+                            <RelativeLayout
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1">
+
+                                <ImageView
+                                    android:layout_width="50dp"
+                                    android:layout_height="50dp"
+                                    android:layout_centerHorizontal="true"
+                                    bind:charaID="@{viewModel.song.chara_position_1}"
+                                    bind:goDetailWithCharaId="@{viewModel.song.chara_position_1}"
+                                    bind:placeholder="@{R.drawable.umi_bg_corners_solid}" />
+
+                            </RelativeLayout>
+
+                            <RelativeLayout
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1">
+
+                                <ImageView
+                                    android:layout_width="50dp"
+                                    android:layout_height="50dp"
+                                    android:layout_centerHorizontal="true"
+                                    bind:charaID="@{viewModel.song.chara_position_3}"
+                                    bind:goDetailWithCharaId="@{viewModel.song.chara_position_3}"
+                                    bind:placeholder="@{R.drawable.umi_bg_corners_solid}" />
+
+                            </RelativeLayout>
+
+                            <RelativeLayout
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1">
+
+                                <ImageView
+                                    android:layout_width="50dp"
+                                    android:layout_height="50dp"
+                                    android:layout_centerHorizontal="true"
+                                    bind:charaID="@{viewModel.song.chara_position_5}"
+                                    bind:goDetailWithCharaId="@{viewModel.song.chara_position_5}"
+                                    bind:placeholder="@{R.drawable.umi_bg_corners_solid}" />
+
+                            </RelativeLayout>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </android.support.v7.widget.CardView>
+
+            </LinearLayout>
+
+        </ScrollView>
+
+    </RelativeLayout>
+
+
+</layout>

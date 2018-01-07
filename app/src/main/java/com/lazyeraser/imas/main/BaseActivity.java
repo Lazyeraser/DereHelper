@@ -19,6 +19,7 @@ import com.lazyeraser.imas.cgss.utils.Utils;
 import com.lazyeraser.imas.derehelper.R;
 import com.squareup.picasso.Picasso;
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
+import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -230,5 +231,17 @@ public class BaseActivity extends RxAppCompatActivity implements View.OnClickLis
 
     public interface OnBackBtnClickedListener {
         boolean onClick();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MobclickAgent.onResume(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(this);
     }
 }

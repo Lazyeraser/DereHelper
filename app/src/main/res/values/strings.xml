@@ -3,7 +3,7 @@
     <string name="app_name">千寻记事本</string>
     <string name="other">其他</string>
     <string name="empty">无</string>
-    <string name="empty_skill">无技能</string>
+    <string name="skill_empty">无技能</string>
     <string name="app_exit_hint">再按一次退出程序</string>
     <string name="loading">加载中…</string>
     <string name="loading_pic">大图加载中…</string>
@@ -18,8 +18,8 @@
     <string name="empty_filter_choose">清空</string>
     <string name="sort_method_0">降序</string>
     <string name="sort_method_1">升序</string>
-    <string name="no">否</string>
-    <string name="yes">是</string>
+    <string name="evo_before">前</string>
+    <string name="evo_after">后</string>
     <string name="update_hint0">Producer，有数据更新</string>
     <string name="update_hint1">要现在更新吗（建议在wifi环境下进行）</string>
     <string name="update_hint2">下次再说</string>
@@ -98,11 +98,54 @@
     <string name="about_resource" translatable="false">Resource from: hoshimoriuta.kirara.ca</string>
     <string name="about_open_source" translatable="false">Open source：<u>https://github.com/lazyeraser/DereHelper</u></string>
     <string name="about_copyright">本APP非官方，与THE iDOLM@STER Cinderella Girls: Starlight Stage(デレステ) 无任何直接关联。游戏内素材及数据的版权所属为BANDAI NAMCO Entertainment Inc.</string>
-    <string name="title_activity_settings">Settings</string>
 
     <string name="settings_auto_data">自动检查数据更新</string>
     <string name="settings_auto_app">自动检查APP更新</string>
     <string name="settings_default_tran">默认开启翻译</string>
     <string name="permission_denied_hint">Producer，请授予千寻权限以正常下载自动更新哦</string>
+
+
+    <!--0.9.6-->
+    <string name="bpm" translatable="false">BPM</string>
+
+    <string name="about_translator">\n</string>
+    <string name="hand_both">双手</string>
+    <string name="hometown">娘家</string>
+    <string name="update_hint_manifest">更新谱面清单中</string>
+
+    <string name="locale_changed">语言已变更</string>
+    <string name="locale_changed_need_restart">APP需要重启</string>
+
+    <string name="network_error_0">网络错误</string>
+    <string name="network_error_1">网络连接失败</string>
+    <string name="network_error_2">解析错误</string>
+    <string name="network_error_3">证书验证失败</string>
+    <string name="network_error_4">网络连接超时</string>
+    <string name="network_error_5">未知错误</string>
+
+    <string name="beat_map_view">谱面查看</string>
+    <string name="song_list">歌曲列表</string>
+    <string name="song_detail">歌曲详情</string>
+    <string name="song_info">歌曲信息</string>
+    <string name="song_beat_map">谱面</string>
+    <string name="song_name_kana">歌名(平假名)</string>
+    <string name="song_description">简介</string>
+    <string name="song_mv_position">演出站位</string>
+    <string name="online_date">实装日期</string>
+    <string name="got_online">实装</string>
+    <string name="music_level">歌曲Lv：</string>
+
+    <string name="get_type">卡池</string>
+    <string name="get_type_normal">常驻</string>
+    <string name="get_type_limit">限定</string>
+    <string name="get_type_fes">FES限定</string>
+    <string name="get_type_event">活动</string>
+
+    <string name="type_unknown">未知类型</string>
+    <string name="save_to_gallery">保存到相册</string>
+    <string name="save_success">保存成功</string>
+    <string name="save_error">保存失败</string>
+
+    <string name="idol_mv">出演MV</string>
 
 </resources>

@@ -11,6 +11,10 @@
                 android:id="@+id/nav_idols"
                 android:icon="@drawable/ic_person_black_24dp"
                 android:title="@string/chara_list" />
+            <item
+                android:id="@+id/nav_song"
+                android:icon="@drawable/ic_library_music_black_24dp"
+                android:title="@string/beat_map_view" />
         </menu>
     </item>
 

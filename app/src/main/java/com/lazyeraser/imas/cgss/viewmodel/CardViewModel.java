@@ -1,6 +1,7 @@
 package com.lazyeraser.imas.cgss.viewmodel;
 
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
@@ -43,14 +44,14 @@ import rx.schedulers.Schedulers;
 public class CardViewModel extends BaseViewModel {
 
     public final ObservableField<Card> card = new ObservableField<>();
-    public final ObservableField<String> cardIconUrl = new ObservableField<>();
-    public final ObservableField<String> cardSpreadUrl = new ObservableField<>();
+//    public final ObservableField<String> cardIconUrl = new ObservableField<>();
+//    public final ObservableField<String> cardSpreadUrl = new ObservableField<>();
     public final ObservableField<String> cardTitle = new ObservableField<>();
     public final ObservableField<String> cardRare = new ObservableField<>();
     public final ObservableField<String> skill = new ObservableField<>();
     public final ObservableField<String> skillChance = new ObservableField<>();
     public final ObservableField<String> skillLength = new ObservableField<>();
-    public final ObservableField<String> charaIconUrl = new ObservableField<>();
+//    public final ObservableField<String> charaIconUrl = new ObservableField<>();
 
 
 
@@ -64,7 +65,7 @@ public class CardViewModel extends BaseViewModel {
         if (bundle == null){
             bundle = new Bundle();
         }
-        bundle.putString("picUrl", cardSpreadUrl.get());
+        bundle.putString("picUrl", card.get().getSpread_image_ref());
         Intent intent = new Intent();
         intent.setClass(mContext, FullScreenImageActivity.class);
         intent.putExtras(bundle);
@@ -85,7 +86,7 @@ public class CardViewModel extends BaseViewModel {
         ActivityCompat.startActivity(mContext, intent, bundle);
     });
 
-    public final ObservableBoolean tran = new ObservableBoolean(umi.getSP(SharedHelper.KEY_DEFAULT_TRAN)); // 是否翻译
+    public final ObservableBoolean tran = new ObservableBoolean(umi.getSP(SharedHelper.KEY_DEFAULT_TRAN) && !SStaticR.isJp); // 是否翻译
 
     public final ReplyCommand<Boolean> onTranSwitchCheck = new ReplyCommand<>(this::onTranSwitchChanged);
 
@@ -155,52 +156,38 @@ public class CardViewModel extends BaseViewModel {
     public CardViewModel(BaseActivity context, Card theCard) {
         super(context);
         theCard.setName_only(theCard.getName_only().replace("＋", ""));
+        init(theCard, context);
+        /*try {
+            Observable.just(DBHelper.with(mContext, DBHelper.DB_NAME_master).getBean("card_data", Card.class, "id", String.valueOf(theCard.getId())))
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(data -> {
+                        Card card = (Card)data;
+                        if (theCard.getSkill() != null)
+                            card.setSkill(theCard.getSkill());
+                        card.setChara(theCard.getChara());
+                        card.setRarity(theCard.getRarity());
+                        if (theCard.getLead_skill() != null)
+                        card.setLead_skill(theCard.getLead_skill());
+                        init(card, context);
+                    });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }*/
+
+    }
+
+    private void init(Card theCard, Context context){
         card.set(theCard);
         originCard = theCard;
 //        theCard.getLead_skill().getName()
-        cardIconUrl.set(SStaticR.SERVER_URL_RES + "/icon_card/" + this.card.get().getId() + ".png");
-        cardSpreadUrl.set(SStaticR.SERVER_URL_RES + "/spread/" + this.card.get().getId() + ".png");
+//        cardIconUrl.set(SStaticR.SERVER_URL_RES + "/icon_card/" + this.card.get().getId() + ".png");
+//        cardSpreadUrl.set(SStaticR.SERVER_URL_RES + "/spread/" + this.card.get().getId() + ".png");
         cardTitle.set("[" + Utils.emptyLessString(context, card.get().getTitle()) + "]");
         cardRare.set(SStaticR.rarityMap.get(card.get().getRarity().getRarity()));
-        if (theCard.getSkill() == null){
-            skill.set(mContext.getString(R.string.empty));
-        }else {
-            // 组装技能信息
-            StringBuilder skillB = new StringBuilder();
-            skillB.append(theCard.getSkill().getCondition());
-            skillB.append("s/");
-            switch (theCard.getSkill().getProc_chance().get(0)){
-                case 3000:
-                    skillB.append(mContext.getString(R.string.low));
-                    break;
-                case 3500:
-                    skillB.append(mContext.getString(R.string.middle));
-                    break;
-                case 4000:
-                    skillB.append(mContext.getString(R.string.high));
-                    break;
-                default:
-                    skillB.append(mContext.getString(R.string.other));
-                    break;
-            }
-            skillB.append("/");
-            if (theCard.getSkill().getValue() > 100){
-                skillB.append(theCard.getSkill().getValue() - 100);
-                if (theCard.getSkill().getValue_2() <= 100){
-                    skillB.append("%/");
-                }else {
-                    skillB.append("%|");
-                    skillB.append(theCard.getSkill().getValue_2() - 100);
-                    skillB.append("%/");
-                }
-            }
-            skillB.append(theCard.getSkill().getSkill_type());
-            skill.set(skillB.toString());
 
-
-        }
         if (context instanceof CardDetailActivity){
-            charaIconUrl.set(SStaticR.SERVER_URL_RES + "/icon_char/" + this.card.get().getChara_id() + ".png");
+//            charaIconUrl.set(SStaticR.SERVER_URL_RES + "/icon_char/" + this.card.get().getChara_id() + ".png");
 
             List<String> stringsNeedTranslation = new ArrayList<>();
             if (theCard.getSkill() != null){
@@ -232,9 +219,7 @@ public class CardViewModel extends BaseViewModel {
             stringsToTranslate = new ArrayList<>();
             Observable<Map<String, String>> translationData = Observable.create(subscriber -> {
                 subscriber.onNext(DBHelper.with(mContext)
-                        .queryTable(DBHelper.TABLE_NAME_Translation)
-                        .column("translate")
-                        .where("origin", stringsNeedTranslation));
+                        .where(DBHelper.TABLE_NAME_Translation, "translate", "origin", stringsNeedTranslation));
                 subscriber.onCompleted();
             });
             translationData.subscribe(map -> {
@@ -250,8 +235,47 @@ public class CardViewModel extends BaseViewModel {
                     stringsToTranslate.addAll(stringsNeedTranslation);
                 }
             });
+        }else {
+            if (theCard.getSkill() == null){
+                skill.set(mContext.getString(R.string.skill_empty));
+            }else {
+                // 组装技能信息
+                StringBuilder skillB = new StringBuilder();
+                skillB.append(theCard.getSkill().getCondition());
+                skillB.append("s/");
+                switch (theCard.getSkill().getProc_chance().get(0)){
+                    case 3000:
+                        skillB.append(mContext.getString(R.string.low));
+                        break;
+                    case 3500:
+                        skillB.append(mContext.getString(R.string.middle));
+                        break;
+                    case 4000:
+                        skillB.append(mContext.getString(R.string.high));
+                        break;
+                    default:
+                        skillB.append(mContext.getString(R.string.other));
+                        break;
+                }
+                skillB.append("/");
+                if (theCard.getSkill().getValue() > 100){
+                    skillB.append(theCard.getSkill().getValue() - 100);
+                    if (theCard.getSkill().getValue_2() <= 100){
+                        skillB.append("%/");
+                    }else {
+                        skillB.append("%|");
+                        skillB.append(theCard.getSkill().getValue_2() - 100);
+                        skillB.append("%/");
+                    }
+                }
+                String skillType = SStaticR.skillTypeNameMap.containsKey(theCard.getSkill().getSkill_type_id()) ?
+                        SStaticR.skillTypeNameMap.get(theCard.getSkill().getSkill_type_id()) : mContext.getString(R.string.type_unknown);
+                skillB.append(skillType);
+                skill.set(skillB.toString());
+            }
         }
-
     }
+
+
 
 }

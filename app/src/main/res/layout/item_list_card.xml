@@ -31,7 +31,7 @@
             android:layout_height="50dp"
             android:layout_marginStart="16dp"
             bind:placeholder="@{R.drawable.umi_bg_corners_solid}"
-            bind:imageUrl="@{viewModel.cardIconUrl}"
+            bind:imageUrl="@{viewModel.card.getIcon_image_ref()}"
             android:layout_centerVertical="true"
             android:layout_alignParentStart="true" />
 

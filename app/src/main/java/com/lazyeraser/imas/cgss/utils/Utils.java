@@ -2,7 +2,14 @@ package com.lazyeraser.imas.cgss.utils;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.os.Environment;
+import android.provider.MediaStore;
+import android.support.annotation.AnyRes;
 import android.support.design.widget.Snackbar;
 import android.text.TextUtils;
 import android.view.Gravity;
@@ -13,10 +20,18 @@ import android.widget.GridView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.lazyeraser.imas.derehelper.R;
 import com.lazyeraser.imas.main.SStaticR;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Locale;
 
 /**
@@ -85,6 +100,25 @@ public class Utils {
         listView.setEmptyView(emptyView);
     }
 
+    public static void setListViewHeightBasedOnChildren(ListView listView) {
+        ListAdapter listAdapter = listView.getAdapter();
+        if (listAdapter == null) {
+            // pre-condition
+            return;
+        }
+
+        int totalHeight = 0;
+        for (int i = 0; i < listAdapter.getCount(); i++) {
+            View listItem = listAdapter.getView(i, null, listView);
+            listItem.measure(0, 0);
+            totalHeight += listItem.getMeasuredHeight();
+        }
+
+        ViewGroup.LayoutParams params = listView.getLayoutParams();
+        params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
+        listView.setLayoutParams(params);
+    }
+
     public static void setGridViewHeightBasedOnChildren(GridView gridView, int colNum) {
         ListAdapter listAdapter = gridView.getAdapter();
         if (listAdapter == null) {
@@ -105,4 +139,65 @@ public class Utils {
         gridView.setLayoutParams(params);
     }
 
+    public static Bitmap readBitMap(Context context, @AnyRes int resId) {
+
+        BitmapFactory.Options opt = new BitmapFactory.Options();
+
+        opt.inPreferredConfig = Bitmap.Config.RGB_565;
+
+        opt.inPurgeable = true;
+
+        opt.inInputShareable = true;
+
+        InputStream is = context.getResources().openRawResource(resId);
+
+        return BitmapFactory.decodeStream(is, null, opt);
+    }
+    public static Date stringToDate(String strDate, String pattern) {
+
+        if (pattern == null) {
+            pattern = "yyyy-MM-dd HH:mm:ss";
+        }
+        try {
+            return new SimpleDateFormat(pattern).parse(strDate);
+        } catch (Exception e) {
+            return new Date();
+        }
+    }
+
+    public static String formatDate(Date date) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String formatDate;
+        formatDate = sdf.format(date);
+        return formatDate;
+    }
+
+    public static boolean saveImageToGallery(Context context, Bitmap bmp) {
+        // 首先保存图片
+        File appDir = new File(Environment.getExternalStorageDirectory(), "CGSS");
+        if (!appDir.exists()) {
+            appDir.mkdir();
+        }
+        String fileName = "Dere_" + System.currentTimeMillis() + ".png";
+        File file = new File(appDir, fileName);
+        try {
+            FileOutputStream fos = new FileOutputStream(file);
+            bmp.compress(Bitmap.CompressFormat.PNG, 100, fos);
+            fos.flush();
+            fos.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+        // 其次把文件插入到系统图库
+        /*try {
+            MediaStore.Images.Media.insertImage(context.getContentResolver(),
+                    file.getAbsolutePath(), fileName, null);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }*/
+        // 最后通知图库更新
+        context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse("file://" + file.getAbsolutePath())));
+        return true;
+    }
 }

@@ -11,6 +11,7 @@ import android.graphics.Rect;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.v7.widget.AppCompatTextView;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.TypedValue;
@@ -23,6 +24,8 @@ import android.widget.TextView;
 import com.lazyeraser.imas.derehelper.R;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -332,6 +335,18 @@ public class MultiLineChooseLayout extends ViewGroup {
         setList(tagList.toArray(new String[tagList.size()]));
     }
 
+    public void setList(Collection<String> tagList) {
+        setList(tagList.toArray(new String[tagList.size()]));
+    }
+
+    public void setResList(Collection<Integer> tagList) {
+        List<String> strings = new LinkedList<>();
+        for (Integer integer : tagList) {
+            strings.add(getContext().getString(integer));
+        }
+        setList(strings);
+    }
+
     /**
      * 设置数据源
      *
@@ -575,6 +590,12 @@ public class MultiLineChooseLayout extends ViewGroup {
         }
     }
 
+    public void selectAll(){
+        for (int i = 0; i < getChildCount(); i++) {
+            setIndexItemSelected(i);
+        }
+    }
+
     /**
      * 只展示，不做事件响应
      */
@@ -714,7 +735,7 @@ public class MultiLineChooseLayout extends ViewGroup {
         }
     }
 
-    class ItemView extends TextView {
+    class ItemView extends AppCompatTextView {
 
         private Context mContext;
 

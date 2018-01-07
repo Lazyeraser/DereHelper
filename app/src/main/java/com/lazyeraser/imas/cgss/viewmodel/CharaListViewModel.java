@@ -86,9 +86,7 @@ public class CharaListViewModel extends BaseViewModel{
         itemViewModel.clear();
         umi.showLoading();
         Observable.just(DBHelper.with(mContext)
-                .queryTable(DBHelper.TABLE_NAME_Chara_Detail)
-                .column("json")
-                .go())
+                .getAll(DBHelper.TABLE_NAME_Chara_Detail, "json"))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(js -> Observable.create((Observable.OnSubscribe<Map<Chara, CharaViewModel>>) subscriber -> {

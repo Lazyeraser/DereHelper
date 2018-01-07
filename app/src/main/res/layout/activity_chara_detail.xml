@@ -7,7 +7,9 @@
         <variable
             name="viewModel"
             type="com.lazyeraser.imas.cgss.viewmodel.CharaViewModel" />
-
+        <variable
+            name="viewModel2"
+            type="com.lazyeraser.imas.cgss.viewmodel.SongListVM" />
         <import type="android.view.View" />
 
         <import type="com.lazyeraser.imas.derehelper.R" />
@@ -35,17 +37,17 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <com.zhy.android.percent.support.PercentLinearLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <View
+            <!--    <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_alignParentBottom="true"
                     android:layout_marginStart="5dp"
-                    android:background="@color/divider" />
+                    android:background="@color/divider" />-->
 
                 <android.support.v7.widget.CardView
                     android:layout_width="match_parent"
@@ -62,7 +64,7 @@
                             android:layout_height="50dp"
                             android:layout_centerVertical="true"
                             android:layout_marginStart="16dp"
-                            bind:imageUrl="@{viewModel.charaIconUrl}"
+                            bind:imageUrl="@{viewModel.chara.getIcon_image_ref()}"
                             bind:placeholder="@{R.drawable.umi_bg_corners_solid}" />
 
                         <TextView
@@ -199,7 +201,7 @@
                                     android:layout_marginEnd="10dp"
                                     android:layout_marginStart="10dp"
                                     android:hint="@string/empty"
-                                    android:text='@{String.valueOf(viewModel.chara.getAge()) + @string/unit_age}'
+                                    android:text='@{viewModel.age}'
                                     android:textColor="@color/txtGray"
                                     android:textSize="@dimen/txt_1" />
 
@@ -325,24 +327,64 @@
 
                         </LinearLayout>
 
-
-                        <TextView
-                            android:layout_width="wrap_content"
+                        <LinearLayout
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_margin="10dp"
-                            android:text="@string/three_size"
-                            android:textColor="@color/txtBlack"
-                            android:textSize="@dimen/txt_1" />
+                            android:orientation="horizontal">
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="10dp"
-                            android:layout_marginStart="10dp"
-                            android:hint="@string/empty"
-                            android:text="@{viewModel.threeSize}"
-                            android:textColor="@color/txtGray"
-                            android:textSize="@dimen/txt_1" />
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="10dp"
+                                    android:text="@string/three_size"
+                                    android:textColor="@color/txtBlack"
+                                    android:textSize="@dimen/txt_1" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="10dp"
+                                    android:layout_marginStart="10dp"
+                                    android:hint="@string/empty"
+                                    android:text="@{viewModel.threeSize}"
+                                    android:textColor="@color/txtGray"
+                                    android:textSize="@dimen/txt_1" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="10dp"
+                                    android:text="@string/hometown"
+                                    android:textColor="@color/txtBlack"
+                                    android:textSize="@dimen/txt_1" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="10dp"
+                                    android:layout_marginStart="10dp"
+                                    android:hint="@string/empty"
+                                    android:text="@{viewModel.hometown}"
+                                    android:textColor="@color/txtGray"
+                                    android:textSize="@dimen/txt_1" />
+
+                            </LinearLayout>
+
+                        </LinearLayout>
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -376,7 +418,7 @@
                             android:layout_marginEnd="10dp"
                             android:layout_marginStart="10dp"
                             android:hint="@string/empty"
-                            android:text="@{String.valueOf(viewModel.chara.getFavorite())}"
+                            android:text="@{viewModel.chara.getFavorite()}"
                             android:textColor="@color/txtGray"
                             android:textSize="@dimen/txt_1" />
 
@@ -395,7 +437,7 @@
                             android:layout_marginEnd="10dp"
                             android:layout_marginStart="10dp"
                             android:hint="@string/empty"
-                            android:text="@{String.valueOf(viewModel.chara.getVoice())}"
+                            android:text="@{viewModel.chara.getVoice()}"
                             android:textColor="@color/txtGray"
                             android:textSize="@dimen/txt_1" />
 
@@ -443,11 +485,52 @@
 
                 </android.support.v7.widget.CardView>
 
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/card_view_margin"
+                    android:layout_marginStart="@dimen/card_view_margin"
+                    android:layout_marginTop="8dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="10dp"
+                            android:text="@string/idol_mv"
+                            android:textColor="@color/txtBlack"
+                            android:textSize="@dimen/txt_2" />
+
+                        <TextView
+                            android:visibility="@{viewModel2.itemViewModel.size() == 0 ? View.VISIBLE : View.GONE}"
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:text="@string/empty"
+                            android:gravity="center"
+                            android:textAlignment="gravity"/>
+
+
+                        <com.lazyeraser.imas.cgss.utils.view.ListViewForScrollView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="10dp"
+                            bind:itemView="@{viewModel2.itemView}"
+                            bind:items="@{viewModel2.itemViewModel}"
+                            bind:onListItemClickedWithView="@{viewModel2.onListItemClickCommand}" />
+
+                    </LinearLayout>
+
+                </android.support.v7.widget.CardView>
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="60dp" />
 
-            </com.zhy.android.percent.support.PercentLinearLayout>
+            </LinearLayout>
 
         </ScrollView>
 

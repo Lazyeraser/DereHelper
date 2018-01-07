@@ -16,6 +16,7 @@ import com.kelin.mvvmlight.command.ReplyCommand;
 import com.lazyeraser.imas.cgss.entity.Card;
 import com.lazyeraser.imas.cgss.entity.Chara;
 import com.lazyeraser.imas.cgss.entity.CharaIndex;
+import com.lazyeraser.imas.cgss.entity.TextData;
 import com.lazyeraser.imas.cgss.utils.ConstellationHelper;
 import com.lazyeraser.imas.cgss.utils.DBHelper;
 import com.lazyeraser.imas.cgss.utils.JsonUtils;
@@ -28,6 +29,7 @@ import com.lazyeraser.imas.main.SStaticR;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -36,29 +38,35 @@ import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
+import static com.lazyeraser.imas.main.SStaticR.textDataList;
+
 /**
  * Created by lazyeraser on 2017/9/19.
  */
 
-public class CharaViewModel extends BaseViewModel{
+public class CharaViewModel extends BaseViewModel {
 
     public final ObservableField<Chara> chara = new ObservableField<>();
-    public final ObservableField<String> charaIconUrl = new ObservableField<>();
+//    public final ObservableField<String> charaIconUrl = new ObservableField<>();
     public final ObservableField<String> bloodType = new ObservableField<>();
     public final ObservableField<String> hand = new ObservableField<>();
     public final ObservableField<String> threeSize = new ObservableField<>();
     public final ObservableField<String> constellation = new ObservableField<>(); // 星座
+    public final ObservableField<String> age = new ObservableField<>();
+    public final ObservableField<String> hometown = new ObservableField<>();
     public final ObservableBoolean cardsVisible = new ObservableBoolean(false);
 
+    /*cards of the chara*/
     public final ObservableList<CardViewModel> itemViewModel = new ObservableArrayList<>();
     public final ItemView itemView = ItemView.of(com.lazyeraser.imas.derehelper.BR.viewModel, R.layout.item_single_card);
 
     private final ObservableField<Map<Card, CardViewModel>> cardDataList = new ObservableField<>();
 
+    // click event
     public final ReplyCommand<Pair<Integer, View>> onListItemClickCommand = new ReplyCommand<>(pair -> {
         ActivityOptionsCompat transitionActivityOptions = ActivityOptionsCompat.makeSceneTransitionAnimation(mContext, pair.second.findViewById(R.id.card_icon), "card_icon");
         Bundle bundle = transitionActivityOptions.toBundle();
-        if (bundle == null){
+        if (bundle == null) {
             bundle = new Bundle();
         }
         bundle.putString("theCard", JsonUtils.getJsonFromBean(itemViewModel.get(pair.first).card.get()));
@@ -67,41 +75,92 @@ public class CharaViewModel extends BaseViewModel{
         intent.putExtras(bundle);
         ActivityCompat.startActivity(mContext, intent, bundle);
     });
+    /*cards of the chara*/
 
-    private final static SparseArray<String> bloodTypeMap = new SparseArray<>();
+    private final static HashMap<String, Integer> handTypeMap = new HashMap<>();
+
     static {
-        bloodTypeMap.put(2001, "A");
-        bloodTypeMap.put(2002, "B");
-        bloodTypeMap.put(2003, "AB");
-        bloodTypeMap.put(2004, "O");
+        handTypeMap.put("右", R.string.right);
+        handTypeMap.put("左", R.string.left);
+        handTypeMap.put("両", R.string.hand_both);
     }
 
+
+    public String getRealText(int id, int category) {
+        if (id > 1000 || category == 2){
+            for (TextData textData : textDataList) {
+                if (textData.category == category){
+                    if ((id % 1000) == textData.index){
+                        return textData.text;
+                    }
+                }
+            }
+            return String.valueOf(id);
+        }else {
+            return String.valueOf(id);
+        }
+    }
+
+    private void setData(Chara chara) {
+        bloodType.set(getRealText(chara.getBlood_type(), 3));
+        hand.set(mContext.getString(handTypeMap.get(getRealText(chara.getHand(), 5))));
+        threeSize.set(getRealText(chara.getBody_size_1(), 6) + "/" + getRealText(chara.getBody_size_2(), 6) + "/" + getRealText(chara.getBody_size_3(), 6));
+        constellation.set(getRealText(chara.getConstellation(), 4)); // TODO translation from JP to CN & EN
+        age.set(getRealText(chara.getAge(), 6) + mContext.getString(R.string.unit_age));
+        hometown.set(getRealText(chara.getHome_town(), 2));
+    }
+
+    public CharaViewModel(BaseActivity mContext, String charaId) {
+        super(mContext);
+        Observable.just(DBHelper.with(mContext)
+                .where(DBHelper.TABLE_NAME_Chara_Detail, "json", "id", Collections.singletonList(charaId)))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(map -> {
+                    Chara chara = JsonUtils.getBeanFromJson(map.get(charaId), Chara.class);
+                    init(mContext, chara);
+                });
+    }
     public CharaViewModel(BaseActivity mContext, Chara chara) {
         super(mContext);
+        init(mContext, chara);
+    }
+
+    private void init(BaseActivity mContext, Chara chara){
         this.chara.set(chara);
-        charaIconUrl.set(SStaticR.SERVER_URL_RES + "/icon_char/" + chara.getChara_id() + ".png");
-        if (mContext instanceof CharaDetailActivity){
-            bloodType.set(bloodTypeMap.get(chara.getBlood_type()));
-            hand.set(mContext.getString(chara.getHand() == 3001 ? R.string.right : R.string.left));
-            threeSize.set(chara.getBody_size_1() + "/" + chara.getBody_size_2() + "/" + chara.getBody_size_3());
-            constellation.set(mContext.getString(ConstellationHelper.getConstellation(chara.getBirth_month(), chara.getBirth_day())));
-            if (!umi.getIntentString("fromCard").equals("true")){
+//        charaIconUrl.set(String.format(SStaticR.charaIconUrl, chara.getChara_id()));
+        if (mContext instanceof CharaDetailActivity) {
+            if (textDataList == null || textDataList.size() == 0) {
+                Observable.create(su -> {
+                    try {
+                        textDataList = DBHelper.with(mContext, DBHelper.DB_NAME_master).getBeanList("text_data", TextData.class);
+                        su.onCompleted();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }).subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .doAfterTerminate(() -> setData(chara))
+                        .subscribe();
+            }else {
+                setData(chara);
+            }
+            // show chara's cards
+//            if (!umi.getIntentString("fromCard").equals("true")) {
                 cardsVisible.set(true);
                 Observable.just(DBHelper.with(mContext)
-                        .queryTable(DBHelper.TABLE_NAME_Chara_Index)
-                        .column("json")
-                        .where("id", Collections.singletonList(String.valueOf(chara.getChara_id()))))
+                        .where(DBHelper.TABLE_NAME_Chara_Index, "json", "id", Collections.singletonList(String.valueOf(chara.getChara_id()))))
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(map ->{
-                            if (map.values().size() > 0){
+                        .subscribe(map -> {
+                            if (map.values().size() > 0) {
                                 String json = map.get(String.valueOf(chara.getChara_id()));
                                 CharaIndex charaIndex = JsonUtils.getBeanFromJson(json, CharaIndex.class);
                                 List<String> cards = new ArrayList<>();
                                 for (Integer integer : charaIndex.getCards()) {
                                     cards.add(String.valueOf(integer));
                                 }
-                                CardListViewModel.loadData(mContext, cardDataList, cards);
+                                CardListViewModel.loadData(mContext, cardDataList, cards); // search cards by card_ids
                             }
                         });
                 cardDataList.addOnPropertyChangedCallback(new android.databinding.Observable.OnPropertyChangedCallback() {
@@ -111,15 +170,15 @@ public class CharaViewModel extends BaseViewModel{
                         Collections.sort(itemViewModel, (a, b) -> {
                             Card cardA = a.card.get();
                             Card cardB = b.card.get();
-                            if (cardB.getId() < cardA.getId()){
+                            if (cardB.getId() < cardA.getId()) {
                                 return 1;
-                            }else {
+                            } else {
                                 return -1;
                             }
                         });
                     }
                 });
-            }
+//            }
         }
     }
 

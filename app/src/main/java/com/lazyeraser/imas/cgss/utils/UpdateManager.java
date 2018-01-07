@@ -302,7 +302,7 @@ public class UpdateManager {
 
         public void downloadCanceled()
         {
-            // TODO Auto-generated method stub
+
 
         }
 

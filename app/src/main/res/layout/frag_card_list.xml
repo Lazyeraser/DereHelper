@@ -57,7 +57,8 @@
                     android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/white">
+                    android:background="@color/white"
+                    android:layout_marginEnd="8dp">
 
                     <TextView
                         android:layout_marginTop="30dp"
@@ -92,6 +93,23 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         bind:onSelChange="@{viewModel.onTypeSelCommand}"/>
+
+                    <TextView
+                        android:layout_marginTop="10dp"
+                        android:layout_marginStart="12dp"
+                        android:layout_width="wrap_content"
+                        android:textColor="@color/txtBlack"
+                        android:layout_height="wrap_content"
+                        android:text="@string/get_type"/>
+
+                    <com.lazyeraser.imas.cgss.utils.view.MultiLineChooseLayout
+                        android:layout_marginTop="5dp"
+                        style="@style/FlowLayout"
+                        android:layout_marginStart="12dp"
+                        android:id="@+id/getTypeChoose"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        bind:onSelChangeIndex="@{viewModel.onGetTypeSelCommand}"/>
 
                     <TextView
                         android:layout_marginTop="10dp"
@@ -165,8 +183,8 @@
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
                             android:text="@string/empty_filter_choose"
-                            android:layout_marginEnd="16dp"
-                            android:id="@+id/empty_skill_type_choose"/>
+                            android:id="@+id/empty_skill_type_choose"
+                            android:layout_marginEnd="8dp"/>
 
                     </RelativeLayout>
 

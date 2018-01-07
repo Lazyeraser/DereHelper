@@ -5,8 +5,10 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <application
         android:name="com.lazyeraser.imas.main.LIVE"
@@ -15,14 +17,17 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        tools:replace="android:icon,allowBackup">
+        tools:replace="android:icon,allowBackup"
+        android:configChanges="locale|layoutDirection">
         <activity
             android:name="com.lazyeraser.imas.cgss.view.MainActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/Umi.ActionBarTheme.White"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden">
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"
+            android:launchMode="standard"
+            android:configChanges="locale|layoutDirection">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -44,6 +49,20 @@
             android:theme="@style/Umi.ActionBarTheme.White"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity
+            android:name="com.lazyeraser.imas.cgss.view.SongDetailActivity"
+            android:exported="false"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@style/Umi.ActionBarTheme.White"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+        <activity
+            android:name="com.lazyeraser.imas.cgss.view.BeatMapActivity"
+            android:exported="false"
+            android:label="@string/app_name"
+            android:theme="@style/Umi.ActionBarTheme.White"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"
+            android:configChanges="layoutDirection"/>
+        <activity
             android:name="com.lazyeraser.imas.cgss.view.FullScreenImageActivity"
             android:exported="false"
             android:label="@string/app_name"
@@ -56,28 +75,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/Umi.ActionBarTheme.White"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
-        <!--
-                  <activity
-                  android:name="com.jinhe.umibase.view.threeListView.ThreeActivity"
-                  android:exported="false"
-                  android:label="@string/app_name"
-                  android:screenOrientation="portrait"
-                  android:theme="@style/Umi.ActionBarTheme.White"
-                  android:windowSoftInputMode="adjustUnspecified|stateHidden"/>
-              <activity
-                  android:name="com.jinhe.umibase.view.selectBox.SelBoxActivity"
-                  android:exported="false"
-                  android:label="@string/app_name"
-                  android:screenOrientation="portrait"
-                  android:theme="@style/Umi.ActionBarTheme.White"
-                  android:windowSoftInputMode="adjustUnspecified|stateHidden"/>
-        -->
-        <activity
-            android:name="me.iwf.photopicker.PhotoPickerActivity"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
-        <activity
-            android:name="me.iwf.photopicker.PhotoPagerActivity"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
+
     </application>
 
 </manifest>
