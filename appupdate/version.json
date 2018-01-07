@@ -1,10 +1,10 @@
 {
 	"appname": "DereHelper",
 	"apkname": "DereHelper.apk",
-	"verName": "0.9.5",
-	"url": "http://45.32.111.67:8080/derehelper/DereHelper-0.9.5.apk",
-	"verInfo": "1.修复更新数据时错误的进度显示及造成的假死 \n2.增加界面语言：日语",
-	"verInfo_jp": "日本語対応",
-	"verInfo_en": "",
-	"verCode": 5
+	"verName": "0.9.6",
+	"url": "http://45.32.111.67:8080/derehelper/DereHelper-0.9.6.apk",
+	"verInfo": "1.新增谱面预览，包含歌曲信息、MV站位和偶像出演MV等信息（升级安装需要更新数据。) \n2.卡片列表新增按卡池筛选 \n3.优化图片缓存策略 \n4.移除不需要的权限，修复无网络时的闪退 \n5.新增卡面大图保存到手机相册功能（全屏看图下长按图片）",
+	"verInfo_jp": "譜面プレビュー機能追加",
+	"verInfo_en": "English UI added",
+	"verCode": 6
 }
