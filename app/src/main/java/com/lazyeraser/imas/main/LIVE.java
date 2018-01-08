@@ -35,10 +35,7 @@ public class LIVE extends Application {
         built.setIndicatorsEnabled(false);
         built.setLoggingEnabled(true);
         Picasso.setSingletonInstance(built);
-        /*MobclickAgent.setLocation(233, 233);
-        UMConfigure.init(this, "5a51be59b27b0a6d310004c2", "ALL", UMConfigure.DEVICE_TYPE_BOX, null);
-        UMConfigure.setEncryptEnabled(true);
-        MobclickAgent.setScenarioType(getApplicationContext(), MobclickAgent.EScenarioType.E_UM_NORMAL);*/
+
     }
 
     @Override

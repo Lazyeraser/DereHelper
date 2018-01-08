@@ -38,8 +38,8 @@ public class RetrofitProvider {
         if (okHttpClient == null){
             okHttpClient = new OkHttpClient.Builder()
                     .connectTimeout(60, TimeUnit.SECONDS)
-                    .readTimeout(300, TimeUnit.SECONDS)
-                    .writeTimeout(300, TimeUnit.SECONDS)
+                    .readTimeout(600, TimeUnit.SECONDS)
+                    .writeTimeout(600, TimeUnit.SECONDS)
                     .build();
         }
         if (gson == null){

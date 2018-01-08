@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.util.Pair;
+import android.text.TextUtils;
 import android.util.SparseArray;
 import android.view.View;
 
@@ -105,7 +106,8 @@ public class CharaViewModel extends BaseViewModel {
         bloodType.set(getRealText(chara.getBlood_type(), 3));
         hand.set(mContext.getString(handTypeMap.get(getRealText(chara.getHand(), 5))));
         threeSize.set(getRealText(chara.getBody_size_1(), 6) + "/" + getRealText(chara.getBody_size_2(), 6) + "/" + getRealText(chara.getBody_size_3(), 6));
-        constellation.set(getRealText(chara.getConstellation(), 4)); // TODO translation from JP to CN & EN
+        String con_jp = getRealText(chara.getConstellation(), 4);
+        constellation.set(!SStaticR.connMap.containsKey(con_jp) ? con_jp : mContext.getString(SStaticR.connMap.get(con_jp)));
         age.set(getRealText(chara.getAge(), 6) + mContext.getString(R.string.unit_age));
         hometown.set(getRealText(chara.getHome_town(), 2));
     }

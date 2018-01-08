@@ -24,6 +24,8 @@ import android.widget.Toast;
 
 import com.lazyeraser.imas.derehelper.R;
 import com.lazyeraser.imas.main.SStaticR;
+import com.umeng.analytics.MobclickAgent;
+import com.umeng.commonsdk.UMConfigure;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -39,6 +41,14 @@ import java.util.Locale;
  */
 
 public class Utils {
+
+    public static void turnOnUmeng(Context context){
+        SStaticR.uMeng = true;
+        UMConfigure.init(context.getApplicationContext(), "5a51be59b27b0a6d310004c2", "ALL", UMConfigure.DEVICE_TYPE_PHONE, null);
+        UMConfigure.setEncryptEnabled(true);
+        MobclickAgent.setScenarioType(context.getApplicationContext(), MobclickAgent.EScenarioType.E_UM_NORMAL);
+        MobclickAgent.setLocation(233, 233);
+    }
 
     public static String emptyLessString(Context context, String s){
         return TextUtils.isEmpty(s) ? context.getString(R.string.empty) : s;

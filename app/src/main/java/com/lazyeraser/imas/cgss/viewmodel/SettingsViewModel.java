@@ -4,6 +4,7 @@ import android.databinding.ObservableBoolean;
 
 import com.kelin.mvvmlight.command.ReplyCommand;
 import com.lazyeraser.imas.cgss.utils.SharedHelper;
+import com.lazyeraser.imas.cgss.utils.Utils;
 import com.lazyeraser.imas.main.BaseActivity;
 import com.lazyeraser.imas.main.BaseViewModel;
 
@@ -16,12 +17,19 @@ public class SettingsViewModel extends BaseViewModel {
     public final ObservableBoolean autoData = new ObservableBoolean(umi.getSP(SharedHelper.KEY_AUTO_DATA));
     public final ObservableBoolean autoApp = new ObservableBoolean(umi.getSP(SharedHelper.KEY_AUTO_APP));
     public final ObservableBoolean defaultTran = new ObservableBoolean(umi.getSP(SharedHelper.KEY_DEFAULT_TRAN));
+    public final ObservableBoolean um = new ObservableBoolean(umi.getSP(SharedHelper.KEY_UMENG_ON));
 
     public final ReplyCommand<Boolean> onAutoDataSwitchCheck = new ReplyCommand<>(check -> saveSP(SharedHelper.KEY_AUTO_DATA, check));
 
     public final ReplyCommand<Boolean> onAutoAppSwitchCheck = new ReplyCommand<>(check -> saveSP(SharedHelper.KEY_AUTO_APP, check));
 
     public final ReplyCommand<Boolean> onDefaultTranSwitchCheck = new ReplyCommand<>(check -> saveSP(SharedHelper.KEY_DEFAULT_TRAN, check));
+
+    public final ReplyCommand<Boolean> onUMCheck = new ReplyCommand<>(check -> {
+        saveSP(SharedHelper.KEY_UMENG_ON, check);
+        if (check)
+            Utils.turnOnUmeng(mContext);
+    });
 
     private void saveSP(String key, boolean value){
         umi.spSave(key, value ? "true" : "false");

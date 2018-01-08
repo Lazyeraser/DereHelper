@@ -17,6 +17,7 @@ import com.lazyeraser.imas.cgss.entity.Card;
 import com.lazyeraser.imas.cgss.utils.DBHelper;
 import com.lazyeraser.imas.cgss.utils.JsonUtils;
 import com.lazyeraser.imas.cgss.utils.SharedHelper;
+import com.lazyeraser.imas.cgss.utils.Utils;
 import com.lazyeraser.imas.cgss.view.CardDetailActivity;
 import com.lazyeraser.imas.cgss.view.MainActivity;
 import com.lazyeraser.imas.cgss.view.fragments.CardListFrag;
@@ -33,6 +34,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import me.tatarka.bindingcollectionadapter.ItemView;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
@@ -123,6 +125,24 @@ public class CardListViewModel extends BaseViewModel {
                 }else {
                     umi.dismissLoading();
                 }
+                if (!umi.getSP(SharedHelper.KEY_UMENG_ASKED)){
+                    SweetAlertDialog sweetAlertDialog = new SweetAlertDialog(mContext)
+                            .setTitleText(mContext.getString(R.string.analytics_ask_title))
+                            .setContentText(mContext.getString(R.string.analytics_ask_content))
+                            .setConfirmText(mContext.getString(R.string.accept))
+                            .setCancelText(mContext.getString(R.string.decline))
+                            .setConfirmClickListener(dialog -> {
+                                dialog.dismiss();
+                                Utils.turnOnUmeng(mContext);
+                                umi.spSave(SharedHelper.KEY_UMENG_ASKED, "true");
+                            })
+                            .setCancelClickListener(dialog -> {
+                                dialog.dismiss();
+                                umi.spSave(SharedHelper.KEY_UMENG_ASKED, "true");
+                            });
+                    sweetAlertDialog.setCanceledOnTouchOutside(false);
+                    sweetAlertDialog.show();
+                }
             }
         });
         Messenger.getDefault().register(mContext, MainActivity.TOKEN_DATA_UPDATED, this::loadData);
@@ -172,7 +192,7 @@ public class CardListViewModel extends BaseViewModel {
                     cardsJsonBuilder.append("]");
                     List<Card> cards = JsonUtils.getArrayFromJson(cardsJsonBuilder.toString(), new TypeToken<List<Card>>(){});
                     Map<Card, CardViewModel> map = new HashMap<>();
-                    if (SStaticR.skillTypeMap.size() == 0 || SStaticR.isJp){
+                    if (SStaticR.skillTypeMap.size() < 5 || SStaticR.isJp){
                         if (!SStaticR.isJp){
                             for (Card card : cards) {
                                 if (card.getSkill() != null){

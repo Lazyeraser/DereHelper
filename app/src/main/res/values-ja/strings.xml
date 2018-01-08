@@ -65,6 +65,7 @@
     <string name="unit_day">日</string>
     <string name="right">右</string>
     <string name="left">左</string>
+    <!--use original instead-->
     <string name="constellation_1">牡羊座</string>
     <string name="constellation_2">牡牛座</string>
     <string name="constellation_3">双子座</string>
@@ -77,6 +78,8 @@
     <string name="constellation_10">山羊座</string>
     <string name="constellation_11">水瓶座</string>
     <string name="constellation_12">魚座</string>
+    <string name="constellation_6_special">花も恥らう乙女座</string>
+    <!--use original instead-->
     <string name="idol_cards">キャラのカード</string>
 
     <string name="no_update">すでに最新のバージョンです</string>
@@ -90,9 +93,9 @@
     <string name="dialog_downloading_msg">更新データをダウンロード中</string>
     <string name="un_connect">只今ネットワークに接続できません、ネット設定をチェックしてください</string>
 
-    <string name="about_author">Author：@lazyeraser</string>
+    <string name="about_author">開発者：@lazyeraser</string>
     <!--Should add a new column for translator--><!--Translator: @lot_gi / @shaguasanshi / @cai_miao-->
-    <string name="about_copyright">THE iDOLM@STER Cinderella Girls: Starlight Stage</string>
+    <string name="about_copyright">アプリ for THE iDOLM@STER Cinderella Girls: Starlight Stage.ゲーム内の素材とデータの著作権はBANDAI NAMCO Entertainment Inc.に属します。</string>
     <string name="about_translator">\nTranslator(JP): @lot_gi / @shaguasanshi / @cai_miao</string>
 
     <string name="settings_auto_data">自動的にデータを更新します</string>
@@ -132,5 +135,10 @@
     <string name="song_beat_map">譜面</string>
     <string name="save_to_gallery">アルバムに保存</string>
     <string name="save_success">保存成功</string>
+    <string name="analytics_ask_content">プロデューサーさん、ユーザー体験向上のため、アプリの使用情報、またはエラーデータを収集することを許可しますか？\n\n（位置情報にアクセスする権限をリクエストすることがあります。これを拒否することで、位置情報は収集されなくなります。）</string>
+    <string name="settings_analytics">集計機能</string>
+    <string name="analytics_ask_title">情報収集</string>
+    <string name="decline">いいえ</string>
+    <string name="accept">はい</string>
 
 </resources>

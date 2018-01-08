@@ -3,7 +3,6 @@ package com.lazyeraser.imas.cgss.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,6 +16,9 @@ public class SharedHelper {
     public final static String KEY_AUTO_APP = "autoAppUpdate";
     public final static String KEY_DEFAULT_TRAN = "defaultTranslated";
 
+    public final static String KEY_UMENG_ON = "turnOnUmeng";
+    public final static String KEY_UMENG_ASKED = "askedUmeng";
+
     public final static String KEY_TruthVersion = "truthVersion";
     public final static String KEY_MasterDbHash = "masterHash";
 
@@ -26,6 +28,8 @@ public class SharedHelper {
         defaultKeyValues.put(KEY_AUTO_DATA, "true");
         defaultKeyValues.put(KEY_AUTO_APP, "true");
         defaultKeyValues.put(KEY_DEFAULT_TRAN, "false");
+        defaultKeyValues.put(KEY_UMENG_ON, "false");
+        defaultKeyValues.put(KEY_UMENG_ASKED, "false");
     }
 
     public SharedHelper(Context mContext) {

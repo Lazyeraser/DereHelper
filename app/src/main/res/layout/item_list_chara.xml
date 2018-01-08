@@ -8,6 +8,7 @@
             type="com.lazyeraser.imas.cgss.viewmodel.CharaViewModel" />
         <import type="android.view.View" />
         <import type="com.lazyeraser.imas.derehelper.R" />
+        <import type="com.lazyeraser.imas.main.SStaticR" />
     </data>
 
     <RelativeLayout
@@ -34,7 +35,7 @@
             android:layout_marginStart="10dp"
             android:textSize="@dimen/txt_2"
             android:textColor="@color/txtBlack"
-            android:text="@{viewModel.chara.getName()}"/>
+            android:text="@{SStaticR.isEN ? viewModel.chara.getConventional() : viewModel.chara.getName()}"/>
 
         <View
             android:layout_marginStart="5dp"

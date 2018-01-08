@@ -25,7 +25,6 @@ import com.lazyeraser.imas.cgss.utils.Utils;
 import com.lazyeraser.imas.derehelper.R;
 import com.lazyeraser.imas.main.BaseActivity;
 import com.lazyeraser.imas.main.BaseViewModel;
-import com.lazyeraser.imas.main.SStaticR;
 import com.lazyeraser.imas.retrofit.ExceptionHandler;
 import com.lazyeraser.imas.retrofit.RetrofitProvider;
 import com.trello.rxlifecycle.ActivityLifecycleProvider;
@@ -69,9 +68,9 @@ public class MainViewModel extends BaseViewModel {
         if (umi.getSP(SharedHelper.KEY_AUTO_DATA)) {
             checkDataUpdate();
         }
-        if (SStaticR.isDebug) {
-            umi.spSave(SharedHelper.KEY_MasterDbHash, "");
-            umi.spSave(SharedHelper.KEY_TruthVersion, "");
+
+        if (umi.getSP(SharedHelper.KEY_UMENG_ON)){
+            Utils.turnOnUmeng(mContext);
         }
     }
 
@@ -108,7 +107,7 @@ public class MainViewModel extends BaseViewModel {
                     if (aBoolean) {
                         checkData();
                     }
-                }, ExceptionHandler::handleException);
+                }, throwable -> upToDate.set(true));
     }
 
     private void checkData() {

@@ -1,5 +1,6 @@
 package com.lazyeraser.imas.cgss.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -14,7 +15,9 @@ import com.lazyeraser.imas.main.BaseActivity;
 
 public class BeatMapActivity extends BaseActivity {
 
-    int anchor;
+    private int anchor;
+
+    private boolean init = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +40,11 @@ public class BeatMapActivity extends BaseActivity {
     public void onEnterAnimationComplete() {
         super.onEnterAnimationComplete();
         ScrollView scrollView = (ScrollView)findViewById(R.id.scrollView);
+        if (scrollView.getScrollY() == 0 && !init){
+            scrollView.smoothScrollTo(0, anchor);
+            init = true;
+        }
 //        scrollView.scrollTo(0, Integer.MAX_VALUE);
-        scrollView.smoothScrollTo(0, anchor);
+
     }
 }
