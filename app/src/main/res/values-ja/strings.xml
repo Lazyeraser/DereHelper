@@ -20,7 +20,7 @@
     <string name="sort_method_1">昇順</string>
     <string name="evo_before">前</string>
     <string name="evo_after">後</string>
-    <string name="update_hint0">プロデューサーさん、更新データがあります！</string>
+    <string name="update_hint0">更新データがあります！</string>
     <string name="update_hint1">直ちに更新しますか（Wi-Fi環境で行って下さるようおすすめします）</string>
     <string name="update_hint2">更新しない</string>
     <string name="update_hint3">更新する</string>
