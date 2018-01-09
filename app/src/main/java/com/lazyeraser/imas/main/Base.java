@@ -16,6 +16,8 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Toast;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.lazyeraser.imas.cgss.utils.SharedHelper;
 import com.lazyeraser.imas.cgss.utils.Utils;
 import com.lazyeraser.imas.cgss.utils.view.LoadingDialog;
@@ -23,6 +25,7 @@ import com.lazyeraser.imas.cgss.utils.view.LoadingDialog;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.Stack;
 
 /**
  * Created by lazyEraser on 2017/4/19.
@@ -30,9 +33,12 @@ import java.util.Set;
 
 public class Base {
 
+    private final static Map<String, BaseActivity> activityMap = new HashMap<>();
+    private final static Stack<BaseActivity> activityStack = new Stack<>();
+
     private SharedHelper sh;
     private LoadingDialog loadingDialog;
-    private static Map<String, BaseActivity> activityMap = new HashMap<>();
+
 
     protected AlertDialog alert = null;
     protected AlertDialog.Builder builder = null;
@@ -44,10 +50,19 @@ public class Base {
 
     public void init(BaseActivity activity){
         baseActivity = activity;
+        activityStack.push(activity);
         sh = new SharedHelper(activity.getApplicationContext());
         loadingDialog = new LoadingDialog(activity);
         loadingDialog.setOnCancelListener((dialogInterface -> canceled = true));
-        activityMap.put(activity.getClass().getSimpleName(), activity);
+        String screenName = activity.getClass().getSimpleName();
+        activityMap.put(screenName  + System.currentTimeMillis(), activity);
+        if (SStaticR.ANALYTICS_ON){
+            // Obtain the shared Tracker instance.
+            LIVE application = (LIVE)baseActivity.getApplication();
+            Tracker mTracker = application.getDefaultTracker();
+            mTracker.setScreenName(screenName);
+            mTracker.send(new HitBuilders.ScreenViewBuilder().build());
+        }
     }
 
     public void init(BaseFragment fragment){
@@ -56,10 +71,18 @@ public class Base {
         init((BaseActivity) fragment.getActivity());
     }
 
-    public Context getContext(){ return baseActivity.mContext; }
-
-
-
+    public static BaseActivity getTopContext(){
+        while (true){
+            BaseActivity c = activityStack.peek();
+            if (c != null){
+                return c;
+            }else if (activityStack.size() > 0){
+                activityStack.pop();
+            }else {
+                return null;
+            }
+        }
+    }
 
 
     /*------------通用方法-------------*/
@@ -142,19 +165,19 @@ public class Base {
     }
 
     @SafeVarargs
-    public final void jumpWithTran(BaseActivity mContext, Class dst, View view, String name, Pair<String, String>... data) {
+    public final static void jumpWithTran(BaseActivity mContext, Class dst, View view, String name, Pair<String, String>... data) {
         Pair<Intent, Bundle> pair = prepareTran(mContext, dst, view, name, data);
         ActivityCompat.startActivity(mContext, pair.first, pair.second);
     }
 
     @SafeVarargs
-    public final void jumpForResultWithTran(int code, BaseActivity mContext, Class dst, View view, String name, Pair<String, String>... data) {
+    public final static void jumpForResultWithTran(int code, BaseActivity mContext, Class dst, View view, String name, Pair<String, String>... data) {
         Pair<Intent, Bundle> pair = prepareTran(mContext, dst, view, name, data);
         ActivityCompat.startActivityForResult(mContext, pair.first, code, pair.second);
     }
 
     @SafeVarargs
-    private final Pair<Intent, Bundle> prepareTran(BaseActivity mContext, Class dst, View view, String name, Pair<String, String>... data) {
+    private final static Pair<Intent, Bundle> prepareTran(BaseActivity mContext, Class dst, View view, String name, Pair<String, String>... data) {
         ActivityOptionsCompat transitionActivityOptions = ActivityOptionsCompat.makeSceneTransitionAnimation(mContext, view, name);
         Bundle bundle = transitionActivityOptions.toBundle();
         if (bundle == null) {

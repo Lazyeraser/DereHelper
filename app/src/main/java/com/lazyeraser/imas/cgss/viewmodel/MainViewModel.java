@@ -69,8 +69,8 @@ public class MainViewModel extends BaseViewModel {
             checkDataUpdate();
         }
 
-        if (umi.getSP(SharedHelper.KEY_UMENG_ON)){
-            Utils.turnOnUmeng(mContext);
+        if (umi.getSP(SharedHelper.KEY_ANALYTICS_ON)){
+            Utils.turnOnGA(mContext);
         }
     }
 

@@ -10,12 +10,13 @@ import com.kelin.mvvmlight.messenger.Messenger;
 
 public class BaseViewModel implements ViewModel {
 
-    public static Base umi = BaseActivity.umi;
+    public Base umi;
 
     public BaseActivity mContext;
 
     public BaseViewModel(BaseActivity mContext) {
         this.mContext = mContext;
+        umi = mContext.umi;
     }
 
     void onDestroy(){

@@ -125,7 +125,7 @@ public class CardListViewModel extends BaseViewModel {
                 }else {
                     umi.dismissLoading();
                 }
-                if (!umi.getSP(SharedHelper.KEY_UMENG_ASKED)){
+                if (!umi.getSP(SharedHelper.KEY_ANALYTICS_ASKED)){
                     SweetAlertDialog sweetAlertDialog = new SweetAlertDialog(mContext)
                             .setTitleText(mContext.getString(R.string.analytics_ask_title))
                             .setContentText(mContext.getString(R.string.analytics_ask_content))
@@ -133,12 +133,13 @@ public class CardListViewModel extends BaseViewModel {
                             .setCancelText(mContext.getString(R.string.decline))
                             .setConfirmClickListener(dialog -> {
                                 dialog.dismiss();
-                                Utils.turnOnUmeng(mContext);
-                                umi.spSave(SharedHelper.KEY_UMENG_ASKED, "true");
+                                Utils.turnOnGA(mContext);
+                                umi.spSave(SharedHelper.KEY_ANALYTICS_ASKED, "true");
+                                umi.spSave(SharedHelper.KEY_ANALYTICS_ON, "true");
                             })
                             .setCancelClickListener(dialog -> {
                                 dialog.dismiss();
-                                umi.spSave(SharedHelper.KEY_UMENG_ASKED, "true");
+                                umi.spSave(SharedHelper.KEY_ANALYTICS_ASKED, "true");
                             });
                     sweetAlertDialog.setCanceledOnTouchOutside(false);
                     sweetAlertDialog.show();

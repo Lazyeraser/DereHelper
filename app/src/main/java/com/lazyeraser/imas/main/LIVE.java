@@ -6,8 +6,13 @@ import android.os.Build;
 import android.os.StrictMode;
 import android.support.multidex.MultiDex;
 
+import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.analytics.Logger;
+import com.google.android.gms.analytics.Tracker;
+
 import com.jakewharton.picasso.OkHttp3Downloader;
 import com.lazyeraser.imas.cgss.utils.Utils;
+import com.lazyeraser.imas.derehelper.R;
 import com.squareup.picasso.Picasso;
 
 import java.util.Locale;
@@ -20,6 +25,8 @@ import java.util.Locale;
 
 public class LIVE extends Application {
 
+    private Tracker mTracker;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -29,6 +36,7 @@ public class LIVE extends Application {
 //            builder.detectFileUriExposure();
         }
         Utils.mPrint("os language:" + Locale.getDefault().getLanguage());
+        // set up picasso's disk cache
         Picasso.Builder builder = new Picasso.Builder(this);
         builder.downloader(new OkHttp3Downloader(this,Integer.MAX_VALUE));
         Picasso built = builder.build();
@@ -47,5 +55,18 @@ public class LIVE extends Application {
     @Override
     public void onTerminate() {
         super.onTerminate();
+    }
+
+    /**
+     * Gets the default {@link Tracker} for this {@link Application}.
+     * @return tracker
+     */
+    synchronized public Tracker getDefaultTracker() {
+        if (mTracker == null) {
+            GoogleAnalytics analytics = GoogleAnalytics.getInstance(this);
+            // To enable debug logging use: adb shell setprop log.tag.GAv4 DEBUG
+            mTracker = analytics.newTracker(R.xml.global_tracker);
+        }
+        return mTracker;
     }
 }

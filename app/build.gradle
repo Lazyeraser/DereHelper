@@ -88,6 +88,6 @@ dependencies {
 
     compile 'net.jpountz.lz4:lz4:1.3.0'
 
-    compile 'com.umeng.sdk:common:latest.integration'
-    compile 'com.umeng.sdk:analytics:latest.integration'
+    compile 'com.google.android.gms:play-services-analytics:11.0.2'
 }
+apply plugin: 'com.google.gms.google-services'

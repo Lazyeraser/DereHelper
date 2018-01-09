@@ -59,10 +59,15 @@ public class SongListVM extends BaseViewModel {
         songData.addOnPropertyChangedCallback(new android.databinding.Observable.OnPropertyChangedCallback() {
             @Override
             public void onPropertyChanged(android.databinding.Observable sender, int propertyId) {
-                for (Song song : songData.get()) {
-                    itemViewModel.add(new SongVM(mContext, song));
+                if (songData.get().size() > 0){
+                    for (Song song : songData.get()) {
+                        itemViewModel.add(new SongVM(mContext, song));
+                    }
+                    umi.dismissLoading();
+                }else {
+                    umi.dismissLoading();
                 }
-                umi.dismissLoading();
+
             }
         });
     }

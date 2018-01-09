@@ -19,7 +19,7 @@ import com.lazyeraser.imas.cgss.utils.Utils;
 import com.lazyeraser.imas.derehelper.R;
 import com.squareup.picasso.Picasso;
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
-import com.umeng.analytics.MobclickAgent;
+
 
 
 import java.util.ArrayList;
@@ -33,7 +33,7 @@ public class BaseActivity extends RxAppCompatActivity implements View.OnClickLis
     private String actionBarTitle;
     private String actionBarTxt;
     public Context mContext;
-    public static Base umi;
+    public Base umi;
 
     private ViewDataBinding binding;
     private List<BaseViewModel> viewModels;
@@ -48,7 +48,7 @@ public class BaseActivity extends RxAppCompatActivity implements View.OnClickLis
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (umi == null) umi = new Base();
+        umi = new Base();
         umi.init(this);
         mContext = this;
         if (Build.VERSION.SDK_INT >= 21) {
@@ -238,14 +238,16 @@ public class BaseActivity extends RxAppCompatActivity implements View.OnClickLis
     @Override
     protected void onResume() {
         super.onResume();
-        if (SStaticR.uMeng)
-        MobclickAgent.onResume(this);
+        if (SStaticR.ANALYTICS_ON){
+
+        }
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        if (SStaticR.uMeng)
-            MobclickAgent.onPause(this);
+        if (SStaticR.ANALYTICS_ON){
+
+        }
     }
 }

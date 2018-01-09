@@ -111,7 +111,7 @@ public class BindingAdapter {
         if (charaID == 0)
             return;
         view.setOnClickListener(v ->
-                BaseActivity.umi.jumpWithTran((BaseActivity)view.getContext(), CharaDetailActivity.class, v, "chara_icon", new Pair<>("charaID", String.valueOf(charaID))));
+                Base.jumpWithTran((BaseActivity)view.getContext(), CharaDetailActivity.class, v, "chara_icon", new Pair<>("charaID", String.valueOf(charaID))));
     }
 
 

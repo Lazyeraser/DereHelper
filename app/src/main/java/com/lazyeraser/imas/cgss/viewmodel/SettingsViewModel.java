@@ -17,7 +17,7 @@ public class SettingsViewModel extends BaseViewModel {
     public final ObservableBoolean autoData = new ObservableBoolean(umi.getSP(SharedHelper.KEY_AUTO_DATA));
     public final ObservableBoolean autoApp = new ObservableBoolean(umi.getSP(SharedHelper.KEY_AUTO_APP));
     public final ObservableBoolean defaultTran = new ObservableBoolean(umi.getSP(SharedHelper.KEY_DEFAULT_TRAN));
-    public final ObservableBoolean um = new ObservableBoolean(umi.getSP(SharedHelper.KEY_UMENG_ON));
+    public final ObservableBoolean um = new ObservableBoolean(umi.getSP(SharedHelper.KEY_ANALYTICS_ON));
 
     public final ReplyCommand<Boolean> onAutoDataSwitchCheck = new ReplyCommand<>(check -> saveSP(SharedHelper.KEY_AUTO_DATA, check));
 
@@ -26,9 +26,9 @@ public class SettingsViewModel extends BaseViewModel {
     public final ReplyCommand<Boolean> onDefaultTranSwitchCheck = new ReplyCommand<>(check -> saveSP(SharedHelper.KEY_DEFAULT_TRAN, check));
 
     public final ReplyCommand<Boolean> onUMCheck = new ReplyCommand<>(check -> {
-        saveSP(SharedHelper.KEY_UMENG_ON, check);
+        saveSP(SharedHelper.KEY_ANALYTICS_ON, check);
         if (check)
-            Utils.turnOnUmeng(mContext);
+            Utils.turnOnGA(mContext);
     });
 
     private void saveSP(String key, boolean value){

@@ -37,7 +37,6 @@ import com.lazyeraser.imas.derehelper.R;
 import com.lazyeraser.imas.main.BaseActivity;
 import com.lazyeraser.imas.main.BaseFragment;
 import com.lazyeraser.imas.main.SStaticR;
-import com.umeng.analytics.MobclickAgent;
 
 
 import java.util.HashMap;
@@ -160,8 +159,8 @@ public class MainActivity extends BaseActivity {
                     }else{
                         mgr.setExact(AlarmManager.RTC, System.currentTimeMillis() + 500, restartIntent);
                     }
-                    if (SStaticR.uMeng){
-                        MobclickAgent.onKillProcess(this);
+                    if (SStaticR.ANALYTICS_ON){
+
                     }
                     System.exit(0);
                 });

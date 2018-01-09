@@ -145,7 +145,7 @@
     <!--0.9.7-->
     <string name="settings_analytics">启用数据统计</string>
     <string name="analytics_ask_title">数据统计</string>
-    <string name="analytics_ask_content">Producer！您同意开发者收集应用的运行或报错信息吗？这将对改进本应用有很大帮助\n\n数据统计服务由友盟（https://www.umeng.com/）提供\n（可能会提示申请定位权限，可以拒绝该权限的申请，这将不会搜集您的位置信息）</string>
+    <string name="analytics_ask_content">Producer！您同意开发者收集应用的运行或报错信息吗？这将对改进本应用有很大帮助\n\n数据统计服务由Google Analytics提供</string>
     <string name="accept">同意</string>
     <string name="decline">拒绝</string>
     <string name="constellation_6_special">花见花失色的处女座</string>

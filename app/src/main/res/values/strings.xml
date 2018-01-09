@@ -121,7 +121,7 @@
     <string name="weight">Weight</string>
     <string name="evo_after">After</string>
     <string name="accept">Accept</string>
-    <string name="analytics_ask_content">Producer!Would you mind if the developer collected your device information and your usage? It will help the developer a lot.\n\n(There maybe an apply for location collecting permission, you can deny it and it will not collect your location information)</string>
+    <string name="analytics_ask_content">Producer!Would you mind if the developer collected your device information and your usage? It will help the developer a lot.\n\n(Service is provided by Google Analytics)</string>
     <string name="analytics_ask_title">Analytics</string>
     <string name="settings_analytics">Enable analytics</string>
     <string name="constellation_1">Aries</string>

@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class SharedHelper {
 
@@ -16,35 +17,38 @@ public class SharedHelper {
     public final static String KEY_AUTO_APP = "autoAppUpdate";
     public final static String KEY_DEFAULT_TRAN = "defaultTranslated";
 
-    public final static String KEY_UMENG_ON = "turnOnUmeng";
-    public final static String KEY_UMENG_ASKED = "askedUmeng";
+    public final static String KEY_ANALYTICS_ON = "analyticsOn";
+    public final static String KEY_ANALYTICS_ASKED = "analyticsAsked";
 
     public final static String KEY_TruthVersion = "truthVersion";
     public final static String KEY_MasterDbHash = "masterHash";
 
-    private static boolean inited = false;
+    private final static AtomicBoolean init = new AtomicBoolean(false);
+
     static {
         defaultKeyValues = new HashMap<>();
         defaultKeyValues.put(KEY_AUTO_DATA, "true");
         defaultKeyValues.put(KEY_AUTO_APP, "true");
         defaultKeyValues.put(KEY_DEFAULT_TRAN, "false");
-        defaultKeyValues.put(KEY_UMENG_ON, "false");
-        defaultKeyValues.put(KEY_UMENG_ASKED, "false");
+        defaultKeyValues.put(KEY_ANALYTICS_ON, "false");
+        defaultKeyValues.put(KEY_ANALYTICS_ASKED, "false");
     }
 
     public SharedHelper(Context mContext) {
         this.mContext = mContext;
-        if (inited)
-            return;
-        SharedPreferences sp = mContext.getSharedPreferences("DereHelperSp", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sp.edit();
-        for (String key : defaultKeyValues.keySet()) {
-            if (!sp.contains(key)){
-                editor.putString(key, defaultKeyValues.get(key));
+        synchronized (init){
+            if (init.get())
+                return;
+            SharedPreferences sp = mContext.getSharedPreferences("DereHelperSp", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sp.edit();
+            for (String key : defaultKeyValues.keySet()) {
+                if (!sp.contains(key)){
+                    editor.putString(key, defaultKeyValues.get(key));
+                }
             }
+            editor.apply();
+            init.set(true);
         }
-        editor.apply();
-        inited = true;
     }
 
     //保存

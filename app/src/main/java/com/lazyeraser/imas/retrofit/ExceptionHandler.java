@@ -2,9 +2,11 @@ package com.lazyeraser.imas.retrofit;
 
 import android.net.ParseException;
 import android.support.annotation.StringRes;
+import android.widget.Toast;
 
 import com.google.gson.JsonParseException;
 import com.lazyeraser.imas.derehelper.R;
+import com.lazyeraser.imas.main.Base;
 import com.lazyeraser.imas.main.BaseActivity;
 
 import org.apache.http.conn.ConnectTimeoutException;
@@ -86,7 +88,7 @@ public class ExceptionHandler {
 
         }
         if (msg != R.string.network_error_5){
-            BaseActivity.umi.makeToast(msg);
+            Toast.makeText(Base.getTopContext(), msg, Toast.LENGTH_SHORT).show();
         }
         ex.printStackTrace();
     }

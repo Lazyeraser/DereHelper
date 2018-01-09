@@ -17,7 +17,7 @@ import java.util.Map;
 public class SStaticR {
 
     public final static boolean isDebug = BuildConfig.DEBUG;
-    public static boolean uMeng = false;
+    public static boolean ANALYTICS_ON = false;
     public final static boolean isCn = Locale.getDefault().getLanguage().endsWith("zh");
     public final static boolean isJp = Locale.getDefault().getLanguage().endsWith("ja");
     public final static boolean isEN = !(isCn || isJp);

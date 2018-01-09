@@ -25,6 +25,7 @@ import com.lazyeraser.imas.retrofit.ExceptionHandler;
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
@@ -53,6 +54,7 @@ public class FullScreenImageActivity extends BaseActivity {
                     | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
             decorView.setSystemUiVisibility(option);
             getWindow().setStatusBarColor(Color.TRANSPARENT);
+//            getWindow().setNavigationBarColor(Color.TRANSPARENT);
         }
         gestureImageView.getController().setLongPressEnabled(true);
         gestureImageView.getController().setOnGesturesListener(new GestureController.OnGestureListener() {
@@ -68,12 +70,13 @@ public class FullScreenImageActivity extends BaseActivity {
 
             @Override
             public boolean onSingleTapUp(@NonNull MotionEvent event) {
+                toggleSystemUIVisible();
                 return false;
             }
 
             @Override
             public boolean onSingleTapConfirmed(@NonNull MotionEvent event) {
-                backBtnAction();
+//                backBtnAction();
                 return false;
             }
 
@@ -98,6 +101,39 @@ public class FullScreenImageActivity extends BaseActivity {
                 return false;
             }
         });
+    }
+
+    private final AtomicBoolean uiVisible = new AtomicBoolean(false);
+
+    private void toggleSystemUIVisible() {
+        if (Build.VERSION.SDK_INT < 21) {
+            return;
+        }
+        synchronized (uiVisible){
+
+
+        }
+    }
+
+    private void setUiVisible(boolean visible){
+        View decorView = getWindow().getDecorView();
+        int option = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
+        if (!visible) {
+            int uiOptions = View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                    | View.SYSTEM_UI_FLAG_FULLSCREEN;
+            decorView.setSystemUiVisibility(uiOptions | option);
+        } else {
+            int uiOptions = View.SYSTEM_UI_FLAG_VISIBLE;
+            decorView.setSystemUiVisibility(uiOptions | option);
+        }
+        uiVisible.set(!uiVisible.get());
+    }
+
+    @Override
+    public void onEnterAnimationComplete() {
+        super.onEnterAnimationComplete();
+
     }
 
     @Override
