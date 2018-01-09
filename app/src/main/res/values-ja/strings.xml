@@ -21,7 +21,7 @@
     <string name="evo_before">前</string>
     <string name="evo_after">後</string>
     <string name="update_hint0">更新データがあります！</string>
-    <string name="update_hint1">直ちに更新しますか（Wi-Fi環境で行って下さるようおすすめします）</string>
+    <string name="update_hint1">すぐに更新しますか（Wi-Fi環境で行う事を推奨します）</string>
     <string name="update_hint2">更新しない</string>
     <string name="update_hint3">更新する</string>
     <string name="update_hint4">データをダウンロード中</string><!--ちひろメモ中-->
@@ -82,16 +82,16 @@
     <!--use original instead-->
     <string name="idol_cards">キャラのカード</string>
 
-    <string name="no_update">すでに最新のバージョンです</string>
+    <string name="no_update">既に最新のバージョンです</string>
     <string name="dialog_update_title">アップデート</string>
     <string name="dialog_update_msg">アップデートがあります</string>
-    <string name="dialog_update_btnupdate">いま更新する</string>
+    <string name="dialog_update_btnupdate">今更新する</string>
     <string name="dialog_update_btnnext">後で更新する</string>
     <string name="dialog_error_title">エラー</string>
     <string name="dialog_downfailed_msg">ダウンロード失敗</string>
-    <string name="dialog_downfailed_btnnext">再ダウンロードする</string>
+    <string name="dialog_downfailed_btnnext">再びダウンロードする</string>
     <string name="dialog_downloading_msg">更新データをダウンロード中</string>
-    <string name="un_connect">只今ネットワークに接続できません、ネット設定をチェックしてください</string>
+    <string name="un_connect">只今ネットワークに接続できません、ネットワーク設定をチェックしてください</string>
 
     <string name="about_author">開発者：@lazyeraser</string>
     <!--Should add a new column for translator--><!--Translator: @lot_gi / @shaguasanshi / @cai_miao-->
@@ -101,7 +101,7 @@
     <string name="settings_auto_data">自動的にデータを更新します</string>
     <string name="settings_auto_app">自動的にアプリを更新します</string>
     <string name="settings_default_tran">常に「翻訳」をオンにします</string><!--Should be hidden in Japanese-->
-    <string name="permission_denied_hint">更新データをダウンロードできるようアクセス許可を得る必要があります</string>
+    <string name="permission_denied_hint">更新データをダウンロードできるようにアクセス許可を得る必要があります</string>
     <string name="beat_map_view">譜面</string>
     <string name="get_type">入手方法</string>
     <string name="get_type_event">イベント</string>
@@ -113,7 +113,7 @@
     <string name="hometown">出身地</string>
     <string name="idol_mv">出演MV</string>
     <string name="locale_changed">言語が変更されました</string>
-    <string name="locale_changed_need_restart">アプリの再起動が必要</string>
+    <string name="locale_changed_need_restart">アプリの再起動が必要です</string>
     <string name="music_level">楽曲Lv：</string>
     <string name="network_error_0">通信エラー</string>
     <string name="network_error_1">通信エラー</string>
@@ -135,7 +135,7 @@
     <string name="song_beat_map">譜面</string>
     <string name="save_to_gallery">アルバムに保存</string>
     <string name="save_success">保存成功</string>
-    <string name="analytics_ask_content">プロデューサーさん、ユーザー体験向上のため、アプリの使用情報、またはエラーデータを収集することを許可しますか？\n\n（位置情報にアクセスする権限をリクエストすることがあります。これを拒否することで、位置情報は収集されなくなります。）</string>
+    <string name="analytics_ask_content">ユーザー体験向上のため、アプリの使用情報、またはエラーデータを収集することを許可しますか？\n\n（位置情報にアクセスする権限をリクエストすることがあります。これを拒否することで、位置情報は収集されなくなります。）</string>
     <string name="settings_analytics">集計機能</string>
     <string name="analytics_ask_title">情報収集</string>
     <string name="decline">いいえ</string>
