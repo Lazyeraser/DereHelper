@@ -9,12 +9,12 @@
         <import type="android.view.View" />
     </data>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true">
 
-        <ScrollView
+        <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/scrollView">
@@ -24,9 +24,23 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
-        </ScrollView>
+        </android.support.v4.widget.NestedScrollView>
 
-    </LinearLayout>
+        <com.h6ah4i.android.widget.verticalseekbar.VerticalSeekBarWrapper
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true">
+            <com.h6ah4i.android.widget.verticalseekbar.VerticalSeekBar
+                android:id="@+id/seekBar"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:splitTrack="false"
+                bind:seekBarRotation="CW270" />
+        </com.h6ah4i.android.widget.verticalseekbar.VerticalSeekBarWrapper>
+
+
+
+    </RelativeLayout>
 
 
 </layout>

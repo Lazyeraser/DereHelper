@@ -52,34 +52,28 @@ public class ExceptionHandler {
             ServerException resultException = (ServerException) e;
             ex = new ResponseThrowable(resultException, resultException.code);
             ex.message = resultException.message;
-
         } else if (e instanceof JsonParseException
                 || e instanceof JSONException
                 || e instanceof ParseException) {
             ex = new ResponseThrowable(e, ERROR.PARSE_ERROR);
             ex.message = "解析错误";
             msg = R.string.network_error_2;
-
         } else if (e instanceof ConnectException) {
             ex = new ResponseThrowable(e, ERROR.NETWORK_ERROR);
             ex.message = "连接失败";
             msg = R.string.network_error_1;
-
         } else if (e instanceof javax.net.ssl.SSLHandshakeException) {
             ex = new ResponseThrowable(e, ERROR.SSL_ERROR);
             ex.message = "证书验证失败";
             msg = R.string.network_error_3;
-
         } else if (e instanceof ConnectTimeoutException){
             ex = new ResponseThrowable(e, ERROR.TIMEOUT_ERROR);
             ex.message = "连接超时";
             msg = R.string.network_error_4;
-
         } else if (e instanceof java.net.SocketTimeoutException) {
             ex = new ResponseThrowable(e, ERROR.TIMEOUT_ERROR);
             ex.message = "连接超时";
             msg = R.string.network_error_4;
-
         }
         else {
             ex = new ResponseThrowable(e, ERROR.UNKNOWN);

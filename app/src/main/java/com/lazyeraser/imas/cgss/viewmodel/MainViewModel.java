@@ -14,7 +14,7 @@ import com.lazyeraser.imas.cgss.entity.Chara;
 import com.lazyeraser.imas.cgss.entity.CharaIndex;
 import com.lazyeraser.imas.cgss.entity.Manifest;
 import com.lazyeraser.imas.cgss.service.CardService;
-import com.lazyeraser.imas.cgss.service.CgssService;
+import com.lazyeraser.imas.cgss.service.CGSSService;
 import com.lazyeraser.imas.cgss.service.InfoService;
 import com.lazyeraser.imas.cgss.utils.DBHelper;
 import com.lazyeraser.imas.cgss.utils.FileHelper;
@@ -30,6 +30,8 @@ import com.lazyeraser.imas.retrofit.RetrofitProvider;
 import com.trello.rxlifecycle.ActivityLifecycleProvider;
 
 import java.io.IOException;
+import java.net.ConnectException;
+import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -37,6 +39,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import okhttp3.ResponseBody;
+import retrofit2.adapter.rxjava.HttpException;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -161,10 +165,12 @@ public class MainViewModel extends BaseViewModel {
 
     }
 
+    private boolean useReverseProxy = false;
+
     private void updateManifest(String truthVersion) {
         progress.set(-1);
         progressTxt.set(mContext.getString(R.string.update_hint_manifest));
-        RetrofitProvider.getInstance(false).create(CgssService.class)
+        RetrofitProvider.getInstance(false).create(CGSSService.class)
                 .getManifests(truthVersion)
                 .subscribeOn(Schedulers.io())
                 .subscribe(body -> {
@@ -180,6 +186,7 @@ public class MainViewModel extends BaseViewModel {
 
                         fileToDownload = new HashMap<>();
                         hashToDownload = new ArrayList<>();
+                        useReverseProxy = umi.getSP(SharedHelper.KEY_USE_REVERSE_PROXY);
                         if (!masterHash.equals(umi.spRead(SharedHelper.KEY_MasterDbHash))) {
                             // update master.db
                             addFileDownloadMission(masterHash, DBHelper.DB_NAME_master, mContext.getFilesDir().getAbsolutePath());
@@ -200,6 +207,7 @@ public class MainViewModel extends BaseViewModel {
                         if (total == 0){
                             finishManifestUpdate(masterHash, truthVersion);
                         }else {
+                            retryTimes = 0;
                             downLoadFiles(0, masterHash, truthVersion);
                         }
                     } catch (Exception e) {
@@ -215,12 +223,14 @@ public class MainViewModel extends BaseViewModel {
         fileToDownload.put(hash, new Pair<>(filePath, fileName));
     }
 
+    private int retryTimes;
     private void downLoadFiles(int i, String masterHash, String truthVersion){
         if (i < hashToDownload.size()){
             String hash = hashToDownload.get(i);
-            RetrofitProvider.getInstance(false).create(CgssService.class)
-                    .getResources(hash)
-                    .subscribeOn(Schedulers.io())
+            Observable<ResponseBody> file = useReverseProxy ?
+                    RetrofitProvider.getInstance(false).create(CGSSService.class).getResourcesRP(hash) :
+                    RetrofitProvider.getInstance(false).create(CGSSService.class).getResources(hash);
+            file.subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(responseBody -> {
                         try {
@@ -230,6 +240,15 @@ public class MainViewModel extends BaseViewModel {
                             downLoadFiles(i + 1, masterHash, truthVersion);
                         } catch (IOException e) {
                             e.printStackTrace();
+                        }
+                    }, throwable -> {
+                        if (retryTimes < 50){
+                            if (throwable instanceof HttpException || throwable instanceof SocketTimeoutException
+                                    || throwable instanceof ConnectException){
+                                downLoadFiles(i, masterHash, truthVersion);
+                            }
+                        }else {
+                            umi.makeToast(R.string.network_error_0);
                         }
                     });
         }else {

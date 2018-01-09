@@ -13,7 +13,7 @@
     <string name="about_api" translatable="false">API by: starlight.346lab.org</string>
     <string name="about_open_source" translatable="false">Open source：<u>https://github.com/lazyeraser/DereHelper</u></string>
     <string name="about_author">Author：@lazyeraser</string>
-    <string name="about_copyright">ALL copyright of the data show in this app belongs to THE iDOLM@STER Cinderella Girls: Starlight Stage</string>
+    <string name="about_copyright">APP for THE iDOLM@STER Cinderella Girls: Starlight Stage.ALL copyright of the data shown in this app belongs to BANDAI NAMCO Entertainment Inc.</string>
     <string name="about_translator"> </string>
     <string name="age">Age</string>
     <string name="app_exit_hint">Press again to exit</string>
@@ -141,4 +141,6 @@
     <string name="unit_height" translatable="false">cm</string>
     <string name="unit_weight" translatable="false">kg</string>
     <string name="bpm" translatable="false">BPM</string>
+
+    <string name="cancel">Cancel</string>
 </resources>

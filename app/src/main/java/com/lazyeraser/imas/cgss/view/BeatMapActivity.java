@@ -1,11 +1,12 @@
 package com.lazyeraser.imas.cgss.view;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.widget.ScrollView;
+import android.support.v4.widget.NestedScrollView;
 import android.widget.TextView;
 
+import com.h6ah4i.android.widget.verticalseekbar.VerticalSeekBar;
 import com.lazyeraser.imas.cgss.utils.view.BeatMapView;
+import com.lazyeraser.imas.cgss.utils.view.ScrollBindHelper;
 import com.lazyeraser.imas.derehelper.R;
 import com.lazyeraser.imas.main.BaseActivity;
 
@@ -19,12 +20,17 @@ public class BeatMapActivity extends BaseActivity {
 
     private boolean init = false;
 
+    private NestedScrollView scrollView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_beat_map);
         String noteData = umi.getIntentString("data");
 //        String name = umi.getIntentString("name");
+        scrollView = (NestedScrollView)findViewById(R.id.scrollView);
+        VerticalSeekBar seekBar = (VerticalSeekBar)findViewById(R.id.seekBar);
+        ScrollBindHelper.bind(seekBar, scrollView);
         BeatMapView beatMapView = (BeatMapView)findViewById(R.id.beat_map);
         beatMapView.setData(noteData);
         setActionBarTitle(R.string.beat_map_view);
@@ -39,7 +45,7 @@ public class BeatMapActivity extends BaseActivity {
     @Override
     public void onEnterAnimationComplete() {
         super.onEnterAnimationComplete();
-        ScrollView scrollView = (ScrollView)findViewById(R.id.scrollView);
+
         if (scrollView.getScrollY() == 0 && !init){
             scrollView.smoothScrollTo(0, anchor);
             init = true;

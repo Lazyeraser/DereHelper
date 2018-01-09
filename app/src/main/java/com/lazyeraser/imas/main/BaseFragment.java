@@ -22,7 +22,7 @@ import java.util.List;
 public class BaseFragment extends Fragment {
 
     public BaseActivity mContext;
-    public static Base umi;
+    public Base umi;
     private View baseView;
 
     private ViewDataBinding binding;

@@ -17,8 +17,8 @@ import java.util.Map;
 public class SStaticR {
 
     public final static boolean isDebug = BuildConfig.DEBUG;
-    public static boolean ANALYTICS_ON = false;
     public final static boolean isCn = Locale.getDefault().getLanguage().endsWith("zh");
+    public final static boolean isCnMainLand = Locale.getDefault().toString().startsWith("zh_CN");
     public final static boolean isJp = Locale.getDefault().getLanguage().endsWith("ja");
     public final static boolean isEN = !(isCn || isJp);
 
@@ -31,6 +31,7 @@ public class SStaticR {
 
     public final static String API = API_SERVER_URL + "/api/v1/";
 
+    public static boolean ANALYTICS_ON = false;
 
     //static data
     public final static String UNITY_VERSION = "5.4.5p1";

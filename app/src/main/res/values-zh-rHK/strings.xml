@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">千尋記事本</string>
+    <string name="other">其他</string>
+    <string name="empty">無</string>
+    <string name="skill_empty">無技能</string>
+    <string name="app_exit_hint">再按一次退出程序</string>
+    <string name="loading">加載中…</string>
+    <string name="loading_pic">大圖加載中…</string>
+    <string name="menu_0">偶像</string>
+    <string name="card_list">卡片列表</string>
+    <string name="card_detail">卡片詳情</string>
+    <string name="check_hint">數據已是最新</string>
+    <string name="is_evolution">特訓</string>
+    <string name="sort_type">排序類型</string>
+    <string name="sort_method">排序方法</string>
+    <string name="skill_type">技能類型</string>
+    <string name="empty_filter_choose">清空</string>
+    <string name="sort_method_0">降序</string>
+    <string name="sort_method_1">升序</string>
+    <string name="evo_before">前</string>
+    <string name="evo_after">後</string>
+    <string name="update_hint0">Producer，有數據更新</string>
+    <string name="update_hint1">要現在更新嗎（建議在wifi環境下進行）</string>
+    <string name="update_hint2">下次再說</string>
+    <string name="update_hint3">立即更新</string>
+    <string name="update_hint4">千尋記錄中</string>
+    <string name="update_error">寫入異常，請嘗試重啟APP進行重試</string>
+    <string name="update_hint5">緩存中</string>
+    <string name="update_hint_finish">更新完成</string>
+    <string name="card_type">屬性</string>
+    <string name="card_rare">稀有度</string>
+    <string name="filter_confirm">確定</string>
+    <string name="filter_reset">重置</string>
+    <string name="low">低</string>
+    <string name="middle">中</string>
+    <string name="high">高</string>
+    <string name="only_one_title">你是我唯一想要的卡</string>
+    <string name="chara_list">角色列表</string>
+    <string name="list_empty_hint">沒有數據，請嘗試更新/下載數據</string>
+    <string name="menu_1">事務所</string>
+    <string name="check_data_update">檢查數據更新</string>
+    <string name="check_app_update">檢查APP更新</string>
+    <string name="about">關於</string>
+    <string name="settings">設置</string>
+    <string name="translate">翻譯</string>
+    <string name="appeal_max">最大表現值</string>
+    <string name="skill_live">LIVE技能</string>
+    <string name="skill_chance">發動率</string>
+    <string name="skill_effect_length">持續時間</string>
+    <string name="skill_centre">隊長技能</string>
+    <string name="idol_info">偶像信息</string>
+    <string name="info_base">個人信息</string>
+    <string name="birthday">生日</string>
+    <string name="height">身高</string>
+    <string name="weight">體重</string>
+    <string name="three_size">三圍</string>
+    <string name="age">年齡</string>
+    <string name="blood_type">血型</string>
+    <string name="constellation">星座</string>
+    <string name="hand">慣用手</string>
+    <string name="name_kana">平假名</string>
+    <string name="favourite_thing">愛好</string>
+    <string name="unit_age">歲</string>
+    <string name="unit_month">月</string>
+    <string name="unit_day">日</string>
+    <string name="right">右</string>
+    <string name="left">左</string>
+    <string name="constellation_1">白羊座</string>
+    <string name="constellation_2">金牛座</string>
+    <string name="constellation_3">雙子座</string>
+    <string name="constellation_4">巨蟹座</string>
+    <string name="constellation_5">獅子座</string>
+    <string name="constellation_6">處女座</string>
+    <string name="constellation_7">天秤座</string>
+    <string name="constellation_8">天蠍座</string>
+    <string name="constellation_9">射手座</string>
+    <string name="constellation_10">摩羯座</string>
+    <string name="constellation_11">水瓶座</string>
+    <string name="constellation_12">雙魚座</string>
+    <string name="idol_cards">角色卡片</string>
+
+    <string name="no_update">當前已是最新版本</string>
+    <string name="dialog_update_title">版本更新</string>
+    <string name="dialog_update_msg">發現新版本</string>
+    <string name="dialog_update_btnupdate">立即更新</string>
+    <string name="dialog_update_btnnext">下次再說</string>
+    <string name="dialog_error_title">錯誤提示</string>
+    <string name="dialog_downfailed_msg">下載失敗！</string>
+    <string name="dialog_downfailed_btnnext">重新下載</string>
+    <string name="dialog_downloading_msg">正在下載更新</string>
+    <string name="un_connect">當前網絡不可用，請檢查網絡設置！</string>
+
+    <string name="about_author">作者：@lazyeraser</string>
+    <string name="about_copyright">本APP非官方，與THE iDOLM@STER Cinderella Girls: Starlight Stage(デレステ) 無任何直接關聯。遊戲內素材及數據的版權所屬為BANDAI NAMCO Entertainment Inc.</string>
+
+    <string name="settings_auto_data">自動檢查數據更新</string>
+    <string name="settings_auto_app">自動檢查APP更新</string>
+    <string name="settings_default_tran">默認開啟翻譯</string>
+    <string name="permission_denied_hint">Producer，請授予千尋權限以正常下載自動更新哦</string>
+
+
+    <!--0.9.6-->
+
+    <string name="about_translator">\n</string>
+    <string name="hand_both">雙手</string>
+    <string name="hometown">娘家</string>
+    <string name="update_hint_manifest">更新譜面清單中</string>
+
+    <string name="locale_changed">語言已變更</string>
+    <string name="locale_changed_need_restart">APP需要重啟</string>
+
+    <string name="network_error_0">網絡錯誤</string>
+    <string name="network_error_1">網絡連接失敗</string>
+    <string name="network_error_2">解析錯誤</string>
+    <string name="network_error_3">證書驗證失敗</string>
+    <string name="network_error_4">網絡連接超時</string>
+    <string name="network_error_5">未知錯誤</string>
+
+    <string name="beat_map_view">譜面查看</string>
+    <string name="song_list">歌曲列表</string>
+    <string name="song_detail">歌曲詳情</string>
+    <string name="song_info">歌曲信息</string>
+    <string name="song_beat_map">譜面</string>
+    <string name="song_name_kana">歌名(平假名)</string>
+    <string name="song_description">簡介</string>
+    <string name="song_mv_position">演出站位</string>
+    <string name="online_date">實裝日期</string>
+    <string name="got_online">實裝</string>
+    <string name="music_level">歌曲Lv：</string>
+
+    <string name="get_type">卡池</string>
+    <string name="get_type_normal">常駐</string>
+    <string name="get_type_limit">限定</string>
+    <string name="get_type_fes">FES限定</string>
+    <string name="get_type_event">活動</string>
+
+    <string name="type_unknown">未知類型</string>
+    <string name="save_to_gallery">保存到相冊</string>
+    <string name="save_success">保存成功</string>
+    <string name="save_error">保存失敗</string>
+
+    <string name="idol_mv">出演MV</string>
+
+    <!--0.9.7-->
+    <string name="settings_analytics">啟用數據統計</string>
+    <string name="analytics_ask_title">數據統計</string>
+    <string name="analytics_ask_content">Producer！您同意開發者收集應用的運行或報錯信息嗎？這將對改進本應用有很大幫助\n\n數據統計服務由Google Analytics提供</string>
+    <string name="accept">同意</string>
+    <string name="decline">拒絕</string>
+    <string name="constellation_6_special">花見花失色的處女座</string>
+    <string name="cancel">取消</string>
+</resources>

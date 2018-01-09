@@ -102,7 +102,7 @@ public class CardListFrag extends BaseFragment {
         for (int i = 0; i < skillTypeList.size(); i++) {
             skillTypeC.setIndexItemSelected(i);
         }
-        evoC.setIndexItemSelected(0); // default before evo
+        evoC.selectAll();
         sttC.setIndexItemSelected(0);
         stmC.setIndexItemSelected(0);
 

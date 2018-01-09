@@ -45,8 +45,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             bind:titleTxt="@{R.string.settings_analytics}"
-            bind:onCheckChanged="@{viewModel.onUMCheck}"
-            bind:checked="@{viewModel.um}" />
+            bind:onCheckChanged="@{viewModel.onAnalyticsCheck}"
+            bind:checked="@{viewModel.analytics}" />
+
+        <com.lazyeraser.imas.cgss.utils.view.SettingOptionView
+            android:visibility="@{!SStaticR.isCnMainLand ? View.GONE : View.VISIBLE}"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            bind:titleTxt="@{R.string.download_speedup}"
+            bind:onCheckChanged="@{viewModel.onProxyCheck}"
+            bind:checked="@{viewModel.rProxy}" />
 
     </LinearLayout>
 

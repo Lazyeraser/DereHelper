@@ -17,11 +17,13 @@ public class SharedHelper {
     public final static String KEY_AUTO_APP = "autoAppUpdate";
     public final static String KEY_DEFAULT_TRAN = "defaultTranslated";
 
-    public final static String KEY_ANALYTICS_ON = "analyticsOn";
-    public final static String KEY_ANALYTICS_ASKED = "analyticsAsked";
+    public final static String KEY_ANALYTICS_ON = "GAOn";
+    public final static String KEY_ANALYTICS_ASKED = "GAAsked";
 
     public final static String KEY_TruthVersion = "truthVersion";
     public final static String KEY_MasterDbHash = "masterHash";
+
+    public final static String KEY_USE_REVERSE_PROXY = "reverse proxy on";
 
     private final static AtomicBoolean init = new AtomicBoolean(false);
 
@@ -32,6 +34,7 @@ public class SharedHelper {
         defaultKeyValues.put(KEY_DEFAULT_TRAN, "false");
         defaultKeyValues.put(KEY_ANALYTICS_ON, "false");
         defaultKeyValues.put(KEY_ANALYTICS_ASKED, "false");
+        defaultKeyValues.put(KEY_USE_REVERSE_PROXY, "");
     }
 
     public SharedHelper(Context mContext) {

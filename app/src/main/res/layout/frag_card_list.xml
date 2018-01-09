@@ -27,6 +27,7 @@
             android:layout_height="match_parent">
 
             <ListView
+                android:fastScrollEnabled="true"
                 android:id="@+id/card_list"
                 android:background="@color/back"
                 android:layout_width="match_parent"
@@ -122,7 +123,7 @@
                     <com.lazyeraser.imas.cgss.utils.view.MultiLineChooseLayout
                         android:layout_marginTop="5dp"
                         style="@style/FlowLayout"
-                        bind:item_multiChooseable="false"
+                        bind:item_multiChooseable="true"
                         android:layout_marginStart="12dp"
                         android:id="@+id/evoChoose"
                         android:layout_width="wrap_content"

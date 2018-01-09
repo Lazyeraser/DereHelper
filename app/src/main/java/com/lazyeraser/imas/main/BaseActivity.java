@@ -51,14 +51,15 @@ public class BaseActivity extends RxAppCompatActivity implements View.OnClickLis
         umi = new Base();
         umi.init(this);
         mContext = this;
-        if (Build.VERSION.SDK_INT >= 21) {
+    /*    if (Build.VERSION.SDK_INT >= 21) {
             View decorView = getWindow().getDecorView();
             int option = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                     | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
             decorView.setSystemUiVisibility(option);
             getWindow().setStatusBarColor(0xFFB08870);
-            getWindow().setNavigationBarColor(0xFFB08870);
-        }
+//            getWindow().setNavigationBarColor(0xFFB08870);
+            getWindow().setNavigationBarColor(0xFFc9a087);
+        }*/
     }
 
     public BaseActivity setBinding(@LayoutRes int layoutId){

@@ -27,6 +27,7 @@
             android:layout_height="match_parent">
 
             <ListView
+                android:fastScrollEnabled="true"
                 android:id="@+id/card_list"
                 android:background="@color/back"
                 android:layout_width="match_parent"

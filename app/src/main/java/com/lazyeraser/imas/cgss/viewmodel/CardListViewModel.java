@@ -52,7 +52,6 @@ public class CardListViewModel extends BaseViewModel {
     public final ItemView itemView = ItemView.of(com.lazyeraser.imas.derehelper.BR.viewModel, R.layout.item_list_card);
 
     private ObservableField<Map<Card, CardViewModel>> cardDataList = new ObservableField<>();
-    private boolean isEvo = false;
 
     // getAll detail activity
     public final ReplyCommand<Pair<Integer, View>> onListItemClickCommand = new ReplyCommand<>(pair -> {
@@ -69,6 +68,7 @@ public class CardListViewModel extends BaseViewModel {
     });
 
     /*-------------commands for filter---------------*/
+    private List<Integer> evoFilter = new ArrayList<>();
     private List<Integer> rareFilter = new ArrayList<>();
     private List<String> typeFilter = new ArrayList<>();
     private List<Integer> skillFilter = new ArrayList<>();
@@ -87,7 +87,7 @@ public class CardListViewModel extends BaseViewModel {
 
     public final ReplyCommand<List<String>> onTypeSelCommand = new ReplyCommand<>(strings -> typeFilter = strings);
 
-    public final ReplyCommand<List<Integer>> onEvoSelCommand = new ReplyCommand<>(integers -> isEvo = integers.get(0) == 1);
+    public final ReplyCommand<List<Integer>> onEvoSelCommand = new ReplyCommand<>(integers -> evoFilter = integers);
 
     public final ReplyCommand<List<String>> sortTypeCommand = new ReplyCommand<>(strings -> sortType = SStaticR.sortTypeMap_Card.get(strings.get(0)));
 
@@ -150,9 +150,11 @@ public class CardListViewModel extends BaseViewModel {
     }
 
     private void initFilter(){
+        Messenger.getDefault().sendNoMsg(CardListFrag.TOKEN_RESET_FILTER);
         rareFilter.clear();
         typeFilter.clear();
         skillFilter.clear();
+        evoFilter.clear();
         SStaticR.skillTypeMap.put(mContext.getString(R.string.skill_empty), Integer.MAX_VALUE);
         rareFilter.add(SStaticR.rarityMap_rev.get("SSR"));
         rareFilter.add(SStaticR.rarityMap_rev.get("SR"));
@@ -161,7 +163,8 @@ public class CardListViewModel extends BaseViewModel {
         getTypeFilter.addAll(getTypeMap_UI.keySet());
         sortMethod = 0; // default desc
         sortType = 0; // default ID
-        Messenger.getDefault().sendNoMsg(CardListFrag.TOKEN_RESET_FILTER);
+        evoFilter.add(0);
+        evoFilter.add(1);
     }
 
     private void loadData(){
@@ -233,6 +236,35 @@ public class CardListViewModel extends BaseViewModel {
         return skillFilter.contains(card.getSkill().getSkill_type_id());
     }
 
+    private boolean checkRare(Card card){
+        for (Integer integer : evoFilter) {
+            if (card.getEvolution_id() != 0){
+                if (rareFilter.contains(card.getRarity().getRarity())){
+                    return true;
+                }
+            }else {
+                if (rareFilter.contains(card.getRarity().getRarity() - integer)){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private boolean checkID(Card card, List<Integer> idList){
+        for (Integer integer : evoFilter) {
+            if (card.getEvolution_id() != 0){
+                if (idList.contains(card.getId()) && integer == 0){
+                    return true;
+                }
+            }else {
+                if (idList.contains(card.getId() - integer)){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 
 
     private void filterCards(){
@@ -243,8 +275,7 @@ public class CardListViewModel extends BaseViewModel {
         // 过滤
         for (Card card : cardDataList.get().keySet()) {
             CardViewModel vm = cardDataList.get().get(card);
-            if (typeFilter.contains(card.getAttribute().toUpperCase()) && rareFilter.contains(card.getRarity().getRarity() - (isEvo ? 1 : 0))
-                    && checkSkillType(card) && idList.contains(card.getId() - (isEvo ? 1 : 0))) {
+            if (typeFilter.contains(card.getAttribute().toUpperCase()) && checkRare(card) && checkSkillType(card) && checkID(card, idList)) {
                 // 符合条件 如不在当前显示的列表中则加入
                 if (!itemViewModel.contains(vm)){
                     itemViewModel.add(vm);
@@ -262,38 +293,31 @@ public class CardListViewModel extends BaseViewModel {
             Card cardA = a.card.get();
             Card cardB = b.card.get();
             boolean desc = sortMethod == 0;
+            int valueA;
+            int valueB;
             switch (sortType){
                 case 1:
-                    if ((cardB.getVisual_max() + cardB.getBonus_visual()) < (cardA.getVisual_max() + cardA.getBonus_visual())){
-                        return desc ? -1 : 1;
-                    }else {
-                        return desc ? 1 : -1;
-                    }
+                    valueA = cardA.getVisual_max() + cardA.getBonus_visual();
+                    valueB = cardB.getVisual_max() + cardB.getBonus_visual();
+                    break;
                 case 2:
-                    if ((cardB.getVocal_max() + cardB.getBonus_vocal()) < (cardA.getVocal_max() + cardA.getBonus_vocal())){
-                        return desc ? -1 : 1;
-                    }else {
-                        return desc ? 1 : -1;
-                    }
+                    valueA = cardA.getVocal_max() + cardA.getBonus_vocal();
+                    valueB = cardB.getVocal_max() + cardB.getBonus_vocal();
+                    break;
                 case 3:
-                    if ((cardB.getDance_max() + cardB.getBonus_dance()) < (cardA.getDance_max() + cardA.getBonus_dance())){
-                        return desc ? -1 : 1;
-                    }else {
-                        return desc ? 1 : -1;
-                    }
+                    valueA = cardA.getDance_max() + cardA.getBonus_dance();
+                    valueB = cardB.getDance_max() + cardB.getBonus_dance();
+                    break;
                 case 4:
-                    if ((cardB.getOverall_max() + cardB.getOverall_bonus()) < (cardA.getOverall_max() + cardA.getOverall_bonus())){
-                        return desc ? -1 : 1;
-                    }else {
-                        return desc ? 1 : -1;
-                    }
+                    valueA = cardA.getOverall_max() + cardA.getOverall_bonus();
+                    valueB = cardB.getOverall_max() + cardB.getOverall_bonus();
+                    break;
                 default: // also for type ID
-                    if ((cardB.getId() - (100000 * SStaticR.typeMap_int.get(cardB.getAttribute().toLowerCase()))) < (cardA.getId()  - (100000 * SStaticR.typeMap_int.get(cardA.getAttribute().toLowerCase())))){
-                        return desc ? -1 : 1;
-                    }else {
-                        return desc ? 1 : -1;
-                    }
+                    valueA = cardA.getSeries_id()  - (100000 * SStaticR.typeMap_int.get(cardA.getAttribute().toLowerCase()));
+                    valueB = cardB.getSeries_id() - (100000 * SStaticR.typeMap_int.get(cardB.getAttribute().toLowerCase()));
+                    break;
             }
+            return (desc ? 1 : -1) * (valueB == valueA ? 0 : valueB < valueA ? -1 : 1);
         });
         umi.dismissLoading();
     }

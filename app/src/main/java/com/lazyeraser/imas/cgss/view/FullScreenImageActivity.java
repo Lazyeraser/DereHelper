@@ -48,14 +48,14 @@ public class FullScreenImageActivity extends BaseActivity {
                 .setVariable(com.lazyeraser.imas.derehelper.BR.viewModel, new FullScreenImageVM(this, url));
         GestureImageView gestureImageView = (GestureImageView)getBView(R.id.big_pic);
         ViewCompat.setTransitionName(gestureImageView, "big_pic");
-        if (Build.VERSION.SDK_INT >= 21) {
+  /*      if (Build.VERSION.SDK_INT >= 21) {
             View decorView = getWindow().getDecorView();
             int option = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                     | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
             decorView.setSystemUiVisibility(option);
             getWindow().setStatusBarColor(Color.TRANSPARENT);
 //            getWindow().setNavigationBarColor(Color.TRANSPARENT);
-        }
+        }*/
         gestureImageView.getController().setLongPressEnabled(true);
         gestureImageView.getController().setOnGesturesListener(new GestureController.OnGestureListener() {
             @Override
@@ -70,13 +70,13 @@ public class FullScreenImageActivity extends BaseActivity {
 
             @Override
             public boolean onSingleTapUp(@NonNull MotionEvent event) {
-                toggleSystemUIVisible();
+//                toggleSystemUIVisible();
                 return false;
             }
 
             @Override
             public boolean onSingleTapConfirmed(@NonNull MotionEvent event) {
-//                backBtnAction();
+                backBtnAction();
                 return false;
             }
 

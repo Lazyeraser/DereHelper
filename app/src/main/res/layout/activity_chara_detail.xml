@@ -234,7 +234,7 @@
                                     android:layout_marginEnd="10dp"
                                     android:layout_marginStart="10dp"
                                     android:hint="@string/empty"
-                                    android:text='@{String.valueOf(viewModel.chara.getWeight())  + @string/unit_weight}'
+                                    android:text="@{viewModel.weight}"
                                     android:textColor="@color/txtGray"
                                     android:textSize="@dimen/txt_1" />
 

@@ -11,6 +11,7 @@ import com.google.android.gms.analytics.Logger;
 import com.google.android.gms.analytics.Tracker;
 
 import com.jakewharton.picasso.OkHttp3Downloader;
+import com.lazyeraser.imas.cgss.utils.JsonUtils;
 import com.lazyeraser.imas.cgss.utils.Utils;
 import com.lazyeraser.imas.derehelper.R;
 import com.squareup.picasso.Picasso;
@@ -35,7 +36,8 @@ public class LIVE extends Application {
             StrictMode.setVmPolicy(builder.build());
 //            builder.detectFileUriExposure();
         }
-        Utils.mPrint("os language:" + Locale.getDefault().getLanguage());
+//        Utils.mPrint("main land" + SStaticR.isCnMainLand);
+//        Utils.mPrint("os language:" + Locale.getDefault().toString());
         // set up picasso's disk cache
         Picasso.Builder builder = new Picasso.Builder(this);
         builder.downloader(new OkHttp3Downloader(this,Integer.MAX_VALUE));
