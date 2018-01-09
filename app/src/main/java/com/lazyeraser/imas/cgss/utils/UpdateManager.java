@@ -103,7 +103,15 @@ public class UpdateManager {
     private boolean needNoUpdateHint = false;
     private String verjson, versionInfo;
     //检查更新
-    public void checkUpdate(boolean needNoUpdateHint) {
+    private OnUpdateCheckedListener onUpdateCheckedListener;
+    public interface OnUpdateCheckedListener{
+        void onChecked();
+    }
+    public void checkUpdate(boolean needNoUpdateHint){
+        checkUpdate(needNoUpdateHint, null);
+    }
+    public void checkUpdate(boolean needNoUpdateHint, OnUpdateCheckedListener listener) {
+        this.onUpdateCheckedListener = listener;
         this.needNoUpdateHint = needNoUpdateHint;
         Utils.mPrint("checkUpdate:" + needNoUpdateHint);
         hasNewVersion = false;
@@ -309,6 +317,9 @@ public class UpdateManager {
         //检查更新
         public void checkUpdateCompleted(Boolean hasUpdate,
                                          CharSequence updateInfo) {
+            if (onUpdateCheckedListener != null){
+                onUpdateCheckedListener.onChecked();
+            }
             if (hasUpdate) {
                 new SweetAlertDialog(mContext, SweetAlertDialog.NORMAL_TYPE)
                         .setTitleText(mContext.getString(R.string.dialog_update_title))

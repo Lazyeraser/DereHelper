@@ -168,10 +168,13 @@ public class MainActivity extends BaseActivity {
 
     private void checkUpdate(boolean hint){
         needUpdateHint = hint;
+        if (hint) {
+            umi.showLoading();
+        }
         if (ContextCompat.checkSelfPermission(mContext, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions((Activity) mContext, new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
         }else {
-            updateManager.checkUpdate(hint);
+            updateManager.checkUpdate(hint, () -> umi.dismissLoading());
         }
     }
 
@@ -180,7 +183,7 @@ public class MainActivity extends BaseActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == 1 && permissions[0].equals(Manifest.permission.WRITE_EXTERNAL_STORAGE)){
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED){
-                updateManager.checkUpdate(needUpdateHint);
+                updateManager.checkUpdate(needUpdateHint, () -> umi.dismissLoading());
             }else {
                 umi.makeToast(R.string.permission_denied_hint);
             }
@@ -202,31 +205,27 @@ public class MainActivity extends BaseActivity {
                     Messenger.getDefault().sendNoMsg(TOKEN_DATA_UPDATED);
                 })
                 .setConfirmClickListener(alertDialog -> {
-                    if (!SStaticR.isCnMainLand){
-                        alertDialog.dismiss();
-                        mainViewModel.agree.set(true);
+                    alertDialog.dismiss();
+                    if (SStaticR.isCnMainLand && TextUtils.isEmpty(umi.spRead(SharedHelper.KEY_USE_REVERSE_PROXY))){
+                        SweetAlertDialog askRPDialog = new SweetAlertDialog(mContext, SweetAlertDialog.WARNING_TYPE)
+                                .setTitleText("开启下载加速？")
+                                .setContentText("可以解决部分网络环境谱面下载过慢的问题\n\n加速由346lab.org提供")
+                                .setConfirmText("开启加速")
+                                .setCancelText("直接下载")
+                                .setConfirmClickListener(dialog -> {
+                                    umi.spSave(SharedHelper.KEY_USE_REVERSE_PROXY, "true");
+                                    dialog.dismiss();
+                                    mainViewModel.agree.set(true);
+                                })
+                                .setCancelClickListener(dialog ->{
+                                    umi.spSave(SharedHelper.KEY_USE_REVERSE_PROXY, "false");
+                                    dialog.dismiss();
+                                    mainViewModel.agree.set(true);
+                                });
+                        askRPDialog.setCanceledOnTouchOutside(false);
+                        askRPDialog.show();
                     }else {
-                        if (TextUtils.isEmpty(umi.spRead(SharedHelper.KEY_USE_REVERSE_PROXY))){
-                            SweetAlertDialog askRPDialog = new SweetAlertDialog(mContext, SweetAlertDialog.WARNING_TYPE)
-                                    .setTitleText("开启下载加速？")
-                                    .setContentText("可以解决部分网络环境谱面下载过慢的问题\n\n加速由346lab.org提供")
-                                    .setConfirmText("开启加速")
-                                    .setCancelText("直接下载")
-                                    .setConfirmClickListener(dialog -> {
-                                        umi.spSave(SharedHelper.KEY_USE_REVERSE_PROXY, "true");
-                                        dialog.dismiss();
-                                        alertDialog.dismiss();
-                                        mainViewModel.agree.set(true);
-                                    })
-                                    .setCancelClickListener(dialog ->{
-                                        umi.spSave(SharedHelper.KEY_USE_REVERSE_PROXY, "false");
-                                        dialog.dismiss();
-                                        alertDialog.dismiss();
-                                        mainViewModel.agree.set(true);
-                                    });
-                            askRPDialog.setCanceledOnTouchOutside(false);
-                            askRPDialog.show();
-                        }
+                        mainViewModel.agree.set(true);
                     }
                 });
         progressDialog = new SweetAlertDialog(mContext, SweetAlertDialog.PROGRESS_TYPE)

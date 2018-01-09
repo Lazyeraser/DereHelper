@@ -239,16 +239,10 @@ public class BaseActivity extends RxAppCompatActivity implements View.OnClickLis
     @Override
     protected void onResume() {
         super.onResume();
-        if (SStaticR.ANALYTICS_ON){
-
-        }
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        if (SStaticR.ANALYTICS_ON){
-
-        }
     }
 }

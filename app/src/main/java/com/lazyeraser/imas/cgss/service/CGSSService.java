@@ -23,7 +23,9 @@ public interface CGSSService {
     @Headers("X-Unity-Version:" + SStaticR.UNITY_VERSION)
     Observable<ResponseBody> getResources(@Path("hash") String hash);
 
+    @GET("http://346lab.org/dl/cgss_assets/{version}/manifests/Android_AHigh_SHigh")
+    Observable<ResponseBody> getManifestsRP(@Path("version") String version);
+
     @GET("http://346lab.org/dl/cgss_assets/resources/Generic/{hash}")
-//    @Headers("X-Unity-Version:" + SStaticR.UNITY_VERSION)
     Observable<ResponseBody> getResourcesRP(@Path("hash") String hash);
 }

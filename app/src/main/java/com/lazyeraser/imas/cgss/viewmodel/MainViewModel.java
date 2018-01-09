@@ -139,27 +139,27 @@ public class MainViewModel extends BaseViewModel {
                     }
                     if (update){
                         haveUpdate.set(true);
+                        android.databinding.Observable.OnPropertyChangedCallback agreeCallBack = new android.databinding.Observable.OnPropertyChangedCallback() {
+                            @Override
+                            public void onPropertyChanged(android.databinding.Observable observable, int i) {
+                                if (agree.get()) {
+                                    agree.set(false);
+                                    solved = 0;
+                                    boolean isUpdateManifest = info != null && !TextUtils.isEmpty(info.getTruth_version());
+                                    isShowProgress.set(true);
+                                    total = allIds_card.size();
+                                    if (newIds_card.size() > 0 || isUpdateManifest) {
+                                        upDateDB(isUpdateManifest, isUpdateManifest ? info.getTruth_version() : null);
+                                    }
+                                    agree.removeOnPropertyChangedCallback(this);
+                                }
+                            }
+                        };
+                        agree.addOnPropertyChangedCallback(agreeCallBack);
                     }else {
                         upToDate.set(true);
                     }
                     umi.dismissLoading();
-                    android.databinding.Observable.OnPropertyChangedCallback agreeCallBack = new android.databinding.Observable.OnPropertyChangedCallback() {
-                        @Override
-                        public void onPropertyChanged(android.databinding.Observable observable, int i) {
-                            if (agree.get()) {
-                                agree.set(false);
-                                solved = 0;
-                                boolean isUpdateManifest = info != null && !TextUtils.isEmpty(info.getTruth_version());
-                                isShowProgress.set(true);
-                                total = allIds_card.size();
-                                if (newIds_card.size() > 0 || isUpdateManifest) {
-                                    upDateDB(isUpdateManifest, isUpdateManifest ? info.getTruth_version() : null);
-                                }
-                                agree.removeOnPropertyChangedCallback(this);
-                            }
-                        }
-                    };
-                    agree.addOnPropertyChangedCallback(agreeCallBack);
                 }, ExceptionHandler::handleException);
 
 
@@ -170,10 +170,12 @@ public class MainViewModel extends BaseViewModel {
     private void updateManifest(String truthVersion) {
         progress.set(-1);
         progressTxt.set(mContext.getString(R.string.update_hint_manifest));
-        RetrofitProvider.getInstance(false).create(CGSSService.class)
-                .getManifests(truthVersion)
-                .subscribeOn(Schedulers.io())
-                .subscribe(body -> {
+        useReverseProxy = umi.getSP(SharedHelper.KEY_USE_REVERSE_PROXY);
+        Observable<ResponseBody> manifestFile = useReverseProxy ?
+                RetrofitProvider.getInstance(false).create(CGSSService.class).getManifestsRP(truthVersion) :
+                RetrofitProvider.getInstance(false).create(CGSSService.class).getManifests(truthVersion);
+
+        manifestFile.subscribeOn(Schedulers.io()).subscribe(body -> {
                     try {
                         FileHelper.writeFile(LZ4Helper.uncompressCGSS(body.bytes()),
                                 mContext.getFilesDir().getAbsolutePath(), DBHelper.DB_NAME_manifest);
@@ -186,7 +188,6 @@ public class MainViewModel extends BaseViewModel {
 
                         fileToDownload = new HashMap<>();
                         hashToDownload = new ArrayList<>();
-                        useReverseProxy = umi.getSP(SharedHelper.KEY_USE_REVERSE_PROXY);
                         if (!masterHash.equals(umi.spRead(SharedHelper.KEY_MasterDbHash))) {
                             // update master.db
                             addFileDownloadMission(masterHash, DBHelper.DB_NAME_master, mContext.getFilesDir().getAbsolutePath());

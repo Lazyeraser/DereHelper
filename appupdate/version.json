@@ -1,10 +1,10 @@
 {
 	"appname": "DereHelper",
 	"apkname": "DereHelper.apk",
-	"verName": "0.9.7",
-	"url": "http://45.32.111.67:8080/derehelper/DereHelper-0.9.7.apk",
-	"verInfo": "1.新增星座名翻译\n2.小的修复和改进",
-	"verInfo_jp": "細かいバグの修正",
-	"verInfo_en": "Minor bug fixes",
-	"verCode": 7
+	"verName": "0.9.8",
+	"url": "http://45.32.111.67:8080/derehelper/DereHelper-0.9.8.apk",
+	"verInfo": "1.改进用户体验\n2.数据收集服务改为Google Analytics\n3.为简体中文用户增加下载加速功能，解决部分谱面下载失败问题（加速服务由346lab.org提供）\n4.繁体中文对应",
+	"verInfo_jp": "1.ユーザー体験向上\n2.集計機能をGoogle Analyticsに移行\n3.翻訳データの修正",
+	"verInfo_en": "Minor bug fixes&Improvements",
+	"verCode": 8
 }
