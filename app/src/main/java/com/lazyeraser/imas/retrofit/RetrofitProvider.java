@@ -37,9 +37,10 @@ public class RetrofitProvider {
     public static Retrofit getInstance(String baseUrl, boolean json) {
         if (okHttpClient == null){
             okHttpClient = new OkHttpClient.Builder()
-                    .connectTimeout(60, TimeUnit.SECONDS)
-                    .readTimeout(600, TimeUnit.SECONDS)
-                    .writeTimeout(600, TimeUnit.SECONDS)
+                    .connectTimeout(30, TimeUnit.SECONDS)
+                    .readTimeout(100, TimeUnit.SECONDS)
+                    .writeTimeout(100, TimeUnit.SECONDS)
+                    .retryOnConnectionFailure(true)
                     .build();
         }
         if (gson == null){

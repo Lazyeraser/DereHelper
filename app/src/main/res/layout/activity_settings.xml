@@ -33,13 +33,19 @@
             bind:onCheckChanged="@{viewModel.onAutoAppSwitchCheck}"
             bind:checked="@{viewModel.autoApp}" />
 
-        <com.lazyeraser.imas.cgss.utils.view.SettingOptionView
-            android:visibility="@{SStaticR.isJp ? View.GONE : View.VISIBLE}"
+        <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            bind:titleTxt="@{R.string.settings_default_tran}"
-            bind:onCheckChanged="@{viewModel.onDefaultTranSwitchCheck}"
-            bind:checked="@{viewModel.defaultTran}" />
+            android:visibility="@{SStaticR.isJp ? View.GONE : View.VISIBLE}">
+
+            <com.lazyeraser.imas.cgss.utils.view.SettingOptionView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                bind:titleTxt="@{R.string.settings_default_tran}"
+                bind:onCheckChanged="@{viewModel.onDefaultTranSwitchCheck}"
+                bind:checked="@{viewModel.defaultTran}" />
+
+        </RelativeLayout>
 
         <com.lazyeraser.imas.cgss.utils.view.SettingOptionView
             android:layout_width="wrap_content"
@@ -48,13 +54,19 @@
             bind:onCheckChanged="@{viewModel.onAnalyticsCheck}"
             bind:checked="@{viewModel.analytics}" />
 
-        <com.lazyeraser.imas.cgss.utils.view.SettingOptionView
-            android:visibility="@{!SStaticR.isCnMainLand ? View.GONE : View.VISIBLE}"
+        <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            bind:titleTxt="@{R.string.download_speedup}"
-            bind:onCheckChanged="@{viewModel.onProxyCheck}"
-            bind:checked="@{viewModel.rProxy}" />
+            android:visibility="@{!SStaticR.isCnMainLand ? View.GONE : View.VISIBLE}">
+
+            <com.lazyeraser.imas.cgss.utils.view.SettingOptionView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                bind:titleTxt="@{R.string.download_speedup}"
+                bind:onCheckChanged="@{viewModel.onProxyCheck}"
+                bind:checked="@{viewModel.rProxy}" />
+
+        </RelativeLayout>
 
     </LinearLayout>
 
