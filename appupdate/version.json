@@ -2,7 +2,7 @@
 	"appname": "DereHelper",
 	"apkname": "DereHelper-0.9.9.apk",
 	"verName": " 0.9.9",
-	"url": "http://45.32.111.67:8080/derehelper/DereHelper-0.9.9.apk",
+	"url": "http://346lab.org/derehelper/apk/DereHelper-0.9.9.apk",
 	"verInfo": "优化下载超时判定逻辑",
 	"verInfo_jp": "設定機能のバグ修正",
 	"verInfo_en": "Fix bug in settings",
