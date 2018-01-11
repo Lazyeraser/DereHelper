@@ -5,14 +5,14 @@
 Helper Android APP for THE iDOLM@STER Cinderella Girls: Starlight Stage(デレステ). All the data is from API provided by other sites and has nothing to do with the official application.
 
 ## API used
-* **Card and Character** http://starlight.346lab.org
+* **Card and Character(Chinese)** http://starlight.346lab.org
+* **Card and Character(English)** https://starlight.kirara.ca
 * **Image** https://truecolor.kirara.ca
 
 
 ## Screenshot
 
 ![](https://github.com/Lazyeraser/DereHelper/raw/master/art/beat_map.jpg)
-![](https://github.com/Lazyeraser/DereHelper/raw/master/art/card_list.png)
 
 ## Features
 * Card
@@ -24,9 +24,9 @@ And more in development
 Provides UI string resource file `strings.xml` for localization in `/app/src/main/res`
 ### Folders
 
-    values - Chinese // Original
-    values-ja - Japanese  // Translation in progress
-    values-en - English
+    values - English // default
+    values-ja - Japanese
+    values-zh-* - Chinese // Traditional & Simplified
 
 ## License
     Copyright(C) 2017 Lazyeraser
