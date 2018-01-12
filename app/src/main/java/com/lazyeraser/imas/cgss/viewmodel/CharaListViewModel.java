@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.util.Pair;
+import android.text.TextUtils;
 import android.view.View;
 
 import com.google.gson.reflect.TypeToken;
@@ -15,6 +16,7 @@ import com.kelin.mvvmlight.messenger.Messenger;
 import com.lazyeraser.imas.cgss.entity.Chara;
 import com.lazyeraser.imas.cgss.utils.DBHelper;
 import com.lazyeraser.imas.cgss.utils.JsonUtils;
+import com.lazyeraser.imas.cgss.utils.Utils;
 import com.lazyeraser.imas.cgss.view.CharaDetailActivity;
 import com.lazyeraser.imas.cgss.view.MainActivity;
 import com.lazyeraser.imas.cgss.view.fragments.CharaListFrag;
@@ -39,7 +41,7 @@ import rx.schedulers.Schedulers;
  * Created by lazyeraser on 2017/9/19.
  */
 
-public class CharaListViewModel extends BaseViewModel{
+public class CharaListViewModel extends BaseViewModel {
 
     public final ObservableList<CharaViewModel> itemViewModel = new ObservableArrayList<>();
     public final ItemView itemView = ItemView.of(com.lazyeraser.imas.derehelper.BR.viewModel, R.layout.item_list_chara);
@@ -50,7 +52,7 @@ public class CharaListViewModel extends BaseViewModel{
     public final ReplyCommand<Pair<Integer, View>> onListItemClickCommand = new ReplyCommand<>(pair -> {
         ActivityOptionsCompat transitionActivityOptions = ActivityOptionsCompat.makeSceneTransitionAnimation(mContext, pair.second.findViewById(R.id.chara_icon), "chara_icon");
         Bundle bundle = transitionActivityOptions.toBundle();
-        if (bundle == null){
+        if (bundle == null) {
             bundle = new Bundle();
         }
         bundle.putString("theChara", JsonUtils.getJsonFromBean(itemViewModel.get(pair.first).chara.get()));
@@ -61,10 +63,20 @@ public class CharaListViewModel extends BaseViewModel{
     });
 
     private List<String> typeFilter = new ArrayList<>();
-    
-    public final ReplyCommand<List<String>> onTypeSelCommand = new ReplyCommand<>(strings -> typeFilter = strings);
-    
-    public final ReplyCommand filterCardsCommand = new ReplyCommand(() ->{
+
+    private String search = "";
+
+    public final ReplyCommand<List<String>> onTypeSelCommand = new ReplyCommand<>(strings -> {
+        typeFilter = strings;
+        filterChara();
+    });
+
+    public final ReplyCommand<String> onSearchCommand = new ReplyCommand<>(string -> {
+        search = string;
+        filterChara();
+    });
+
+    public final ReplyCommand filterCardsCommand = new ReplyCommand(() -> {
         filterChara();
         Messenger.getDefault().sendNoMsg(CharaListFrag.TOKEN_CLOSE_FILTER);
 
@@ -74,7 +86,7 @@ public class CharaListViewModel extends BaseViewModel{
         initFilter();
         Messenger.getDefault().sendNoMsg(CharaListFrag.TOKEN_RESET_FILTER);
     });
-    
+
     public CharaListViewModel(BaseActivity mContext) {
         super(mContext);
         initFilter();
@@ -82,7 +94,7 @@ public class CharaListViewModel extends BaseViewModel{
         Messenger.getDefault().register(mContext, MainActivity.TOKEN_DATA_UPDATED, this::loadData);
     }
 
-    private void loadData(){
+    private void loadData() {
         itemViewModel.clear();
         umi.showLoading();
         Observable.just(DBHelper.with(mContext)
@@ -90,7 +102,7 @@ public class CharaListViewModel extends BaseViewModel{
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(js -> Observable.create((Observable.OnSubscribe<Map<Chara, CharaViewModel>>) subscriber -> {
-                    if (js.size() == 0){
+                    if (js.size() == 0) {
                         subscriber.onNext(new HashMap<Chara, CharaViewModel>());
                         subscriber.onCompleted();
                     }
@@ -102,7 +114,8 @@ public class CharaListViewModel extends BaseViewModel{
                     }
                     charaJsonBuilder.delete(charaJsonBuilder.length() - 1, charaJsonBuilder.length());
                     charaJsonBuilder.append("]");
-                    List<Chara> charas = JsonUtils.getArrayFromJson(charaJsonBuilder.toString(), new TypeToken<List<Chara>>(){});
+                    List<Chara> charas = JsonUtils.getArrayFromJson(charaJsonBuilder.toString(), new TypeToken<List<Chara>>() {
+                    });
                     Map<Chara, CharaViewModel> map = new HashMap<>();
                     for (Chara chara : charas) {
                         map.put(chara, new CharaViewModel(mContext, chara));
@@ -115,23 +128,27 @@ public class CharaListViewModel extends BaseViewModel{
                         }), ExceptionHandler::handleException);
     }
 
-    private void initFilter(){
+    private void initFilter() {
         typeFilter.clear();
         typeFilter.addAll(SStaticR.typeMap.values());
     }
-    
-    private void filterChara(){
-        
+
+    private boolean checkSearch(Chara chara) {
+        return TextUtils.isEmpty(search) || Utils.igCaseContain(search, chara.getConventional()) || Utils.igCaseContain(search, chara.getVoice()) || Utils.igCaseContain(search, chara.getName()) || Utils.igCaseContain(search, chara.getName_kana());
+    }
+
+    private void filterChara() {
+
         for (Chara chara : charaDataList.keySet()) {
             CharaViewModel vm = charaDataList.get(chara);
-            if (typeFilter.contains(chara.getType().toUpperCase())) {
+            if (typeFilter.contains(chara.getType().toUpperCase()) && checkSearch(chara)) {
                 // 符合条件 如不在当前显示的列表中则加入
-                if (!itemViewModel.contains(vm)){
+                if (!itemViewModel.contains(vm)) {
                     itemViewModel.add(vm);
                 }
-            }else {
+            } else {
                 // 不符合 如果存在则remove
-                if (itemViewModel.contains(vm)){
+                if (itemViewModel.contains(vm)) {
                     itemViewModel.remove(vm);
                 }
             }
@@ -141,9 +158,9 @@ public class CharaListViewModel extends BaseViewModel{
             Chara charaA = a.chara.get();
             Chara charaB = b.chara.get();
             boolean desc = false;
-            if (charaB.getChara_id() < charaA.getChara_id()){
+            if (charaB.getChara_id() < charaA.getChara_id()) {
                 return desc ? -1 : 1;
-            }else {
+            } else {
                 return desc ? 1 : -1;
             }
         });

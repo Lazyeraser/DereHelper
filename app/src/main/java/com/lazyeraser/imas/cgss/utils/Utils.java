@@ -3,12 +3,10 @@ package com.lazyeraser.imas.cgss.utils;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Environment;
-import android.provider.MediaStore;
 import android.support.annotation.AnyRes;
 import android.support.design.widget.Snackbar;
 import android.text.TextUtils;
@@ -20,16 +18,18 @@ import android.widget.GridView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.lazyeraser.imas.derehelper.R;
 import com.lazyeraser.imas.main.SStaticR;
 
 import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -204,4 +204,34 @@ public class Utils {
         context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse("file://" + file.getAbsolutePath())));
         return true;
     }
+
+    public static String getFileMD5(File f) {
+        BigInteger bi = null;
+        try {
+            byte[] buffer = new byte[8192];
+            int len = 0;
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            FileInputStream fis = new FileInputStream(f);
+            while ((len = fis.read(buffer)) != -1) {
+                md.update(buffer, 0, len);
+            }
+            fis.close();
+            byte[] b = md.digest();
+            bi = new BigInteger(1, b);
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return bi == null ? "" : bi.toString(16);
+    }
+
+    public static String getFileMD5(String path) {
+        return getFileMD5(new File(path));
+    }
+
+    public static boolean igCaseContain(String s1, String s2){
+        return s2.toLowerCase().contains(s1.toLowerCase());
+    }
+
 }

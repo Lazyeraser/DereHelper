@@ -115,8 +115,9 @@ public class CardViewModel extends BaseViewModel {
                             ContentValues contentValues = new ContentValues();
                             contentValues.put("origin", key);
                             contentValues.put("translate", stringStringMap.get(key));
-                            subscriber.onNext(DBHelper.with(mContext).insertData(DBHelper.TABLE_NAME_Translation, contentValues));
+                            DBHelper.with(mContext).insertData(DBHelper.TABLE_NAME_Translation, contentValues);
                         }
+                        subscriber.onNext(true);
                         subscriber.onCompleted();
                     }).subscribeOn(Schedulers.io())
                             .compose(((ActivityLifecycleProvider) mContext).bindToLifecycle())

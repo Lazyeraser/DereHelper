@@ -37,6 +37,7 @@ public class UpdateManager {
     private int curVersionCode;
     private int newVersionCode;
     private String updateInfo;
+    private String md5;
     private UpdateCallback callback;
     private Context mContext;
 
@@ -105,7 +106,7 @@ public class UpdateManager {
     //检查更新
     private OnUpdateCheckedListener onUpdateCheckedListener;
     public interface OnUpdateCheckedListener{
-        void onChecked();
+        void onChecked(boolean haveUpdate);
     }
     public void checkUpdate(boolean needNoUpdateHint){
         checkUpdate(needNoUpdateHint, null);
@@ -137,6 +138,7 @@ public class UpdateManager {
                         try {
                             newVersionCode = Integer.parseInt(obj.getString("verCode"));
                             newVersion = obj.getString("verName");
+                            md5 = obj.getString("md5");
                             String verInfoKey;
                             if (SStaticR.isCn){
                                 verInfoKey = "verInfo";
@@ -195,7 +197,13 @@ public class UpdateManager {
 
                     if(ApkFile.exists())
                     {
-                        ApkFile.delete();
+                        String existMd5 = Utils.getFileMD5(ApkFile);
+                        if (!TextUtils.isEmpty(md5) && !TextUtils.isEmpty(existMd5) && existMd5.equals(md5)){
+                            updateHandler.sendEmptyMessage(UPDATE_DOWNLOAD_COMPLETED);
+                            return;
+                        }else {
+                            ApkFile.delete();
+                        }
                     }
 
 
@@ -270,12 +278,10 @@ public class UpdateManager {
     });
 
     public interface UpdateCallback {
-        public void checkUpdateCompleted(Boolean hasUpdate,
-                                         CharSequence updateInfo);
-
-        public void downloadProgressChanged(float progress, int maxlength);
-        public void downloadCanceled();
-        public void downloadCompleted(Boolean sucess, CharSequence errorMsg);
+        void checkUpdateCompleted(Boolean hasUpdate, CharSequence updateInfo);
+        void downloadProgressChanged(float progress, int maxlength);
+        void downloadCanceled();
+        void downloadCompleted(Boolean sucess, CharSequence errorMsg);
     }
 
     private UpdateManager.UpdateCallback defaultCallBack = new UpdateManager.UpdateCallback()
@@ -318,7 +324,7 @@ public class UpdateManager {
         public void checkUpdateCompleted(Boolean hasUpdate,
                                          CharSequence updateInfo) {
             if (onUpdateCheckedListener != null){
-                onUpdateCheckedListener.onChecked();
+                onUpdateCheckedListener.onChecked(hasUpdate);
             }
             if (hasUpdate) {
                 new SweetAlertDialog(mContext, SweetAlertDialog.NORMAL_TYPE)

@@ -70,6 +70,8 @@ public class MainActivity extends BaseActivity {
 
     private BroadcastReceiver broadcastReceiver;
 
+    private MainViewModel mainViewModel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,7 +79,7 @@ public class MainActivity extends BaseActivity {
         initActionBar(ACTIONBAR_TYPE_CUSTOM, R.drawable.umi_ic_menu_white, R.drawable.ic_filter_list_white_24dp);
         actionBarStartAction(menu -> umi.moveDrawer(drawerLayout, Gravity.START));
 
-        MainViewModel mainViewModel = new MainViewModel(this);
+        mainViewModel = new MainViewModel(this);
         setBinding(R.layout.activity_main).setVariable(com.lazyeraser.imas.derehelper.BR.viewModel, mainViewModel);
         updateManager = new UpdateManager(mContext);
         drawerLayout = (DrawerLayout)getBView(R.id.drawerLayout);
@@ -112,7 +114,7 @@ public class MainActivity extends BaseActivity {
             return true;
         });
 
-        initDialog(mainViewModel); // 初始化数据更新对话框
+        initDialog(); // 初始化数据更新对话框
 
         fragments = new HashMap<>();
         cardListFrag = new CardListFrag();
@@ -128,6 +130,8 @@ public class MainActivity extends BaseActivity {
         switchFrag(cardListFrag);
         if (umi.getSP(SharedHelper.KEY_AUTO_APP)){
             checkUpdate(false);
+        }else if (umi.getSP(SharedHelper.KEY_AUTO_DATA)){
+            mainViewModel.checkDataUpdate();
         }
         // 监听语言设置改变
         if (broadcastReceiver == null){
@@ -174,7 +178,14 @@ public class MainActivity extends BaseActivity {
         if (ContextCompat.checkSelfPermission(mContext, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions((Activity) mContext, new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
         }else {
-            updateManager.checkUpdate(hint, () -> umi.dismissLoading());
+            updateManager.checkUpdate(hint, b -> {
+                umi.dismissLoading();
+                if(!b){
+                    if (umi.getSP(SharedHelper.KEY_AUTO_DATA)){
+                        mainViewModel.checkDataUpdate();
+                    }
+                }
+            });
         }
     }
 
@@ -183,14 +194,21 @@ public class MainActivity extends BaseActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == 1 && permissions[0].equals(Manifest.permission.WRITE_EXTERNAL_STORAGE)){
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED){
-                updateManager.checkUpdate(needUpdateHint, () -> umi.dismissLoading());
+                updateManager.checkUpdate(needUpdateHint, b -> {
+                    umi.dismissLoading();
+                    if(!b){
+                        if (umi.getSP(SharedHelper.KEY_AUTO_DATA)){
+                            mainViewModel.checkDataUpdate();
+                        }
+                    }
+                });
             }else {
                 umi.makeToast(R.string.permission_denied_hint);
             }
         }
     }
 
-    private void initDialog(MainViewModel mainViewModel){
+    private void initDialog(){
         upToDateDialog = new SweetAlertDialog(mContext, SweetAlertDialog.SUCCESS_TYPE)
                 .setTitleText(getString(R.string.check_hint))
                 .setConfirmClickListener(Dialog::dismiss);

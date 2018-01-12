@@ -141,5 +141,7 @@
     <string name="decline">いいえ</string>
     <string name="accept">はい</string>
     <string name="cancel">キャンセル</string>
+    <string name="search">検索</string>
+    <string name="search_hint_chara">ローマ字/名前/ふりがな/CV</string>
 
 </resources>

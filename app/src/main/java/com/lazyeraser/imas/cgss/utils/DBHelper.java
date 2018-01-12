@@ -362,14 +362,8 @@ public class DBHelper extends SQLiteOpenHelper  {
         }
     }
 
-    public boolean insertData(String tableName, ContentValues contentValues) {
-        try {
-            getWritableDatabase().replace(tableName, null, contentValues);
-            return true;
-        }catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
+    public void insertData(String tableName, ContentValues contentValues) {
+        getWritableDatabase().replace(tableName, null, contentValues);
     }
 
     public boolean updateData(String tableName, ContentValues contentValues, String where, String[] value) {
