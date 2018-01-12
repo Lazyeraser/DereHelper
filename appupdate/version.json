@@ -1,10 +1,10 @@
 {
 	"appname": "DereHelper",
-	"apkname": "DereHelper-0.9.9.apk",
-	"verName": " 0.9.9",
-	"url": "http://346lab.org/derehelper/apk/DereHelper-0.9.9.apk",
-	"verInfo": "优化下载超时判定逻辑",
-	"verInfo_jp": "設定機能のバグ修正",
-	"verInfo_en": "Fix bug in settings",
-	"verCode": 9
+	"apkname": "DereHelper-1.0.0.apk",
+	"verName": " 1.0.0",
+	"url": "http://346lab.org/derehelper/apk/DereHelper-1.0.0.apk",
+	"verInfo": "1.大幅优化下载时数据写入性能，修复部分机型下载时写入失败问题\n2.部分界面改进",
+	"verInfo_jp": "1.データダウンロードのバグ修正、パフォーマンスの向上\n2.UIの向上",
+	"verInfo_en": "Fix bug and performance improvement",
+	"verCode": 10
 }

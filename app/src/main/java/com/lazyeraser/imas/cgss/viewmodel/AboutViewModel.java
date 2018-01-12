@@ -27,7 +27,7 @@ public class AboutViewModel extends BaseViewModel {
 
     public AboutViewModel(BaseActivity mContext) {
         super(mContext);
-        versionName.set(BuildConfig.VERSION_NAME);
+        versionName.set(" " + BuildConfig.VERSION_NAME);
     }
 
 }

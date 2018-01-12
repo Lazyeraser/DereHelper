@@ -251,15 +251,19 @@ public class CardListViewModel extends BaseViewModel {
         return false;
     }
 
-    private boolean checkID(Card card, List<Integer> idList){
+    private boolean checkID(Card card){
         for (Integer integer : evoFilter) {
             if (card.getEvolution_id() != 0){
-                if (idList.contains(card.getId()) && integer == 0){
-                    return true;
+                for (Integer i : getTypeFilter) {
+                    if (getTypeMap.get(i).contains(card.getId()) && integer == 0){
+                        return true;
+                    }
                 }
             }else {
-                if (idList.contains(card.getId() - integer)){
-                    return true;
+                for (Integer i : getTypeFilter) {
+                    if (getTypeMap.get(i).contains(card.getId() - integer)){
+                        return true;
+                    }
                 }
             }
         }
@@ -268,58 +272,69 @@ public class CardListViewModel extends BaseViewModel {
 
 
     private void filterCards(){
-        List<Integer> idList = new ArrayList<>();
-        for (Integer integer : getTypeFilter) {
-            idList.addAll(getTypeMap.get(integer));
-        }
-        // 过滤
-        for (Card card : cardDataList.get().keySet()) {
-            CardViewModel vm = cardDataList.get().get(card);
-            if (typeFilter.contains(card.getAttribute().toUpperCase()) && checkRare(card) && checkSkillType(card) && checkID(card, idList)) {
-                // 符合条件 如不在当前显示的列表中则加入
-                if (!itemViewModel.contains(vm)){
-                    itemViewModel.add(vm);
-                }
-            }else {
-                // 不符合 如果存在则remove
-                if (itemViewModel.contains(vm)){
-                    itemViewModel.remove(vm);
+        Observable<List<Integer>> co = Observable.create(subscriber -> {
+            List<Integer> cardsToShow = new ArrayList<>();
+            for (Card card : cardDataList.get().keySet()) {
+                if (typeFilter.contains(card.getAttribute().toUpperCase()) && checkRare(card) && checkSkillType(card) && checkID(card)) {
+                    cardsToShow.add(card.getId());
                 }
             }
-        }
+            subscriber.onNext(cardsToShow);
+            subscriber.onCompleted();
+        });
+        co.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(cards -> {
+                    for (Card card : cardDataList.get().keySet()) {
+                        CardViewModel vm = cardDataList.get().get(card);
+                        if (cards.contains(card.getId())) {
+                            // 符合条件 如不在当前显示的列表中则加入
+                            if (!itemViewModel.contains(vm)){
+                                itemViewModel.add(vm);
+                            }
+                        }else {
+                            // 不符合 如果存在则remove
+                            if (itemViewModel.contains(vm)){
+                                itemViewModel.remove(vm);
+                            }
+                        }
+                    }
+                    Collections.sort(itemViewModel, (a, b) -> {
+                        Card cardA = a.card.get();
+                        Card cardB = b.card.get();
+                        boolean desc = sortMethod == 0;
+                        int valueA;
+                        int valueB;
+                        switch (sortType){
+                            case 1:
+                                valueA = cardA.getVisual_max() + cardA.getBonus_visual();
+                                valueB = cardB.getVisual_max() + cardB.getBonus_visual();
+                                break;
+                            case 2:
+                                valueA = cardA.getVocal_max() + cardA.getBonus_vocal();
+                                valueB = cardB.getVocal_max() + cardB.getBonus_vocal();
+                                break;
+                            case 3:
+                                valueA = cardA.getDance_max() + cardA.getBonus_dance();
+                                valueB = cardB.getDance_max() + cardB.getBonus_dance();
+                                break;
+                            case 4:
+                                valueA = cardA.getOverall_max() + cardA.getOverall_bonus();
+                                valueB = cardB.getOverall_max() + cardB.getOverall_bonus();
+                                break;
+                            default: // also for type ID
+                                valueA = cardA.getSeries_id()  - (100000 * SStaticR.typeMap_int.get(cardA.getAttribute().toLowerCase()));
+                                valueB = cardB.getSeries_id() - (100000 * SStaticR.typeMap_int.get(cardB.getAttribute().toLowerCase()));
+                                break;
+                        }
+                        return (desc ? 1 : -1) * (valueB == valueA ? 0 : valueB < valueA ? -1 : 1);
+                    });
+                    umi.dismissLoading();
+                });
+
 
         // 排序
-        Collections.sort(itemViewModel, (a, b) -> {
-            Card cardA = a.card.get();
-            Card cardB = b.card.get();
-            boolean desc = sortMethod == 0;
-            int valueA;
-            int valueB;
-            switch (sortType){
-                case 1:
-                    valueA = cardA.getVisual_max() + cardA.getBonus_visual();
-                    valueB = cardB.getVisual_max() + cardB.getBonus_visual();
-                    break;
-                case 2:
-                    valueA = cardA.getVocal_max() + cardA.getBonus_vocal();
-                    valueB = cardB.getVocal_max() + cardB.getBonus_vocal();
-                    break;
-                case 3:
-                    valueA = cardA.getDance_max() + cardA.getBonus_dance();
-                    valueB = cardB.getDance_max() + cardB.getBonus_dance();
-                    break;
-                case 4:
-                    valueA = cardA.getOverall_max() + cardA.getOverall_bonus();
-                    valueB = cardB.getOverall_max() + cardB.getOverall_bonus();
-                    break;
-                default: // also for type ID
-                    valueA = cardA.getSeries_id()  - (100000 * SStaticR.typeMap_int.get(cardA.getAttribute().toLowerCase()));
-                    valueB = cardB.getSeries_id() - (100000 * SStaticR.typeMap_int.get(cardB.getAttribute().toLowerCase()));
-                    break;
-            }
-            return (desc ? 1 : -1) * (valueB == valueA ? 0 : valueB < valueA ? -1 : 1);
-        });
-        umi.dismissLoading();
+
     }
 
     public static final Map<Integer, List<Integer>> getTypeMap = new HashMap<>(); // 0-常驻，1-限定，2-FES，3-活动

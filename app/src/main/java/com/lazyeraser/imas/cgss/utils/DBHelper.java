@@ -123,6 +123,18 @@ public class DBHelper extends SQLiteOpenHelper  {
 
     }
 
+    public void beginTran(){
+        getWritableDatabase().beginTransaction();
+    }
+
+    public void setTranSuccess(){
+        getWritableDatabase().setTransactionSuccessful();
+    }
+
+    public void endTran(){
+        getWritableDatabase().endTransaction();
+    }
+
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         allTableExe(db, "DROP TABLE IF EXISTS ", null);

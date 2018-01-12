@@ -138,6 +138,7 @@ public class MainViewModel extends BaseViewModel {
                         update = true;
                     }
                     if (update){
+                        umi.dismissLoading();
                         haveUpdate.set(true);
                         android.databinding.Observable.OnPropertyChangedCallback agreeCallBack = new android.databinding.Observable.OnPropertyChangedCallback() {
                             @Override
@@ -159,7 +160,6 @@ public class MainViewModel extends BaseViewModel {
                     }else {
                         upToDate.set(true);
                     }
-                    umi.dismissLoading();
                 }, ExceptionHandler::handleException);
 
 
@@ -318,7 +318,7 @@ public class MainViewModel extends BaseViewModel {
 
         List<Card> newCardList = new ArrayList<>();
         // 数据库操作
-        Observable<Boolean> dataBaseOB = Observable.create(subscriber -> {
+        Observable<Integer> dataBaseOB = Observable.create(subscriber -> {
             ContentValues contentValues = new ContentValues();
             Map<Integer, CharaIndex> charaIndexMap_exist = new HashMap<>();
             Map<Integer, CharaIndex> charaIndexMap_new = new HashMap<>();
@@ -329,62 +329,75 @@ public class MainViewModel extends BaseViewModel {
                 CharaIndex ci = JsonUtils.getBeanFromJson(json, CharaIndex.class);
                 charaIndexMap_exist.put(ci.getChara_id(), ci);
             }
-//                            SparseArray<CharaIndex> charaIndexMap = new SparseArray<>();
-            for (Card card : newCardList) {
-                contentValues.clear();
-                contentValues.put("id", String.valueOf(card.getId()));
-                contentValues.put("json", JsonUtils.getJsonFromBean(card));
-                subscriber.onNext(DBHelper.with(mContext).insertData(DBHelper.TABLE_NAME_Card, contentValues));
-                boolean oldChara = charaIndexMap_exist.containsKey(card.getChara_id());
 
-                if (oldChara) { // 旧偶像有新卡
-                    if (!charaIndexMap_update.containsKey(card.getChara_id())) {
-                        total++;
+            DBHelper.with(mContext).beginTran();
+            try {
+                for (Card card : newCardList) {
+                    contentValues.clear();
+                    contentValues.put("id", String.valueOf(card.getId()));
+                    contentValues.put("json", JsonUtils.getJsonFromBean(card));
+                    DBHelper.with(mContext).insertData(DBHelper.TABLE_NAME_Card, contentValues);
+                    boolean oldChara = charaIndexMap_exist.containsKey(card.getChara_id());
+
+                    if (oldChara) { // 旧偶像有新卡
+                        if (!charaIndexMap_update.containsKey(card.getChara_id())) {
+                            total++;
+                        }
+                        charaIndexMap_update.put(card.getChara_id(), charaIndexMap_exist.get(card.getChara_id()));
                     }
-                    charaIndexMap_update.put(card.getChara_id(), charaIndexMap_exist.get(card.getChara_id()));
-                }
 
-                if (!oldChara && !charaIndexMap_new.containsKey(card.getChara_id())) { // 新偶像，先新增
-                    Chara chara = card.getChara();
-                    charaMap.put(card.getChara_id(), chara);
-                    CharaIndex charaIndex = new CharaIndex();
-                    charaIndex.setChara_id(chara.getChara_id());
-                    charaIndex.setConventional(chara.getConventional());
-                    charaIndex.setKana_spaced(chara.getKana_spaced());
-                    charaIndex.setKanji_spaced(chara.getKanji_spaced());
-                    List<Integer> cardList = new ArrayList<>();
-                    cardList.add(card.getId());
-                    charaIndex.setCards(cardList);
-                    charaIndexMap_new.put(chara.getChara_id(), charaIndex);
-                    total = total + 2;
-                } else {
-                    if (oldChara) {
-                        charaIndexMap_update.get(card.getChara_id()).getCards().add(card.getId());
+                    if (!oldChara && !charaIndexMap_new.containsKey(card.getChara_id())) { // 新偶像，先新增
+                        Chara chara = card.getChara();
+                        charaMap.put(card.getChara_id(), chara);
+                        CharaIndex charaIndex = new CharaIndex();
+                        charaIndex.setChara_id(chara.getChara_id());
+                        charaIndex.setConventional(chara.getConventional());
+                        charaIndex.setKana_spaced(chara.getKana_spaced());
+                        charaIndex.setKanji_spaced(chara.getKanji_spaced());
+                        List<Integer> cardList = new ArrayList<>();
+                        cardList.add(card.getId());
+                        charaIndex.setCards(cardList);
+                        charaIndexMap_new.put(chara.getChara_id(), charaIndex);
+                        total = total + 2;
                     } else {
-                        charaIndexMap_new.get(card.getChara_id()).getCards().add(card.getId());
+                        if (oldChara) {
+                            charaIndexMap_update.get(card.getChara_id()).getCards().add(card.getId());
+                        } else {
+                            charaIndexMap_new.get(card.getChara_id()).getCards().add(card.getId());
+                        }
                     }
                 }
-            }
-            // 更新旧偶像卡片目录
-            for (CharaIndex charaIndex : charaIndexMap_update.values()) {
-                contentValues.clear();
-                contentValues.put("id", String.valueOf(charaIndex.getChara_id()));
-                contentValues.put("json", JsonUtils.getJsonFromBean(charaIndex));
-                subscriber.onNext(DBHelper.with(mContext).updateData(DBHelper.TABLE_NAME_Chara_Index, contentValues, "id = ?", new String[]{String.valueOf(charaIndex.getChara_id())}));
-            }
-            // 偶像目录信息新增
-            for (CharaIndex charaIndex : charaIndexMap_new.values()) {
-                contentValues.clear();
-                contentValues.put("id", String.valueOf(charaIndex.getChara_id()));
-                contentValues.put("json", JsonUtils.getJsonFromBean(charaIndex));
-                subscriber.onNext(DBHelper.with(mContext).insertData(DBHelper.TABLE_NAME_Chara_Index, contentValues));
-            }
-            // 偶像详情信息增加
-            for (Chara chara : charaMap.values()) {
-                contentValues.clear();
-                contentValues.put("id", String.valueOf(chara.getChara_id()));
-                contentValues.put("json", JsonUtils.getJsonFromBean(chara));
-                subscriber.onNext(DBHelper.with(mContext).insertData(DBHelper.TABLE_NAME_Chara_Detail, contentValues));
+                subscriber.onNext(newCardList.size());
+                // 更新旧偶像卡片目录
+                for (CharaIndex charaIndex : charaIndexMap_update.values()) {
+                    contentValues.clear();
+                    contentValues.put("id", String.valueOf(charaIndex.getChara_id()));
+                    contentValues.put("json", JsonUtils.getJsonFromBean(charaIndex));
+                    DBHelper.with(mContext).updateData(DBHelper.TABLE_NAME_Chara_Index, contentValues, "id = ?", new String[]{String.valueOf(charaIndex.getChara_id())});
+                }
+                subscriber.onNext(charaIndexMap_update.size());
+                // 偶像目录信息新增
+                for (CharaIndex charaIndex : charaIndexMap_new.values()) {
+                    contentValues.clear();
+                    contentValues.put("id", String.valueOf(charaIndex.getChara_id()));
+                    contentValues.put("json", JsonUtils.getJsonFromBean(charaIndex));
+                    DBHelper.with(mContext).insertData(DBHelper.TABLE_NAME_Chara_Index, contentValues);
+                }
+                subscriber.onNext(charaIndexMap_new.size());
+                // 偶像详情信息增加
+                for (Chara chara : charaMap.values()) {
+                    contentValues.clear();
+                    contentValues.put("id", String.valueOf(chara.getChara_id()));
+                    contentValues.put("json", JsonUtils.getJsonFromBean(chara));
+                    DBHelper.with(mContext).insertData(DBHelper.TABLE_NAME_Chara_Detail, contentValues);
+                }
+                subscriber.onNext(charaMap.size());
+                DBHelper.with(mContext).setTranSuccess();
+            }catch (Exception e){
+                e.printStackTrace();
+                subscriber.onNext(-1);
+            }finally {
+                DBHelper.with(mContext).endTran();
             }
             subscriber.onCompleted();
         });
@@ -399,11 +412,12 @@ public class MainViewModel extends BaseViewModel {
                             dataBaseOB.subscribeOn(Schedulers.io())
                                     .observeOn(AndroidSchedulers.mainThread())
                                     .compose(((ActivityLifecycleProvider) mContext).bindToLifecycle())
-                                    .subscribe(b -> { // 更新处理进度
-                                        if (b) {
+                                    .subscribe(integer -> { // 更新处理进度
+                                        if (integer >= 0) {
+                                            solved += integer;
                                             if (solved < total - 1) {
-                                                progress.set((float) ++solved / (float) total);
-                                                progressTxt.set(getProgress());
+                                                /*progress.set((float) ++solved / (float) total);
+                                                progressTxt.set(getProgress());*/
                                             } else if (!updateManifest || truthVersion == null) {
                                                 progress.set(1);
                                                 progressTxt.set("100%");

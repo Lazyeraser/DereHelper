@@ -111,7 +111,8 @@ public class CharaViewModel extends BaseViewModel {
         constellation.set(!SStaticR.connMap.containsKey(con_jp) ? con_jp : mContext.getString(SStaticR.connMap.get(con_jp)));
         age.set(getRealText(chara.getAge(), 6) + mContext.getString(R.string.unit_age));
         hometown.set(getRealText(chara.getHome_town(), 2));
-        weight.set(getRealText(chara.getWeight(), 6) + mContext.getString(R.string.unit_weight));
+        String weightW = getRealText(chara.getWeight(), 6);
+        weight.set(weightW.equals(String.valueOf(chara.getWeight())) ? weightW + mContext.getString(R.string.unit_weight) : weightW);
     }
 
     public CharaViewModel(BaseActivity mContext, String charaId) {

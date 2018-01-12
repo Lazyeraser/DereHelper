@@ -105,7 +105,7 @@ public class BeatMapView extends View {
 
         // time line
         mBitPaint.setTextSize(width * 0.03f);
-        mBitPaint.setTextAlign(Paint.Align.RIGHT);
+        mBitPaint.setTextAlign(Paint.Align.LEFT);
         for (int i = totalSec; i >= 0; i--) {
             canvas.drawLine(
                     0, oneSecY * i,
@@ -113,7 +113,7 @@ public class BeatMapView extends View {
                     mBitPaint);
             int sec = totalSec - i;
             int min = sec / 60;
-            canvas.drawText(String.format("%02d:%02d", min, sec - (60 * min)), width, (oneSecY * i) - 5, mBitPaint);
+            canvas.drawText(String.format("%02d:%02d", min, sec - (60 * min)), 0, (oneSecY * i) - 5, mBitPaint);
         }
     }
 
