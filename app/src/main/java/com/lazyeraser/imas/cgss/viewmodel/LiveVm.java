@@ -7,16 +7,26 @@ import android.util.SparseArray;
 
 import com.kelin.mvvmlight.command.ReplyCommand;
 import com.lazyeraser.imas.cgss.entity.LiveDetail;
+import com.lazyeraser.imas.cgss.entity.Manifest;
 import com.lazyeraser.imas.cgss.entity.Note;
 import com.lazyeraser.imas.cgss.entity.SongRaw;
+import com.lazyeraser.imas.cgss.service.CGSSService;
 import com.lazyeraser.imas.cgss.utils.DBHelper;
+import com.lazyeraser.imas.cgss.utils.FileHelper;
+import com.lazyeraser.imas.cgss.utils.LZ4Helper;
+import com.lazyeraser.imas.cgss.utils.SharedHelper;
 import com.lazyeraser.imas.cgss.view.BeatMapActivity;
+import com.lazyeraser.imas.derehelper.R;
 import com.lazyeraser.imas.main.BaseActivity;
 import com.lazyeraser.imas.main.BaseViewModel;
+import com.lazyeraser.imas.retrofit.ExceptionHandler;
+import com.lazyeraser.imas.retrofit.RetrofitProvider;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.ResponseBody;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -68,14 +78,54 @@ public class LiveVm extends BaseViewModel {
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(o -> {
                         SongRaw song = (SongRaw)o;
-                        String value = new String(song.data);
-                        Bundle bundle = new Bundle();
-                        bundle.putString("data", value);
-                        bundle.putString("name", difficultyName.get());
-                        umi.jumpTo(BeatMapActivity.class, bundle);
-                    });
+                        if (song != null){
+                            String value = new String(song.data);
+                            Bundle bundle = new Bundle();
+                            bundle.putString("data", value);
+                            bundle.putString("name", difficultyName.get());
+                            umi.dismissLoading();
+                            umi.jumpTo(BeatMapActivity.class, bundle);
+                        }else {
+                            updateBeatMapFile(liveId, diffcult);
+                        }
+                    }, throwable -> updateBeatMapFile(liveId, diffcult));
+        } catch (Exception e) {
+            e.printStackTrace();
+            updateBeatMapFile(liveId, diffcult);
+        }
+    }
+
+    @SuppressLint("DefaultLocale")
+    private void updateBeatMapFile(int liveId, int diffcult){
+        umi.showLoading();
+        umi.makeToast(R.string.update_hint4);
+        String dbFile = String.format("/musicscores/musicscores_m%03d.bdb", liveId);
+        String fileName = String.format("musicscores_m%03d.bdb", liveId);
+        try {
+            Observable.just(DBHelper.with(mContext, DBHelper.DB_NAME_manifest)
+                    .getBean(DBHelper.CGSS_TABLE_NAME_Manifest, Manifest.class,
+                            "name", fileName))
+                    .subscribeOn(Schedulers.io())
+                    .subscribe(o -> {
+                        Manifest manifest = (Manifest)o;
+                        Observable<ResponseBody> file = umi.getSP(SharedHelper.KEY_USE_REVERSE_PROXY) ?
+                                RetrofitProvider.getInstance(false).create(CGSSService.class).getResourcesRP(manifest.getHash()) :
+                                RetrofitProvider.getInstance(false).create(CGSSService.class).getResources(manifest.getHash());
+                        file.subscribeOn(Schedulers.io())
+                                .subscribe(responseBody -> {
+                                    try {
+                                        FileHelper.writeFile(LZ4Helper.uncompressCGSS(responseBody.bytes()), mContext.getFilesDir().getAbsolutePath() + "/musicscores", fileName);
+                                        DBHelper.refresh(mContext, dbFile);
+                                        loadBeatMapData(liveId, diffcult);
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+                                }, ExceptionHandler::handleException);
+
+                    }, ExceptionHandler::handleException);
         } catch (Exception e) {
             e.printStackTrace();
         }
+
     }
 }

@@ -127,7 +127,7 @@ public class MainViewModel extends BaseViewModel {
                     boolean update = false;
                     if (info != null) {
                         String nowTruthVersion = umi.spRead(SharedHelper.KEY_TruthVersion);
-                        if (!nowTruthVersion.equals(info.getTruth_version())) {
+                        if (!nowTruthVersion.equals(info.getTruth_version()) || !FileHelper.isFileExists(mContext.getFilesDir().getAbsolutePath(), DBHelper.DB_NAME_master)) {
                             // truth version differs, update manifest.db
                             update = true;
                         } else {
@@ -177,8 +177,8 @@ public class MainViewModel extends BaseViewModel {
 
         manifestFile.subscribeOn(Schedulers.io()).subscribe(body -> {
                     try {
-                        FileHelper.writeFile(LZ4Helper.uncompressCGSS(body.bytes()),
-                                mContext.getFilesDir().getAbsolutePath(), DBHelper.DB_NAME_manifest);
+                        String mFilePath = mContext.getFilesDir().getAbsolutePath();
+                        FileHelper.writeFile(LZ4Helper.uncompressCGSS(body.bytes()), mFilePath, DBHelper.DB_NAME_manifest);
                         // get hash of master.db
                         List<Manifest> list = DBHelper.with(mContext, DBHelper.DB_NAME_manifest)
                                 .getBeanList(DBHelper.CGSS_TABLE_NAME_Manifest, Manifest.class,
@@ -188,7 +188,7 @@ public class MainViewModel extends BaseViewModel {
 
                         fileToDownload = new HashMap<>();
                         hashToDownload = new ArrayList<>();
-                        if (!masterHash.equals(umi.spRead(SharedHelper.KEY_MasterDbHash))) {
+                        if (!masterHash.equals(umi.spRead(SharedHelper.KEY_MasterDbHash)) || !FileHelper.isFileExists(mFilePath, DBHelper.DB_NAME_master)) {
                             // update master.db
                             addFileDownloadMission(masterHash, DBHelper.DB_NAME_master, mContext.getFilesDir().getAbsolutePath());
                         }
@@ -196,7 +196,7 @@ public class MainViewModel extends BaseViewModel {
                         List<Manifest> musicList = DBHelper.with(mContext, DBHelper.DB_NAME_manifest)
                                 .getBeanListLike(DBHelper.CGSS_TABLE_NAME_Manifest, Manifest.class,
                                         "name", "%musicscores_%.bdb");
-                        String musicDataPath = mContext.getFilesDir().getAbsolutePath() + "/musicscores";
+                        String musicDataPath = mFilePath + "/musicscores";
                         for (Manifest manifest : musicList) {
                             if (!FileHelper.isFileExists(musicDataPath, manifest.getName())) {
                                 addFileDownloadMission(manifest.getHash(), manifest.getName(), musicDataPath);
@@ -243,10 +243,13 @@ public class MainViewModel extends BaseViewModel {
                             e.printStackTrace();
                         }
                     }, throwable -> {
-                        if (retryTimes < 50){
+                        if (retryTimes < 10){
                             if (throwable instanceof HttpException || throwable instanceof SocketTimeoutException
                                     || throwable instanceof ConnectException){
                                 downLoadFiles(i, masterHash, truthVersion);
+                                retryTimes ++;
+                            }else {
+                                umi.makeToast(R.string.network_error_0);
                             }
                         }else {
                             umi.makeToast(R.string.network_error_0);
@@ -264,9 +267,7 @@ public class MainViewModel extends BaseViewModel {
                     progress.set(1);
                     progressTxt.set("100%");
                     // update masterHash
-                    if (!masterHash.equals(umi.spRead(SharedHelper.KEY_MasterDbHash))) {
-                        umi.spSave(SharedHelper.KEY_MasterDbHash, masterHash);
-                    }
+                    umi.spSave(SharedHelper.KEY_MasterDbHash, masterHash);
                     // update truth version
                     umi.spSave(SharedHelper.KEY_TruthVersion, truthVersion);
                 });

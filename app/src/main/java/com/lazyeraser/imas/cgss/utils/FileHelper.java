@@ -29,7 +29,7 @@ public class FileHelper {
 			File destDir = new File(filePath);
 			if (!destDir.exists()) {
 				if (!destDir.mkdir()){
-					throw new Exception("目录创建失败，请检查文件夹权限等问题");
+					throw new Exception("mkdir fail");
 				}
 			}
 			File destFile = new File(destDir, fileName);
@@ -52,7 +52,6 @@ public class FileHelper {
 					e.printStackTrace();
 				}
 		}
-		Utils.mPrint("写入文件成功" + filePath + "/" + fileName);
 		return true;
 	}
 

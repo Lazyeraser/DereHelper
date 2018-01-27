@@ -88,6 +88,16 @@ public class DBHelper extends SQLiteOpenHelper  {
         return instances.get(dbName);
     }
 
+    public static void refresh(BaseActivity context, String dbName){
+        if (instances == null) {
+            synchronized (DBHelper.class) {
+                if (instances == null)
+                    instances = new HashMap<>();
+            }
+        }
+        instances.put(dbName, new DBHelper(context, context.getFilesDir().getAbsolutePath() + "/" + dbName));
+    }
+
     public static DBHelper getInstance(){
         if (instances == null || instances.get(DB_NAME) == null) {
             throw new NullPointerException("No instance of DBHelper");
@@ -104,6 +114,7 @@ public class DBHelper extends SQLiteOpenHelper  {
     /*====================================*/
 
 
+
     private DBHelper(Context context, String dbName) {
         super(context, dbName, null, DB_VERSION);
         onCreate(getReadableDatabase());
@@ -112,15 +123,16 @@ public class DBHelper extends SQLiteOpenHelper  {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        List<String> SQLs = new ArrayList<>();
-        SQLs.add("create table if not exists " + TABLE_NAME_Card + "(id integer primary key, json VARCHAR)");
-        SQLs.add("create table if not exists " + TABLE_NAME_Chara_Index + "(id integer primary key, json VARCHAR)");
-        SQLs.add("create table if not exists " + TABLE_NAME_Chara_Detail + "(id integer primary key, json VARCHAR)");
-        SQLs.add("create table if not exists " + TABLE_NAME_Translation + "(origin VARCHAR primary key, translate VARCHAR)");
-        for (String sql : SQLs) {
-            db.execSQL(sql);
+        if (getDatabaseName().equals(DB_NAME)){
+            List<String> SQLs = new ArrayList<>();
+            SQLs.add("create table if not exists " + TABLE_NAME_Card + "(id integer primary key, json VARCHAR)");
+            SQLs.add("create table if not exists " + TABLE_NAME_Chara_Index + "(id integer primary key, json VARCHAR)");
+            SQLs.add("create table if not exists " + TABLE_NAME_Chara_Detail + "(id integer primary key, json VARCHAR)");
+            SQLs.add("create table if not exists " + TABLE_NAME_Translation + "(origin VARCHAR primary key, translate VARCHAR)");
+            for (String sql : SQLs) {
+                db.execSQL(sql);
+            }
         }
-
     }
 
     public void beginTran(){

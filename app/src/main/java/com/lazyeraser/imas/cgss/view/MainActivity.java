@@ -129,8 +129,10 @@ public class MainActivity extends BaseActivity {
 
         switchFrag(cardListFrag);
         if (umi.getSP(SharedHelper.KEY_AUTO_APP)){
+            umi.makeToast(R.string.settings_auto_app);
             checkUpdate(false);
         }else if (umi.getSP(SharedHelper.KEY_AUTO_DATA)){
+            umi.makeToast(R.string.settings_auto_data);
             mainViewModel.checkDataUpdate();
         }
         // 监听语言设置改变
@@ -172,16 +174,15 @@ public class MainActivity extends BaseActivity {
 
     private void checkUpdate(boolean hint){
         needUpdateHint = hint;
-        if (hint) {
-            umi.showLoading();
-        }
+        umi.showLoading();
         if (ContextCompat.checkSelfPermission(mContext, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions((Activity) mContext, new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
         }else {
             updateManager.checkUpdate(hint, b -> {
                 umi.dismissLoading();
                 if(!b){
-                    if (umi.getSP(SharedHelper.KEY_AUTO_DATA)){
+                    if (umi.getSP(SharedHelper.KEY_AUTO_DATA) && !needUpdateHint){
+                        umi.makeToast(R.string.settings_auto_data);
                         mainViewModel.checkDataUpdate();
                     }
                 }
@@ -197,7 +198,8 @@ public class MainActivity extends BaseActivity {
                 updateManager.checkUpdate(needUpdateHint, b -> {
                     umi.dismissLoading();
                     if(!b){
-                        if (umi.getSP(SharedHelper.KEY_AUTO_DATA)){
+                        if (umi.getSP(SharedHelper.KEY_AUTO_DATA) && !needUpdateHint){
+                            umi.makeToast(R.string.settings_auto_data);
                             mainViewModel.checkDataUpdate();
                         }
                     }
