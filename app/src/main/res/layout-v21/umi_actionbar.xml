@@ -23,7 +23,9 @@
         android:id="@+id/actionBar_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
+        android:layout_centerVertical="true"
+        android:layout_toEndOf="@+id/actionBar_btn_start_img"
+        android:layout_marginStart="8dp"
         android:textSize="@dimen/base_text_size"
         android:textColor="@color/white"/>
 

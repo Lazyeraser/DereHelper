@@ -1,6 +1,6 @@
 # DereHelper
 
-非官方CGSS安卓工具APP，中文名暂定为千寻记事本</br>
+本项目为偶像大师灰姑娘手游的安卓端非官方工具APP</br>
 
 Helper Android APP for THE iDOLM@STER Cinderella Girls: Starlight Stage(デレステ). All the data is from API provided by other sites and has nothing to do with the official application.
 
@@ -9,6 +9,9 @@ Helper Android APP for THE iDOLM@STER Cinderella Girls: Starlight Stage(デレ�
 * **Card and Character(English)** https://starlight.kirara.ca
 * **Image** https://truecolor.kirara.ca
 
+## Building
+* Require Android Studio 2.3 (Will move to 3.0 later...)
+* Comment the signingConfigs & google services(analytics) in gradle files(\DereHelper\app\build.gradle), because the related files are private.
 
 ## Screenshot
 

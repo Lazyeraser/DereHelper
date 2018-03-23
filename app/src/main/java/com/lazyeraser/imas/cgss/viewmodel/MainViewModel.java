@@ -7,6 +7,7 @@ import android.databinding.ObservableField;
 import android.databinding.ObservableFloat;
 import android.support.v4.util.Pair;
 import android.text.TextUtils;
+import android.widget.Toast;
 
 import com.lazyeraser.imas.cgss.entity.Card;
 import com.lazyeraser.imas.cgss.entity.CardIndex;

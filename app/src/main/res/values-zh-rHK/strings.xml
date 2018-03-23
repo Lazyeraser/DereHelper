@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">千尋記事本</string>
+    <!--<string name="app_name">千尋記事本</string>-->
     <string name="other">其他</string>
     <string name="empty">無</string>
     <string name="skill_empty">無技能</string>
@@ -97,7 +97,7 @@
     <string name="settings_auto_data">自動檢查數據更新</string>
     <string name="settings_auto_app">自動檢查APP更新</string>
     <string name="settings_default_tran">默認開啟翻譯</string>
-    <string name="permission_denied_hint">Producer，請授予千尋權限以正常下載自動更新哦</string>
+    <string name="permission_denied_hint">Producer，請授予APP權限以正常下載自動更新哦</string>
 
 
     <!--0.9.6-->

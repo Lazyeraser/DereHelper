@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">DereHelper</string><!--ちひろのメモ帳-->
+    <!--<string name="app_name">DereHelper</string>&lt;!&ndash;ちひろのメモ帳&ndash;&gt;-->
     <string name="other">その他</string>
     <string name="empty">なし</string>
     <string name="skill_empty">特技なし</string>

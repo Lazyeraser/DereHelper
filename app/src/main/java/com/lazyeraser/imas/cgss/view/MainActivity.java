@@ -222,7 +222,7 @@ public class MainActivity extends BaseActivity {
                 .setCancelClickListener(dialog ->{
                     dialog.dismiss();
                     mainViewModel.haveUpdate.set(false);
-                    Messenger.getDefault().sendNoMsg(TOKEN_DATA_UPDATED);
+//                    Messenger.getDefault().sendNoMsg(TOKEN_DATA_UPDATED);
                 })
                 .setConfirmClickListener(alertDialog -> {
                     alertDialog.dismiss();

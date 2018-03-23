@@ -16,7 +16,7 @@
 
     <style name="Umi.ActionBarTheme.White" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="actionBarStyle">@style/Umi.CustomActionBarStyle</item>
-        <item name="actionBarSize">40dp</item>
+        <item name="actionBarSize">56dp</item>
         <item name="colorPrimary">@color/colorPrimary</item>
         <!-- AppCompatEditText默认状态状态设置底线颜色 -->
         <item name="colorControlNormal">@color/gray</item>

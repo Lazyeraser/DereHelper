@@ -10,7 +10,7 @@
 
     <dimen name="base_text_size">16sp</dimen>
     <dimen name="base_text_size_medium">14sp</dimen>
-    <dimen name="base_text_size_large">15sp</dimen>
+    <dimen name="base_text_size_large">20sp</dimen>
 
     <dimen name="card_view_margin">0dp</dimen>
     <dimen name="status_bar_padding">0dp</dimen>

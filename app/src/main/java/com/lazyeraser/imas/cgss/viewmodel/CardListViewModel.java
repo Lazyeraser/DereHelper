@@ -112,10 +112,10 @@ public class CardListViewModel extends BaseViewModel {
 
     public CardListViewModel(BaseActivity context) {
         super(context);
-
-        if (!umi.getSP(SharedHelper.KEY_AUTO_DATA)){
+        loadData();
+        /*if (!umi.getSP(SharedHelper.KEY_AUTO_DATA)){
             loadData();
-        }
+        }*/
         cardDataList.addOnPropertyChangedCallback(new android.databinding.Observable.OnPropertyChangedCallback() {
             @Override
             public void onPropertyChanged(android.databinding.Observable sender, int propertyId) {

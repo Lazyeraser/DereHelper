@@ -234,4 +234,13 @@ public class Utils {
         return s2.toLowerCase().contains(s1.toLowerCase());
     }
 
+    public static String getVoice(long object_id, long use, long index) {
+        long a = (object_id << 40) | ((use & 0xFF) << 24) | ((index & 0xFF) << 16) | 0x11AB;
+
+        a &= 0xFFFFFFFFFFFFFFFFL;
+        a ^= 0x1042FC1040200700L;
+        String basename = Long.toHexString(a).substring(1);
+
+        return String.format("va2/%s.mp3", basename);
+    }
 }
