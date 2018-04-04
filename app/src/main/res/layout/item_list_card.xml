@@ -42,133 +42,104 @@
             android:layout_marginStart="8dp"
             android:layout_centerVertical="true">
 
-            <TextView
-                android:id="@+id/chara_name"
+            <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="chara name"
-                android:textSize="16dp"
-                android:textColor="@color/txtBlack"
-                android:text="@{viewModel.card.getName_only()}"/>
+                android:id="@+id/item_card_line0">
 
-            <TextView
+                <TextView
+                    android:id="@+id/chara_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="chara name"
+                    android:textSize="16dp"
+                    android:textColor="@color/txtBlack"
+                    android:text="@{viewModel.card.getName_only()}"/>
+
+                <LinearLayout
+                    android:id="@+id/status_values"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:orientation="horizontal"
+                    android:layout_marginEnd="8dp"
+                    android:layout_toEndOf="@+id/chara_name"
+                    android:layout_alignBottom="@+id/chara_name">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="@{String.valueOf(viewModel.card.getVisual_max() + viewModel.card.getBonus_visual())}"
+                        android:textColor="@color/txt_vi"
+                        android:textAlignment="viewEnd"
+                        android:layout_weight="1"/>
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="@{String.valueOf(viewModel.card.getVocal_max() + viewModel.card.getBonus_vocal())}"
+                        android:textColor="@color/txt_vo"
+                        android:textAlignment="viewEnd"
+                        android:layout_weight="1"/>
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="@{String.valueOf(viewModel.card.getDance_max() + viewModel.card.getBonus_dance())}"
+                        android:textColor="@color/txt_da"
+                        android:textAlignment="viewEnd"
+                        android:layout_weight="1"/>
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="@{String.valueOf(viewModel.card.getOverall_max() + viewModel.card.getOverall_bonus())}"
+                        android:textColor="@color/txt_all"
+                        android:textAlignment="viewEnd"
+                        android:layout_weight="1"/>
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/chara_name"
-                android:layout_marginTop="8dp"
-                android:hint="card title"
-                android:textSize="@dimen/txt_1"
-                android:textColor="@color/txtGrayL"
-                android:text="@{viewModel.cardTitle}"/>
-
-        </RelativeLayout>
-
-       <!-- <LinearLayout
-            android:id="@+id/status_tag"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="All"
-                android:textColor="@color/txt_all"
-                android:textAlignment="center"
-                android:layout_weight="1"/>
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="Vi"
-                android:textColor="@color/txt_vi"
-                android:textAlignment="center"
-                android:layout_weight="1"/>
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="Vo"
-                android:textColor="@color/txt_vo"
-                android:textAlignment="center"
-                android:layout_weight="1"/>
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="Da"
-                android:textColor="@color/txt_da"
-                android:textAlignment="center"
-                android:layout_weight="1"/>
-
-        </LinearLayout>-->
-
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true">
-
-            <LinearLayout
-                android:id="@+id/status_values"
-                android:layout_width="200dp"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:orientation="horizontal"
-                android:layout_marginEnd="0dp">
+                android:id="@+id/item_card_line1"
+                android:layout_below="@+id/item_card_line0"
+                android:layout_marginTop="8dp">
 
                 <TextView
-                    android:layout_width="0dp"
+                    android:id="@+id/card_title"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@{String.valueOf(viewModel.card.getVisual_max() + viewModel.card.getBonus_visual())}"
-                    android:textColor="@color/txt_vi"
-                    android:textAlignment="center"
-                    android:layout_weight="1"/>
+                    android:hint="card title"
+                    android:textSize="@dimen/txt_1"
+                    android:textColor="@color/txtGrayL"
+                    android:text="@{viewModel.cardTitle}"/>
 
                 <TextView
-                    android:layout_width="0dp"
+                    android:layout_toEndOf="@+id/card_title"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@{String.valueOf(viewModel.card.getVocal_max() + viewModel.card.getBonus_vocal())}"
-                    android:textColor="@color/txt_vo"
-                    android:textAlignment="center"
-                    android:layout_weight="1"/>
+                    android:textColor="@color/txtGrayL"
+                    android:layout_alignParentEnd="true"
+                    android:maxLines="1"
+                    android:gravity="end"
+                    android:textAlignment="gravity"
+                    android:ellipsize="end"
+                    android:layout_marginEnd="8dp"
+                    android:textSize="@dimen/txt_1"
+                    android:hint="skill explain"
+                    android:text="@{viewModel.skill}"/>
 
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="@{String.valueOf(viewModel.card.getDance_max() + viewModel.card.getBonus_dance())}"
-                    android:textColor="@color/txt_da"
-                    android:textAlignment="center"
-                    android:layout_weight="1"/>
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="@{String.valueOf(viewModel.card.getOverall_max() + viewModel.card.getOverall_bonus())}"
-                    android:textColor="@color/txt_all"
-                    android:textAlignment="center"
-                    android:layout_weight="1"/>
-
-            </LinearLayout>
-
-            <TextView
-                android:layout_below="@+id/status_values"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/txtGrayL"
-                android:layout_alignParentEnd="true"
-                android:gravity="end"
-                android:ellipsize="start"
-                android:layout_marginEnd="16dp"
-                android:textSize="@dimen/txt_1"
-                android:text="@{viewModel.skill}"/>
+            </RelativeLayout>
 
         </RelativeLayout>
 
         <View
-            android:layout_marginStart="-4dp"
-            android:layout_alignStart="@+id/card_icon"
+            android:layout_marginStart="-8dp"
+            android:layout_toEndOf="@+id/card_icon"
             android:layout_alignParentBottom="true"
             android:background="@color/divider"
             android:layout_width="match_parent"

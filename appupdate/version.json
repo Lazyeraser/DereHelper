@@ -1,11 +1,11 @@
 {
 	"appname": "DereHelper",
-	"apkname": "DereHelper-1.0.1.apk",
-	"verName": " 1.0.1",
-	"md5": "c17ae13240579a2d0f775b1fe11a0d08",
-	"url": "http://346lab.org/derehelper/apk/DereHelper-1.0.1.apk",
-	"verInfo": "1.新增角色搜索功能\n2.修复部分数据更新场景的写入错误",
-	"verInfo_jp": "1.キャラ検索機能追加\n2.データダウンロードのバグ修正",
-	"verInfo_en": "1.NEW feature for chara list: Search.\n2.Fix bug in updating data",
-	"verCode": 11
+	"apkname": "DereHelper-1.0.2.apk",
+	"verName": " 1.0.2",
+	"md5": "9a327ee43c7342c0708d635edbc084c5",
+	"url": "http://346lab.org/derehelper/apk/DereHelper-1.0.2.apk",
+	"verInfo": "1.修正某些场景下查看谱面的闪退\n2.调整部分界面\n3.APP图标变更,APP名称统一为DereHelper",
+	"verInfo_jp": "1.軽微な不具合の修正\n2.UI調整",
+	"verInfo_en": "1.Fix bugs in beatmap viewing",
+	"verCode": 12
 }

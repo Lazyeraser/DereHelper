@@ -5,6 +5,7 @@ import android.content.ContentValues;
 import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
 import android.databinding.ObservableFloat;
+import android.support.design.widget.Snackbar;
 import android.support.v4.util.Pair;
 import android.text.TextUtils;
 import android.widget.Toast;
@@ -70,17 +71,15 @@ public class MainViewModel extends BaseViewModel {
 
     public MainViewModel(BaseActivity mContext) {
         super(mContext);
-        /*if (umi.getSP(SharedHelper.KEY_AUTO_DATA)) {
-            checkDataUpdate();
-        }*/
 
         if (umi.getSP(SharedHelper.KEY_ANALYTICS_ON)){
             Utils.turnOnGA(mContext);
         }
     }
-
+    private Snackbar snackBar_checkDataUpdate;
     public void checkDataUpdate() {
-        umi.showLoading();
+        snackBar_checkDataUpdate = Snackbar.make(mContext.getBView(), R.string.update_checking_hint_data, Snackbar.LENGTH_INDEFINITE);
+        snackBar_checkDataUpdate.show();
         newIds_card.clear();
         allIds_card.clear();
         //cards
@@ -112,7 +111,12 @@ public class MainViewModel extends BaseViewModel {
                     if (aBoolean) {
                         checkData();
                     }
-                }, throwable -> upToDate.set(true));
+                }, throwable -> {
+                    upToDate.set(true);
+                    if (snackBar_checkDataUpdate != null){
+                        snackBar_checkDataUpdate.dismiss();
+                    }
+                });
     }
 
     private void checkData() {
@@ -139,7 +143,9 @@ public class MainViewModel extends BaseViewModel {
                         update = true;
                     }
                     if (update){
-                        umi.dismissLoading();
+                        if (snackBar_checkDataUpdate != null){
+                            snackBar_checkDataUpdate.dismiss();
+                        }
                         haveUpdate.set(true);
                         android.databinding.Observable.OnPropertyChangedCallback agreeCallBack = new android.databinding.Observable.OnPropertyChangedCallback() {
                             @Override
@@ -160,6 +166,9 @@ public class MainViewModel extends BaseViewModel {
                         agree.addOnPropertyChangedCallback(agreeCallBack);
                     }else {
                         upToDate.set(true);
+                        if (snackBar_checkDataUpdate != null){
+                            snackBar_checkDataUpdate.dismiss();
+                        }
                     }
                 }, ExceptionHandler::handleException);
 
@@ -194,7 +203,7 @@ public class MainViewModel extends BaseViewModel {
                             addFileDownloadMission(masterHash, DBHelper.DB_NAME_master, mContext.getFilesDir().getAbsolutePath());
                         }
                         // update music (beatMap
-                        List<Manifest> musicList = DBHelper.with(mContext, DBHelper.DB_NAME_manifest)
+                       /* List<Manifest> musicList = DBHelper.with(mContext, DBHelper.DB_NAME_manifest)
                                 .getBeanListLike(DBHelper.CGSS_TABLE_NAME_Manifest, Manifest.class,
                                         "name", "%musicscores_%.bdb");
                         String musicDataPath = mFilePath + "/musicscores";
@@ -202,7 +211,7 @@ public class MainViewModel extends BaseViewModel {
                             if (!FileHelper.isFileExists(musicDataPath, manifest.getName())) {
                                 addFileDownloadMission(manifest.getHash(), manifest.getName(), musicDataPath);
                             }
-                        }
+                        }*/
                         hashToDownload.addAll(fileToDownload.keySet());
                         total = fileToDownload.size();
                         solved = 0;

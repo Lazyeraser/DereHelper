@@ -37,7 +37,10 @@ import java.util.Map;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import me.tatarka.bindingcollectionadapter.ItemView;
 import rx.Observable;
+import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.observables.ConnectableObservable;
 import rx.schedulers.Schedulers;
 
 /**
@@ -70,6 +73,7 @@ public class CardListViewModel extends BaseViewModel {
     /*-------------commands for filter---------------*/
     private List<Integer> evoFilter = new ArrayList<>();
     private List<Integer> rareFilter = new ArrayList<>();
+    private List<Integer> rareFilter_temp = new ArrayList<>();
     private List<String> typeFilter = new ArrayList<>();
     private List<Integer> skillFilter = new ArrayList<>();
     private List<Integer> getTypeFilter = new ArrayList<>(); // 获取方式/卡池类型筛选
@@ -77,17 +81,34 @@ public class CardListViewModel extends BaseViewModel {
     private Integer sortType;
 
     public final ReplyCommand<List<String>> onRareSelCommand = new ReplyCommand<>(strings -> {
-        rareFilter.clear();
+        rareFilter_temp.clear();
         for (String string : strings) {
-            rareFilter.add(SStaticR.rarityMap_rev.get(string));
+            rareFilter_temp.add(SStaticR.rarityMap_rev.get(string));
         }
+        solveRareFilter();
     });
+
+    public final ReplyCommand<List<Integer>> onEvoSelCommand = new ReplyCommand<>(integers -> {
+        evoFilter = integers;
+        solveRareFilter();
+    });
+
+    private void solveRareFilter(){
+        rareFilter.clear();
+        if (evoFilter.contains(0)){
+            rareFilter.addAll(rareFilter_temp);
+        }
+        if (evoFilter.contains(1)){
+            for (Integer integer : rareFilter_temp) {
+                rareFilter.add(integer + 1);
+            }
+        }
+    }
 
     public final ReplyCommand<List<Integer>> onGetTypeSelCommand = new ReplyCommand<>(integers -> getTypeFilter = integers);
 
     public final ReplyCommand<List<String>> onTypeSelCommand = new ReplyCommand<>(strings -> typeFilter = strings);
 
-    public final ReplyCommand<List<Integer>> onEvoSelCommand = new ReplyCommand<>(integers -> evoFilter = integers);
 
     public final ReplyCommand<List<String>> sortTypeCommand = new ReplyCommand<>(strings -> sortType = SStaticR.sortTypeMap_Card.get(strings.get(0)));
 
@@ -125,7 +146,7 @@ public class CardListViewModel extends BaseViewModel {
                 }else {
                     umi.dismissLoading();
                 }
-                if (!umi.getSP(SharedHelper.KEY_ANALYTICS_ASKED)){
+                /*if (!umi.getSP(SharedHelper.KEY_ANALYTICS_ASKED)){
                     SweetAlertDialog sweetAlertDialog = new SweetAlertDialog(mContext)
                             .setTitleText(mContext.getString(R.string.analytics_ask_title))
                             .setContentText(mContext.getString(R.string.analytics_ask_content))
@@ -143,7 +164,7 @@ public class CardListViewModel extends BaseViewModel {
                             });
                     sweetAlertDialog.setCanceledOnTouchOutside(false);
                     sweetAlertDialog.show();
-                }
+                }*/
             }
         });
         Messenger.getDefault().register(mContext, MainActivity.TOKEN_DATA_UPDATED, this::loadData);
@@ -151,13 +172,13 @@ public class CardListViewModel extends BaseViewModel {
 
     private void initFilter(){
         Messenger.getDefault().sendNoMsg(CardListFrag.TOKEN_RESET_FILTER);
-        rareFilter.clear();
+        rareFilter_temp.clear();
         typeFilter.clear();
         skillFilter.clear();
         evoFilter.clear();
         SStaticR.skillTypeMap.put(mContext.getString(R.string.skill_empty), Integer.MAX_VALUE);
-        rareFilter.add(SStaticR.rarityMap_rev.get("SSR"));
-        rareFilter.add(SStaticR.rarityMap_rev.get("SR"));
+        rareFilter_temp.add(SStaticR.rarityMap_rev.get("SSR"));
+        rareFilter_temp.add(SStaticR.rarityMap_rev.get("SR"));
         typeFilter.addAll(SStaticR.typeMap.values());
         skillFilter.addAll(SStaticR.skillTypeMap.values());
         getTypeFilter.addAll(getTypeMap_UI.keySet());
@@ -165,13 +186,18 @@ public class CardListViewModel extends BaseViewModel {
         sortType = 0; // default ID
         evoFilter.add(0);
         evoFilter.add(1);
+        solveRareFilter();
     }
 
     private void loadData(){
         itemViewModel.clear();
         umi.showLoading();
-        prepareGetType();
-        loadData(mContext, cardDataList, null);
+//        prepareGetType();
+        if (getTypeMap.size() == 4){
+            loadData(mContext, cardDataList, null);
+        }else {
+            prepareGetType();
+        }
     }
 
 
@@ -237,7 +263,10 @@ public class CardListViewModel extends BaseViewModel {
     }
 
     private boolean checkRare(Card card){
-        for (Integer integer : evoFilter) {
+        if (rareFilter.contains(card.getRarity().getRarity())){
+            return true;
+        }
+        /*for (Integer integer : evoFilter) {
             if (card.getEvolution_id() != 0){
                 if (rareFilter.contains(card.getRarity().getRarity())){
                     return true;
@@ -247,12 +276,17 @@ public class CardListViewModel extends BaseViewModel {
                     return true;
                 }
             }
-        }
+        }*/
         return false;
     }
 
     private boolean checkID(Card card){
-        for (Integer integer : evoFilter) {
+        for (Integer i : getTypeFilter) {
+            if (getTypeMap.get(i).contains(card.getSeries_id())){
+                return true;
+            }
+        }
+        /*for (Integer integer : evoFilter) {
             if (card.getEvolution_id() != 0){
                 for (Integer i : getTypeFilter) {
                     if (getTypeMap.get(i).contains(card.getId()) && integer == 0){
@@ -266,7 +300,7 @@ public class CardListViewModel extends BaseViewModel {
                     }
                 }
             }
-        }
+        }*/
         return false;
     }
 
@@ -353,15 +387,24 @@ public class CardListViewModel extends BaseViewModel {
 
     // 读取各卡池类型包含的card_id
     private void prepareGetType(){
+        DBHelper.refresh(mContext, DBHelper.DB_NAME_master);
         for (Integer integer : getTypeMap_sql.keySet()) {
             try {
                 Observable<List<Integer>> observable = Observable.just(DBHelper.with(mContext, DBHelper.DB_NAME_master)
                         .getBeanListByRaw(getTypeMap_sql.get(integer), Integer.class, "id"));
                 observable.subscribeOn(Schedulers.io())
-                        .subscribe(ids -> getTypeMap.put(integer, ids));
+                        .subscribe(ids -> {
+                            if (ids != null && ids.size() > 0){
+                                getTypeMap.put(integer, ids);
+                            }
+                            if (getTypeMap.size() == 4){
+                                loadData(mContext, cardDataList, null);
+                            }
+                        });
             }catch (Exception e){
                 e.printStackTrace();
             }
         }
+
     }
 }

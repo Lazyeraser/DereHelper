@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">DereHelper</string>
+    <string name="app_name" translatable="false">DereHelper</string>
     <string name="skill_empty">No skill</string>
     <string name="locale_changed">Language changed</string>
     <string name="locale_changed_need_restart">APP needs restart</string>
@@ -147,4 +147,6 @@
 
     <string name="search">Search</string>
     <string name="search_hint_chara">Romaji/Name/Hiragana/CV</string>
+    <string name="update_checking_hint_data">Checking Database Update</string>
+    <string name="update_checking_hint_app">Checking APP Update</string>
 </resources>

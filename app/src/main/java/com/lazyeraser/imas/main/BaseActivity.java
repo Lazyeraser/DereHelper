@@ -78,10 +78,13 @@ public class BaseActivity extends RxAppCompatActivity implements View.OnClickLis
         return this;
     }
 
-    public View getBView(@IdRes int id){
-        return binding.getRoot().findViewById(id);
+    public View getBView(){
+        return binding.getRoot();
     }
 
+    public View getBView(@IdRes int id){
+        return getBView().findViewById(id);
+    }
 
 
     @Override
@@ -148,7 +151,7 @@ public class BaseActivity extends RxAppCompatActivity implements View.OnClickLis
         ImageView actionBarBtn_Start = (ImageView) findViewById(R.id.actionBar_btn_start_img);
         if (idStart == null) {
 //            Picasso.with(mContext).load(R.drawable.umi_ic_back).into(actionBarBtn_Start);
-            actionBarBtn_Start.setImageResource(R.drawable.umi_ic_back);
+            actionBarBtn_Start.setImageResource(R.drawable.ic_back);
         }
         TextView actionBarBtn_Txt = (TextView) findViewById(R.id.actionBar_txtBtn);
         ImageView actionBarBtn_End = (ImageView) findViewById(R.id.actionBar_btn_end_img);

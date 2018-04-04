@@ -32,7 +32,7 @@ public class SharedHelper {
         defaultKeyValues.put(KEY_AUTO_DATA, "true");
         defaultKeyValues.put(KEY_AUTO_APP, "true");
         defaultKeyValues.put(KEY_DEFAULT_TRAN, "false");
-        defaultKeyValues.put(KEY_ANALYTICS_ON, "false");
+        defaultKeyValues.put(KEY_ANALYTICS_ON, "true");
         defaultKeyValues.put(KEY_ANALYTICS_ASKED, "false");
         defaultKeyValues.put(KEY_USE_REVERSE_PROXY, "");
     }

@@ -261,13 +261,14 @@ public class CardViewModel extends BaseViewModel {
                 skillB.append("/");
                 if (theCard.getSkill().getValue() > 100){
                     skillB.append(theCard.getSkill().getValue() - 100);
-                    if (theCard.getSkill().getValue_2() <= 100){
+                    skillB.append("%/");
+                    /*if (theCard.getSkill().getValue_2() <= 100){
                         skillB.append("%/");
                     }else {
                         skillB.append("%|");
                         skillB.append(theCard.getSkill().getValue_2() - 100);
                         skillB.append("%/");
-                    }
+                    }*/
                 }
                 String skillType = SStaticR.skillTypeNameMap.containsKey(theCard.getSkill().getSkill_type_id()) ?
                         SStaticR.skillTypeNameMap.get(theCard.getSkill().getSkill_type_id()) : mContext.getString(R.string.type_unknown);

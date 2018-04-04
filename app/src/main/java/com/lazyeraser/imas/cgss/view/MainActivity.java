@@ -18,6 +18,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
@@ -129,10 +130,8 @@ public class MainActivity extends BaseActivity {
 
         switchFrag(cardListFrag);
         if (umi.getSP(SharedHelper.KEY_AUTO_APP)){
-            umi.makeToast(R.string.settings_auto_app);
             checkUpdate(false);
         }else if (umi.getSP(SharedHelper.KEY_AUTO_DATA)){
-            umi.makeToast(R.string.settings_auto_data);
             mainViewModel.checkDataUpdate();
         }
         // 监听语言设置改变
@@ -172,17 +171,18 @@ public class MainActivity extends BaseActivity {
         sweetAlertDialog.show();
     }
 
+    private Snackbar snackBar_checkUpdate;
     private void checkUpdate(boolean hint){
         needUpdateHint = hint;
-        umi.showLoading();
+        snackBar_checkUpdate = Snackbar.make(drawerLayout, R.string.update_checking_hint_app, Snackbar.LENGTH_INDEFINITE);
+        snackBar_checkUpdate.show();
         if (ContextCompat.checkSelfPermission(mContext, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions((Activity) mContext, new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
         }else {
-            updateManager.checkUpdate(hint, b -> {
-                umi.dismissLoading();
-                if(!b){
+            updateManager.checkUpdate(hint, haveUpdate -> {
+                snackBar_checkUpdate.dismiss();
+                if(!haveUpdate){
                     if (umi.getSP(SharedHelper.KEY_AUTO_DATA) && !needUpdateHint){
-                        umi.makeToast(R.string.settings_auto_data);
                         mainViewModel.checkDataUpdate();
                     }
                 }
@@ -195,11 +195,10 @@ public class MainActivity extends BaseActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == 1 && permissions[0].equals(Manifest.permission.WRITE_EXTERNAL_STORAGE)){
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED){
-                updateManager.checkUpdate(needUpdateHint, b -> {
-                    umi.dismissLoading();
-                    if(!b){
+                updateManager.checkUpdate(needUpdateHint, haveUpdate -> {
+                    snackBar_checkUpdate.dismiss();
+                    if(!haveUpdate){
                         if (umi.getSP(SharedHelper.KEY_AUTO_DATA) && !needUpdateHint){
-                            umi.makeToast(R.string.settings_auto_data);
                             mainViewModel.checkDataUpdate();
                         }
                     }
@@ -260,11 +259,10 @@ public class MainActivity extends BaseActivity {
             public void onPropertyChanged(Observable observable, int i) {
                 if (mainViewModel.upToDate.get()){
                     if (manualCheck){
-                        umi.dismissLoading();
                         upToDateDialog.show();
-                    }else {
+                    }/*else {
                         Messenger.getDefault().sendNoMsg(TOKEN_DATA_UPDATED);
-                    }
+                    }*/
                     mainViewModel.upToDate.set(false);
                     manualCheck = false;
                 }
