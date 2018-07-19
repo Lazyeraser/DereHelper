@@ -34,7 +34,7 @@ public class SStaticR {
     public static boolean ANALYTICS_ON = false;
 
     //static data
-    public final static String UNITY_VERSION = "5.4.5p1";
+    public final static String UNITY_VERSION = "2017.4.2f2";
 
     public final static String charaIconUrl = SStaticR.SERVER_URL_RES + "/icon_char/%s.png";
 

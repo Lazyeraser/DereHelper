@@ -61,6 +61,7 @@ public class DBHelper extends SQLiteOpenHelper  {
     }
 
 
+    @SuppressWarnings("all")
     public static DBHelper with(BaseActivity context){
         if (instances == null || instances.get(DB_NAME) == null) {
             synchronized (DBHelper.class){
@@ -74,6 +75,8 @@ public class DBHelper extends SQLiteOpenHelper  {
 //        instances.putIfAbsent(DB_NAME, new DBHelper(context)); // Java8 not supported under Android 6.0
         return instances.get(DB_NAME);
     }
+
+    @SuppressWarnings("all")
     public static DBHelper with(BaseActivity context, String dbName){
         if (instances == null || instances.get(dbName) == null) {
             synchronized (DBHelper.class) {
@@ -86,6 +89,16 @@ public class DBHelper extends SQLiteOpenHelper  {
         }
 //        instances.putIfAbsent(dbName, new DBHelper(context, context.getFilesDir().getAbsolutePath() + "/" + dbName));
         return instances.get(dbName);
+    }
+
+    public static void refresh(BaseActivity context){
+        if (instances == null || instances.get(DB_NAME) == null) {
+            synchronized (DBHelper.class){
+                if (instances == null)
+                    instances = new HashMap<>();
+            }
+        }
+        instances.put(DB_NAME, new DBHelper(context, DB_NAME));
     }
 
     public static void refresh(BaseActivity context, String dbName){

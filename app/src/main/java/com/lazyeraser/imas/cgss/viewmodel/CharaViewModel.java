@@ -37,6 +37,7 @@ import java.util.Map;
 import me.tatarka.bindingcollectionadapter.ItemView;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
 import static com.lazyeraser.imas.main.SStaticR.textDataList;
@@ -64,7 +65,22 @@ public class CharaViewModel extends BaseViewModel {
 
     private final ObservableField<Map<Card, CardViewModel>> cardDataList = new ObservableField<>();
 
-    // click event
+    // go chara detail activity
+    public final Action1<View> onItemClick = view -> {
+        ActivityOptionsCompat transitionActivityOptions = ActivityOptionsCompat.makeSceneTransitionAnimation(mContext,
+                view.findViewById(R.id.chara_icon), "chara_icon");
+        Bundle bundle = transitionActivityOptions.toBundle();
+        if (bundle == null) {
+            bundle = new Bundle();
+        }
+        bundle.putString("theChara", JsonUtils.getJsonFromBean(chara.get()));
+        Intent intent = new Intent();
+        intent.setClass(mContext, CharaDetailActivity.class);
+        intent.putExtras(bundle);
+        ActivityCompat.startActivity(mContext, intent, bundle);
+    };
+
+    // card click event
     public final ReplyCommand<Pair<Integer, View>> onListItemClickCommand = new ReplyCommand<>(pair -> {
         ActivityOptionsCompat transitionActivityOptions = ActivityOptionsCompat.makeSceneTransitionAnimation(mContext, pair.second.findViewById(R.id.card_icon), "card_icon");
         Bundle bundle = transitionActivityOptions.toBundle();

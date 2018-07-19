@@ -217,7 +217,7 @@ public class Base {
         return !TextUtils.isEmpty(value) && value.equals("true");
     }
 
-    public void destroyAllActivity() {
+    public static void destroyAllActivity() {
         for (BaseActivity activity : activityMap.values()) {
             if (activity != null){
                 activity.finish();

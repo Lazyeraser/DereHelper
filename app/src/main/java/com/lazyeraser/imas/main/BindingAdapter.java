@@ -4,6 +4,7 @@ import android.databinding.BindingConversion;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.IdRes;
 import android.support.v4.util.Pair;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SwitchCompat;
 import android.view.View;
 import android.widget.CheckBox;
@@ -21,12 +22,19 @@ import com.squareup.picasso.Picasso;
 import java.util.Date;
 import java.util.List;
 
+import rx.functions.Action1;
+
 /**
  * Created by lazyeraser on 2017/9/14.
  * bind自定义适配器
  */
 
 public class BindingAdapter {
+
+    @android.databinding.BindingAdapter(value = {"clickCommand"})
+    public static void clickAction(View view, Action1<View> command) {
+        view.setOnClickListener(command::call);
+    }
 
     @android.databinding.BindingAdapter(value = {"imageUrl", "placeholder"}, requireAll = false)
     public static void loadImage(ImageView view, String imageUrl, @IdRes Integer placeholder) {
@@ -95,8 +103,8 @@ public class BindingAdapter {
     }
 
     @android.databinding.BindingAdapter(value = {"charaID", "placeholder"}, requireAll = false)
-    public static void loadCharaIcon(ImageView view, int charaID, @IdRes Integer placeholder) {
-        if (charaID == 0)
+    public static void loadCharaIcon(ImageView view, Integer charaID, @IdRes Integer placeholder) {
+        if (charaID == null || charaID == 0)
             return;
         String imageUrl = String.format(SStaticR.charaIconUrl, charaID);
         if (placeholder != null){

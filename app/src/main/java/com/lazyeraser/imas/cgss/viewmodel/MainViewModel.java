@@ -27,6 +27,7 @@ import com.lazyeraser.imas.cgss.utils.Utils;
 import com.lazyeraser.imas.derehelper.R;
 import com.lazyeraser.imas.main.BaseActivity;
 import com.lazyeraser.imas.main.BaseViewModel;
+import com.lazyeraser.imas.main.SStaticR;
 import com.lazyeraser.imas.retrofit.ExceptionHandler;
 import com.lazyeraser.imas.retrofit.RetrofitProvider;
 import com.trello.rxlifecycle.ActivityLifecycleProvider;
@@ -71,12 +72,25 @@ public class MainViewModel extends BaseViewModel {
 
     public MainViewModel(BaseActivity mContext) {
         super(mContext);
-
         if (umi.getSP(SharedHelper.KEY_ANALYTICS_ON)){
             Utils.turnOnGA(mContext);
         }
+        RetrofitProvider.getInstance().create(InfoService.class)
+                .getJson(SStaticR.SERVER_URL_UPDATE + "config.json")
+                .observeOn(AndroidSchedulers.mainThread())
+                .compose(((ActivityLifecycleProvider) mContext).bindToLifecycle())
+                .subscribe(jsonObject -> {
+                    if (jsonObject != null && jsonObject.has("unity_version")){
+                        String unity_version = jsonObject.get("unity_version").getAsString();
+                        if (!TextUtils.isEmpty(unity_version)){
+                            umi.spSave(SharedHelper.KEY_UNITY_VERSION, unity_version);
+                        }
+                    }
+                }, throwable -> {});
     }
+
     private Snackbar snackBar_checkDataUpdate;
+
     public void checkDataUpdate() {
         snackBar_checkDataUpdate = Snackbar.make(mContext.getBView(), R.string.update_checking_hint_data, Snackbar.LENGTH_INDEFINITE);
         snackBar_checkDataUpdate.show();
@@ -183,7 +197,7 @@ public class MainViewModel extends BaseViewModel {
         useReverseProxy = umi.getSP(SharedHelper.KEY_USE_REVERSE_PROXY);
         Observable<ResponseBody> manifestFile = useReverseProxy ?
                 RetrofitProvider.getInstance(false).create(CGSSService.class).getManifestsRP(truthVersion) :
-                RetrofitProvider.getInstance(false).create(CGSSService.class).getManifests(truthVersion);
+                RetrofitProvider.getInstance(false).create(CGSSService.class).getManifests(truthVersion, umi.spRead(SharedHelper.KEY_UNITY_VERSION));
 
         manifestFile.subscribeOn(Schedulers.io()).subscribe(body -> {
                     try {
@@ -240,7 +254,7 @@ public class MainViewModel extends BaseViewModel {
             String hash = hashToDownload.get(i);
             Observable<ResponseBody> file = useReverseProxy ?
                     RetrofitProvider.getInstance(false).create(CGSSService.class).getResourcesRP(hash) :
-                    RetrofitProvider.getInstance(false).create(CGSSService.class).getResources(hash);
+                    RetrofitProvider.getInstance(false).create(CGSSService.class).getResources(hash, umi.spRead(SharedHelper.KEY_UNITY_VERSION));
             file.subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(responseBody -> {

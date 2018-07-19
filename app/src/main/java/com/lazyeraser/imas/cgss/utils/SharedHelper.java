@@ -3,6 +3,8 @@ package com.lazyeraser.imas.cgss.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.lazyeraser.imas.main.SStaticR;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -25,6 +27,8 @@ public class SharedHelper {
 
     public final static String KEY_USE_REVERSE_PROXY = "reverse proxy on";
 
+    public final static String KEY_UNITY_VERSION = "KEY_UNITY_VERSION";
+
     private final static AtomicBoolean init = new AtomicBoolean(false);
 
     static {
@@ -34,7 +38,8 @@ public class SharedHelper {
         defaultKeyValues.put(KEY_DEFAULT_TRAN, "false");
         defaultKeyValues.put(KEY_ANALYTICS_ON, "true");
         defaultKeyValues.put(KEY_ANALYTICS_ASKED, "false");
-        defaultKeyValues.put(KEY_USE_REVERSE_PROXY, "");
+        defaultKeyValues.put(KEY_USE_REVERSE_PROXY, "false");
+        defaultKeyValues.put(KEY_UNITY_VERSION, SStaticR.UNITY_VERSION);
     }
 
     public SharedHelper(Context mContext) {

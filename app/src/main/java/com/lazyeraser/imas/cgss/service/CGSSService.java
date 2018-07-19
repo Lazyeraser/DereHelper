@@ -4,6 +4,7 @@ import com.lazyeraser.imas.main.SStaticR;
 
 import okhttp3.ResponseBody;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.Path;
 import rx.Observable;
@@ -16,12 +17,12 @@ import rx.Observable;
 public interface CGSSService {
 
     @GET("https://storages.game.starlight-stage.jp/dl/{version}/manifests/Android_AHigh_SHigh")
-    @Headers("X-Unity-Version:" + SStaticR.UNITY_VERSION)
-    Observable<ResponseBody> getManifests(@Path("version") String version);
+//    @Headers("X-Unity-Version:" + SStaticR.UNITY_VERSION)
+    Observable<ResponseBody> getManifests(@Path("version") String version, @Header("X-Unity-Version") String unityVer);
 
     @GET("https://storages.game.starlight-stage.jp/dl/resources/Generic/{hash}")
-    @Headers("X-Unity-Version:" + SStaticR.UNITY_VERSION)
-    Observable<ResponseBody> getResources(@Path("hash") String hash);
+//    @Headers("X-Unity-Version:" + SStaticR.UNITY_VERSION)
+    Observable<ResponseBody> getResources(@Path("hash") String hash, @Header("X-Unity-Version") String unityVer);
 
     @GET("http://346lab.org/dl/cgss_assets/{version}/manifests/Android_AHigh_SHigh")
     Observable<ResponseBody> getManifestsRP(@Path("version") String version);

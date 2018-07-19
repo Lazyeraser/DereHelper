@@ -9,7 +9,7 @@
             type="com.lazyeraser.imas.cgss.viewmodel.SongVM" />
 
         <import type="android.view.View" />
-
+        <import type="me.tatarka.bindingcollectionadapter.LayoutManagers"/>
         <import type="com.lazyeraser.imas.derehelper.R" />
     </data>
 
@@ -21,7 +21,7 @@
         android:focusable="true"
         android:focusableInTouchMode="true">
 
-        <ScrollView
+        <com.lazyeraser.imas.cgss.utils.view.LazyScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -125,14 +125,13 @@
 
                         </LinearLayout>
 
-                        <com.lazyeraser.imas.cgss.utils.view.ListViewForScrollView
+                        <com.lazyeraser.imas.cgss.utils.view.ExRecyclerViewInScv
                             android:id="@+id/beat_map_list"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:divider="@null"
-                            android:dividerHeight="0dp"
                             bind:itemView="@{viewModel.itemView}"
                             bind:items="@{viewModel.itemViewModel}"
+                            bind:layoutManager="@{LayoutManagers.linear()}"
                             android:layout_marginBottom="16dp"/>
 
                     </LinearLayout>
@@ -356,7 +355,7 @@
 
             </LinearLayout>
 
-        </ScrollView>
+        </com.lazyeraser.imas.cgss.utils.view.LazyScrollView>
 
     </RelativeLayout>
 

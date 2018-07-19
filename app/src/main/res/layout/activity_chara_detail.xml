@@ -10,8 +10,9 @@
         <variable
             name="viewModel2"
             type="com.lazyeraser.imas.cgss.viewmodel.SongListVM" />
-        <import type="android.view.View" />
 
+        <import type="android.view.View" />
+        <import type="me.tatarka.bindingcollectionadapter.LayoutManagers"/>
         <import type="com.lazyeraser.imas.derehelper.R" />
     </data>
 
@@ -33,7 +34,7 @@
             android:textColor="#30666666"
             android:textSize="56sp" />
 
-        <ScrollView
+        <com.lazyeraser.imas.cgss.utils.view.LazyScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -514,13 +515,13 @@
                             android:textAlignment="gravity"/>
 
 
-                        <com.lazyeraser.imas.cgss.utils.view.ListViewForScrollView
+                        <com.lazyeraser.imas.cgss.utils.view.ExRecyclerViewInScv
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="10dp"
                             bind:itemView="@{viewModel2.itemView}"
                             bind:items="@{viewModel2.itemViewModel}"
-                            bind:onListItemClickedWithView="@{viewModel2.onListItemClickCommand}" />
+                            bind:layoutManager="@{LayoutManagers.linear()}"/>
 
                     </LinearLayout>
 
@@ -532,7 +533,7 @@
 
             </LinearLayout>
 
-        </ScrollView>
+        </com.lazyeraser.imas.cgss.utils.view.LazyScrollView>
 
     </RelativeLayout>
 

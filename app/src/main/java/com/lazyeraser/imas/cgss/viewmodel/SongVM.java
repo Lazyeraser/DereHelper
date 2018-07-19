@@ -1,15 +1,23 @@
 package com.lazyeraser.imas.cgss.viewmodel;
 
+import android.content.Intent;
 import android.databinding.ObservableArrayList;
 import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
 import android.databinding.ObservableList;
+import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.util.Pair;
+import android.view.View;
 import android.widget.ListView;
 
+import com.kelin.mvvmlight.command.ReplyCommand;
 import com.lazyeraser.imas.cgss.entity.LiveDetail;
 import com.lazyeraser.imas.cgss.entity.Song;
 import com.lazyeraser.imas.cgss.utils.DBHelper;
+import com.lazyeraser.imas.cgss.utils.JsonUtils;
 import com.lazyeraser.imas.cgss.utils.Utils;
 import com.lazyeraser.imas.cgss.view.SongDetailActivity;
 import com.lazyeraser.imas.derehelper.R;
@@ -22,6 +30,7 @@ import java.util.List;
 import me.tatarka.bindingcollectionadapter.ItemView;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
 /**
@@ -37,6 +46,19 @@ public class SongVM extends BaseViewModel {
     public ObservableList<LiveVm> itemViewModel;
     public ItemView itemView;
 
+    public final Action1<View> onItemClick = view -> {
+        ActivityOptionsCompat transitionActivityOptions = ActivityOptionsCompat.makeSceneTransitionAnimation(mContext,
+                view.findViewById(R.id.song_jacket), "song_jacket");
+        Bundle bundle = transitionActivityOptions.toBundle();
+        if (bundle == null){
+            bundle = new Bundle();
+        }
+        bundle.putString("data", JsonUtils.getJsonFromBean(song.get()));
+        Intent intent = new Intent();
+        intent.setClass(mContext, SongDetailActivity.class);
+        intent.putExtras(bundle);
+        ActivityCompat.startActivity(mContext, intent, bundle);
+    };
 
     public SongVM(BaseActivity mContext, Song song) {
         super(mContext);

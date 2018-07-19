@@ -11,6 +11,7 @@ import com.google.android.gms.analytics.Logger;
 import com.google.android.gms.analytics.Tracker;
 
 import com.jakewharton.picasso.OkHttp3Downloader;
+import com.lazyeraser.imas.cgss.utils.CrashHandler;
 import com.lazyeraser.imas.cgss.utils.JsonUtils;
 import com.lazyeraser.imas.cgss.utils.Utils;
 import com.lazyeraser.imas.derehelper.R;
@@ -31,6 +32,7 @@ public class LIVE extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        CrashHandler.getInstance("DereHelper").init(getApplicationContext());
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N){ // 7.0以上自动更新apk安装时的报错避免
             StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
             StrictMode.setVmPolicy(builder.build());

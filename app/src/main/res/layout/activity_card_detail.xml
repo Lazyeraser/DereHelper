@@ -29,7 +29,7 @@
             android:textColor="#30666666"
             android:textSize="56sp" />
 
-        <ScrollView
+        <com.lazyeraser.imas.cgss.utils.view.LazyScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -428,7 +428,7 @@
 
             </com.zhy.android.percent.support.PercentLinearLayout>
 
-        </ScrollView>
+        </com.lazyeraser.imas.cgss.utils.view.LazyScrollView>
 
     </RelativeLayout>
 

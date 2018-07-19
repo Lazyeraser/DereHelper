@@ -8,7 +8,9 @@ import android.databinding.ObservableField;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.util.Pair;
 import android.text.TextUtils;
+import android.view.View;
 
 import com.kelin.mvvmlight.command.ReplyCommand;
 import com.lazyeraser.imas.cgss.entity.Card;
@@ -35,6 +37,7 @@ import java.util.Map;
 
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
 /**
@@ -54,10 +57,23 @@ public class CardViewModel extends BaseViewModel {
 //    public final ObservableField<String> charaIconUrl = new ObservableField<>();
 
 
-
     private Map<String, String> translationMap;
     private List<String> stringsToTranslate;
     private Card originCard;
+
+    // getAll detail activity
+    public final Action1<View> onItemClick = view -> {
+        ActivityOptionsCompat transitionActivityOptions = ActivityOptionsCompat.makeSceneTransitionAnimation(mContext, view.findViewById(R.id.card_icon), "card_icon");
+        Bundle bundle = transitionActivityOptions.toBundle();
+        if (bundle == null){
+            bundle = new Bundle();
+        }
+        bundle.putString("theCard", JsonUtils.getJsonFromBean(card.get()));
+        Intent intent = new Intent();
+        intent.setClass(mContext, CardDetailActivity.class);
+        intent.putExtras(bundle);
+        ActivityCompat.startActivity(mContext, intent, bundle);
+    };
 
     public final ReplyCommand onBigPicClick = new ReplyCommand(() -> {
         ActivityOptionsCompat transitionActivityOptions = ActivityOptionsCompat.makeSceneTransitionAnimation(mContext, mContext.findViewById(R.id.big_pic), "big_pic");

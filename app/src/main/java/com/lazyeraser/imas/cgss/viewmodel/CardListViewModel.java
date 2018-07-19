@@ -56,19 +56,7 @@ public class CardListViewModel extends BaseViewModel {
 
     private ObservableField<Map<Card, CardViewModel>> cardDataList = new ObservableField<>();
 
-    // getAll detail activity
-    public final ReplyCommand<Pair<Integer, View>> onListItemClickCommand = new ReplyCommand<>(pair -> {
-        ActivityOptionsCompat transitionActivityOptions = ActivityOptionsCompat.makeSceneTransitionAnimation(mContext, pair.second.findViewById(R.id.card_icon), "card_icon");
-        Bundle bundle = transitionActivityOptions.toBundle();
-        if (bundle == null){
-            bundle = new Bundle();
-        }
-        bundle.putString("theCard", JsonUtils.getJsonFromBean(itemViewModel.get(pair.first).card.get()));
-        Intent intent = new Intent();
-        intent.setClass(mContext, CardDetailActivity.class);
-        intent.putExtras(bundle);
-        ActivityCompat.startActivity(mContext, intent, bundle);
-    });
+
 
     /*-------------commands for filter---------------*/
     private List<Integer> evoFilter = new ArrayList<>();
@@ -202,6 +190,7 @@ public class CardListViewModel extends BaseViewModel {
 
 
     static void loadData(BaseActivity mContext, ObservableField<Map<Card, CardViewModel>> target, List<String> cardIdList){
+        DBHelper.refresh(mContext);
         Observable.just(DBHelper.with(mContext)
                 .where(DBHelper.TABLE_NAME_Card, "json", "id", cardIdList))
                 .subscribeOn(Schedulers.io())
@@ -306,63 +295,51 @@ public class CardListViewModel extends BaseViewModel {
 
 
     private void filterCards(){
-        Observable<List<Integer>> co = Observable.create(subscriber -> {
-            List<Integer> cardsToShow = new ArrayList<>();
+        Observable<List<CardViewModel>> co = Observable.create(subscriber -> {
+            List<CardViewModel> vmToShow = new ArrayList<>();
             for (Card card : cardDataList.get().keySet()) {
                 if (typeFilter.contains(card.getAttribute().toUpperCase()) && checkRare(card) && checkSkillType(card) && checkID(card)) {
-                    cardsToShow.add(card.getId());
+                    vmToShow.add(cardDataList.get().get(card));
                 }
             }
-            subscriber.onNext(cardsToShow);
+            Collections.sort(vmToShow, (a, b) -> {
+                Card cardA = a.card.get();
+                Card cardB = b.card.get();
+                boolean desc = sortMethod == 0;
+                int valueA;
+                int valueB;
+                switch (sortType){
+                    case 1:
+                        valueA = cardA.getVisual_max() + cardA.getBonus_visual();
+                        valueB = cardB.getVisual_max() + cardB.getBonus_visual();
+                        break;
+                    case 2:
+                        valueA = cardA.getVocal_max() + cardA.getBonus_vocal();
+                        valueB = cardB.getVocal_max() + cardB.getBonus_vocal();
+                        break;
+                    case 3:
+                        valueA = cardA.getDance_max() + cardA.getBonus_dance();
+                        valueB = cardB.getDance_max() + cardB.getBonus_dance();
+                        break;
+                    case 4:
+                        valueA = cardA.getOverall_max() + cardA.getOverall_bonus();
+                        valueB = cardB.getOverall_max() + cardB.getOverall_bonus();
+                        break;
+                    default: // also for type ID
+                        valueA = cardA.getSeries_id()  - (100000 * SStaticR.typeMap_int.get(cardA.getAttribute().toLowerCase()));
+                        valueB = cardB.getSeries_id() - (100000 * SStaticR.typeMap_int.get(cardB.getAttribute().toLowerCase()));
+                        break;
+                }
+                return (desc ? 1 : -1) * (valueB == valueA ? 0 : valueB < valueA ? -1 : 1);
+            });
+            subscriber.onNext(vmToShow);
             subscriber.onCompleted();
         });
         co.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(cards -> {
-                    for (Card card : cardDataList.get().keySet()) {
-                        CardViewModel vm = cardDataList.get().get(card);
-                        if (cards.contains(card.getId())) {
-                            // 符合条件 如不在当前显示的列表中则加入
-                            if (!itemViewModel.contains(vm)){
-                                itemViewModel.add(vm);
-                            }
-                        }else {
-                            // 不符合 如果存在则remove
-                            if (itemViewModel.contains(vm)){
-                                itemViewModel.remove(vm);
-                            }
-                        }
-                    }
-                    Collections.sort(itemViewModel, (a, b) -> {
-                        Card cardA = a.card.get();
-                        Card cardB = b.card.get();
-                        boolean desc = sortMethod == 0;
-                        int valueA;
-                        int valueB;
-                        switch (sortType){
-                            case 1:
-                                valueA = cardA.getVisual_max() + cardA.getBonus_visual();
-                                valueB = cardB.getVisual_max() + cardB.getBonus_visual();
-                                break;
-                            case 2:
-                                valueA = cardA.getVocal_max() + cardA.getBonus_vocal();
-                                valueB = cardB.getVocal_max() + cardB.getBonus_vocal();
-                                break;
-                            case 3:
-                                valueA = cardA.getDance_max() + cardA.getBonus_dance();
-                                valueB = cardB.getDance_max() + cardB.getBonus_dance();
-                                break;
-                            case 4:
-                                valueA = cardA.getOverall_max() + cardA.getOverall_bonus();
-                                valueB = cardB.getOverall_max() + cardB.getOverall_bonus();
-                                break;
-                            default: // also for type ID
-                                valueA = cardA.getSeries_id()  - (100000 * SStaticR.typeMap_int.get(cardA.getAttribute().toLowerCase()));
-                                valueB = cardB.getSeries_id() - (100000 * SStaticR.typeMap_int.get(cardB.getAttribute().toLowerCase()));
-                                break;
-                        }
-                        return (desc ? 1 : -1) * (valueB == valueA ? 0 : valueB < valueA ? -1 : 1);
-                    });
+                    itemViewModel.clear();
+                    itemViewModel.addAll(cards);
                     umi.dismissLoading();
                 });
 
@@ -375,10 +352,16 @@ public class CardListViewModel extends BaseViewModel {
     public static final Map<Integer, String> getTypeMap_sql = new HashMap<>();
     public static final Map<Integer, Integer> getTypeMap_UI = new LinkedHashMap<>();
     static {
-        getTypeMap_sql.put(0, "SELECT * from (SELECT DISTINCT reward_id as id from gacha_available where limited_flag = 0 UNION SELECT id from card_data where rarity < 2) as a");
-        getTypeMap_sql.put(1, "SELECT DISTINCT b.reward_id as id from gacha_data a, gacha_available b where a.id = b.gacha_id and a.dicription like '%期間限定%' and b.limited_flag = 1 ");
-        getTypeMap_sql.put(2, "SELECT DISTINCT b.reward_id as id from gacha_data a, gacha_available b where a.id = b.gacha_id and a.dicription like '%フェス%' and b.limited_flag = 1 ");
-        getTypeMap_sql.put(3, "SELECT id from card_data where name not like '%＋%' and rarity > 2 and id not in (SELECT DISTINCT reward_id from gacha_available)");
+//        getTypeMap_sql.put(0, "SELECT * from (SELECT DISTINCT reward_id as id from gacha_available where limited_flag = 0 UNION SELECT id from card_data where rarity < 2) as a");
+//        getTypeMap_sql.put(1, "SELECT DISTINCT b.reward_id as id from gacha_data a, gacha_available b where a.id = b.gacha_id and a.dicription like '%期間限定%' and b.limited_flag = 1 ");
+//        getTypeMap_sql.put(2, "SELECT DISTINCT b.reward_id as id from gacha_data a, gacha_available b where a.id = b.gacha_id and a.dicription like '%フェス%' and b.limited_flag = 1 ");
+//        getTypeMap_sql.put(3, "SELECT id from card_data where name not like '%＋%' and rarity > 2 and id not in (SELECT DISTINCT reward_id from gacha_available)");
+
+        getTypeMap_sql.put(0, " select reward_id from gacha_data a, gacha_available b where a.id = b.gacha_id and a.dicription not like '%限定%' ");
+        getTypeMap_sql.put(1, " select reward_id from gacha_data a, gacha_available b where a.id = b.gacha_id and a.dicription like '%期間限定%' and recommend_order > 0 ");
+        getTypeMap_sql.put(2, " select reward_id from gacha_data a, gacha_available b where a.id = b.gacha_id and a.dicription like '%フェス限定%' and recommend_order > 0 ");
+        getTypeMap_sql.put(3, " select reward_id from event_available ");
+
         getTypeMap_UI.put(0, R.string.get_type_normal);
         getTypeMap_UI.put(1, R.string.get_type_limit);
         getTypeMap_UI.put(2, R.string.get_type_fes);
@@ -391,11 +374,16 @@ public class CardListViewModel extends BaseViewModel {
         for (Integer integer : getTypeMap_sql.keySet()) {
             try {
                 Observable<List<Integer>> observable = Observable.just(DBHelper.with(mContext, DBHelper.DB_NAME_master)
-                        .getBeanListByRaw(getTypeMap_sql.get(integer), Integer.class, "id"));
+                        .getBeanListByRaw(getTypeMap_sql.get(integer), Integer.class, "reward_id"));
                 observable.subscribeOn(Schedulers.io())
                         .subscribe(ids -> {
                             if (ids != null && ids.size() > 0){
                                 getTypeMap.put(integer, ids);
+                            }
+                            if (integer == 3){
+                                // snow wings 两张活动卡数据库中遗失 做特殊处理
+                                getTypeMap.get(3).add(200129);
+                                getTypeMap.get(3).add(300135);
                             }
                             if (getTypeMap.size() == 4){
                                 loadData(mContext, cardDataList, null);

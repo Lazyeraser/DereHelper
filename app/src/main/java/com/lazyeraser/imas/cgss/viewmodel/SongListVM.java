@@ -60,9 +60,11 @@ public class SongListVM extends BaseViewModel {
             @Override
             public void onPropertyChanged(android.databinding.Observable sender, int propertyId) {
                 if (songData.get().size() > 0){
+                    List<SongVM> vmList = new ArrayList<>();
                     for (Song song : songData.get()) {
-                        itemViewModel.add(new SongVM(mContext, song));
+                        vmList.add(new SongVM(mContext, song));
                     }
+                    itemViewModel.addAll(vmList);
                     umi.dismissLoading();
                 }else {
                     umi.dismissLoading();
@@ -79,9 +81,9 @@ public class SongListVM extends BaseViewModel {
     }
 
     private static final String sql_raw =
-            "SELECT b.name,b.bpm, b.id as music_id, b.composer, b.lyricist , a.type,a.start_date, a.event_type , c.chara_position_1, c.chara_position_2, c.chara_position_3, c.chara_position_4, c.chara_position_5, b.name_kana, d.discription " +
-            "from live_data a, music_data b, live_data_position c, music_info d " +
-            "where a.music_data_id = b.id and b.bpm > 1 and c.live_data_id = a.id and a.event_type not in (3,5) and d.id = b.id %s " +
+            "SELECT b.name,b.bpm, b.id as music_id, b.composer, b.lyricist , max( a.type ) type ,min( a.start_date ) start_date, a.event_type , c.chara_position_1, c.chara_position_2, c.chara_position_3, c.chara_position_4, c.chara_position_5, b.name_kana, d.discription " +
+            "from live_data a, music_data b, music_info d LEFT OUTER JOIN live_data_position c ON a.id = c.live_data_id " +
+            "where a.music_data_id = b.id and d.id = b.id and d.discription <> '？' and music_id not in (1901, 1902, 90001) %s " +
             "GROUP BY b.id " +
             "ORDER BY %s";
 
@@ -101,19 +103,6 @@ public class SongListVM extends BaseViewModel {
         }
     }
 
-
-    public final ReplyCommand<Pair<Integer, View>> onListItemClickCommand = new ReplyCommand<>(pair -> {
-        ActivityOptionsCompat transitionActivityOptions = ActivityOptionsCompat.makeSceneTransitionAnimation(mContext, pair.second.findViewById(R.id.song_jacket), "song_jacket");
-        Bundle bundle = transitionActivityOptions.toBundle();
-        if (bundle == null){
-            bundle = new Bundle();
-        }
-        bundle.putString("data", JsonUtils.getJsonFromBean(itemViewModel.get(pair.first).song.get()));
-        Intent intent = new Intent();
-        intent.setClass(mContext, SongDetailActivity.class);
-        intent.putExtras(bundle);
-        ActivityCompat.startActivity(mContext, intent, bundle);
-    });
 
     private Integer sortMethod; // 0 : desc
     private String sortType;

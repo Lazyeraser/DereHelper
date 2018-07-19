@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <attr name="onListItemClickedWithView" format="reference" />
+    <attr name="onCheckChanged" format="reference" />
+    <attr name="checked" format="reference" />
+    <attr name="titleTxt" format="reference" />
+    <attr name="goDetailWithCharaId" format="reference" />
+
+    <declare-styleable name="ImageView">
+        <attr name="imgR" format="reference" />
+        <attr name="imgURL" format="reference" />
+        <attr name="placeHolder" format="reference" />
+
+        <attr name="charaID" format="reference" />
+    </declare-styleable>
+
+    <declare-styleable name="MultiLineChooseLayout">
+        <attr name="onSelChange" format="reference" />
+        <attr name="onSelChangeIndex" format="reference" />
+    </declare-styleable>
+
+
+</resources>

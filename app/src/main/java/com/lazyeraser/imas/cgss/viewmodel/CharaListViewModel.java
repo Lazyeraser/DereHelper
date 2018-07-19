@@ -47,21 +47,6 @@ public class CharaListViewModel extends BaseViewModel {
     public final ItemView itemView = ItemView.of(com.lazyeraser.imas.derehelper.BR.viewModel, R.layout.item_list_chara);
 
     private Map<Chara, CharaViewModel> charaDataList;
-
-    // go detail activity
-    public final ReplyCommand<Pair<Integer, View>> onListItemClickCommand = new ReplyCommand<>(pair -> {
-        ActivityOptionsCompat transitionActivityOptions = ActivityOptionsCompat.makeSceneTransitionAnimation(mContext, pair.second.findViewById(R.id.chara_icon), "chara_icon");
-        Bundle bundle = transitionActivityOptions.toBundle();
-        if (bundle == null) {
-            bundle = new Bundle();
-        }
-        bundle.putString("theChara", JsonUtils.getJsonFromBean(itemViewModel.get(pair.first).chara.get()));
-        Intent intent = new Intent();
-        intent.setClass(mContext, CharaDetailActivity.class);
-        intent.putExtras(bundle);
-        ActivityCompat.startActivity(mContext, intent, bundle);
-    });
-
     private List<String> typeFilter = new ArrayList<>();
 
     private String search = "";
@@ -97,6 +82,7 @@ public class CharaListViewModel extends BaseViewModel {
     private void loadData() {
         itemViewModel.clear();
         umi.showLoading();
+        DBHelper.refresh(mContext);
         Observable.just(DBHelper.with(mContext)
                 .getAll(DBHelper.TABLE_NAME_Chara_Detail, "json"))
                 .subscribeOn(Schedulers.io())
@@ -138,32 +124,33 @@ public class CharaListViewModel extends BaseViewModel {
     }
 
     private void filterChara() {
-
-        for (Chara chara : charaDataList.keySet()) {
-            CharaViewModel vm = charaDataList.get(chara);
-            if (typeFilter.contains(chara.getType().toUpperCase()) && checkSearch(chara)) {
-                // 符合条件 如不在当前显示的列表中则加入
-                if (!itemViewModel.contains(vm)) {
-                    itemViewModel.add(vm);
-                }
-            } else {
-                // 不符合 如果存在则remove
-                if (itemViewModel.contains(vm)) {
-                    itemViewModel.remove(vm);
+        Observable<List<CharaViewModel>> co = Observable.create(subscriber -> {
+            List<CharaViewModel> vmToShow = new ArrayList<>();
+            for (Chara chara : charaDataList.keySet()) {
+                if (typeFilter.contains(chara.getType().toUpperCase()) && checkSearch(chara)) {
+                    CharaViewModel vm = charaDataList.get(chara);
+                    vmToShow.add(vm);
                 }
             }
-        }
-
-        Collections.sort(itemViewModel, (a, b) -> {
-            Chara charaA = a.chara.get();
-            Chara charaB = b.chara.get();
-            boolean desc = false;
-            if (charaB.getChara_id() < charaA.getChara_id()) {
-                return desc ? -1 : 1;
-            } else {
-                return desc ? 1 : -1;
-            }
+            Collections.sort(vmToShow, (a, b) -> {
+                Chara charaA = a.chara.get();
+                Chara charaB = b.chara.get();
+                boolean desc = false;
+                if (charaB.getChara_id() < charaA.getChara_id()) {
+                    return desc ? -1 : 1;
+                } else {
+                    return desc ? 1 : -1;
+                }
+            });
+            subscriber.onNext(vmToShow);
+            subscriber.onCompleted();
         });
-        umi.dismissLoading();
+        co.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(cards -> {
+                    itemViewModel.clear();
+                    itemViewModel.addAll(cards);
+                    umi.dismissLoading();
+                });
     }
 }

@@ -13,7 +13,8 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="70dp"
-        android:background="@drawable/selector_white">
+        android:background="@drawable/selector_white"
+        bind:clickCommand="@{viewModel.onItemClick}">
 
         <!--<TextView-->
             <!--android:layout_width="wrap_content"-->
@@ -52,7 +53,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:hint="chara name"
-                    android:textSize="16dp"
+                    android:textSize="16sp"
                     android:textColor="@color/txtBlack"
                     android:text="@{viewModel.card.getName_only()}"/>
 

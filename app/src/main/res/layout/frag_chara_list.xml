@@ -9,7 +9,7 @@
         <variable
             name="viewModel"
             type="com.lazyeraser.imas.cgss.viewmodel.CharaListViewModel" />
-
+        <import type="me.tatarka.bindingcollectionadapter.LayoutManagers"/>
         <import type="android.view.View" />
     </data>
 
@@ -26,17 +26,15 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <ListView
+            <android.support.v7.widget.RecyclerView
                 android:fastScrollEnabled="true"
                 android:id="@+id/card_list"
                 android:background="@color/back"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:divider="@null"
-                android:dividerHeight="0dp"
                 bind:itemView="@{viewModel.itemView}"
                 bind:items="@{viewModel.itemViewModel}"
-                bind:onListItemClickedWithView="@{viewModel.onListItemClickCommand}" />
+                bind:layoutManager="@{LayoutManagers.linear()}" />
 
         </RelativeLayout>
 
