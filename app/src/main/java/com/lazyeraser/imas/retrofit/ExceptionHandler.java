@@ -1,6 +1,7 @@
 package com.lazyeraser.imas.retrofit;
 
 import android.net.ParseException;
+import android.os.Looper;
 import android.support.annotation.StringRes;
 import android.widget.Toast;
 
@@ -81,9 +82,17 @@ public class ExceptionHandler {
             msg = R.string.network_error_5;
 
         }
-        if (msg != R.string.network_error_5){
-            Toast.makeText(Base.getTopContext(), msg, Toast.LENGTH_SHORT).show();
-        }
+        /*if (msg != R.string.network_error_5){
+
+            new Thread() {
+                @Override
+                public void run() {
+                    Looper.prepare();
+                    Toast.makeText(Base.getTopContext(), msg, Toast.LENGTH_LONG).show();
+                    Looper.loop();
+                }
+            }.start();
+        }*/
         ex.printStackTrace();
     }
 

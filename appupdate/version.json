@@ -1,11 +1,11 @@
 {
 	"appname": "DereHelper",
-	"apkname": "DereHelper-1.0.3.apk",
-	"verName": " 1.0.3",
-	"md5": "662ef582b403b0fc579ac7b0e0136a56",
-	"url": "http://346lab.org/derehelper/apk/DereHelper-1.0.3.apk",
-	"verInfo": "1.一些优化和错误修正\n2.根据游戏大更更新数据",
-	"verInfo_jp": "1.不具合の修正\n2.データ更新",
-	"verInfo_en": "1.Some improvements and bug fixes\n2.Data update",
-	"verCode": 13
+	"apkname": "DereHelper-1.0.4.apk",
+	"verName": " 1.0.4",
+	"md5": "a4cfd84a40fc19fa1df9112e635b071d",
+	"url": "http://346lab.org/derehelper/apk/DereHelper-1.0.4.apk",
+	"verInfo": "1.临时修复闪退",
+	"verInfo_jp": "1.不具合の修正",
+	"verInfo_en": "1.Bug fixes",
+	"verCode": 14
 }
