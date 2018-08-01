@@ -152,4 +152,5 @@
     <string name="cancel">取消</string>
     <string name="search_hint_chara">羅馬音/姓名/片假名/CV</string>
     <string name="search">搜索</string>
+    <string name="update_hint_finish_msg">APP即將重啓以載入新數據</string>
 </resources>

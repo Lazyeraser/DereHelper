@@ -74,6 +74,7 @@ public class DBHelper extends SQLiteOpenHelper  {
         }
 //        instances.putIfAbsent(DB_NAME, new DBHelper(context)); // Java8 not supported under Android 6.0
         return instances.get(DB_NAME);
+//        return new DBHelper(context, DB_NAME);
     }
 
     @SuppressWarnings("all")
@@ -89,6 +90,7 @@ public class DBHelper extends SQLiteOpenHelper  {
         }
 //        instances.putIfAbsent(dbName, new DBHelper(context, context.getFilesDir().getAbsolutePath() + "/" + dbName));
         return instances.get(dbName);
+//        return new DBHelper(context, context.getFilesDir().getAbsolutePath() + "/" + dbName);
     }
 
     public static void refresh(BaseActivity context){

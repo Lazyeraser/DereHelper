@@ -117,6 +117,7 @@
     <string name="update_hint4">Downloading data</string>
     <string name="update_hint5">Downloading</string>
     <string name="update_hint_finish">Update finished</string>
+    <string name="update_hint_finish_msg">App will restart to reload data</string>
     <string name="update_hint_manifest">Update BeatMap list</string>
     <string name="weight">Weight</string>
     <string name="evo_after">After</string>

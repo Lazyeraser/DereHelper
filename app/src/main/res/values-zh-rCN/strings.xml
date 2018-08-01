@@ -156,4 +156,5 @@
     <string name="search_hint_chara">罗马音/姓名/片假名/CV</string>
     <string name="update_checking_hint_app">检查APP更新中</string>
     <string name="update_checking_hint_data">检查数据更新中</string>
+    <string name="update_hint_finish_msg">APP即将重启以载入新数据</string>
 </resources>

@@ -155,20 +155,22 @@ public class MainActivity extends BaseActivity {
                 .setTitleText(getString(R.string.locale_changed))
                 .setContentText(getString(R.string.locale_changed_need_restart))
                 .setConfirmText("OK")
-                .setConfirmClickListener(dialog -> {
-                    Intent intent = getBaseContext().getPackageManager()
-                            .getLaunchIntentForPackage(getBaseContext().getPackageName());
-                    PendingIntent restartIntent = PendingIntent.getActivity(getApplicationContext(), 0, intent, PendingIntent.FLAG_ONE_SHOT);
-                    AlarmManager mgr = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
-                    if(Build.VERSION.SDK_INT < 19){
-                        mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 500, restartIntent);
-                    }else{
-                        mgr.setExact(AlarmManager.RTC, System.currentTimeMillis() + 500, restartIntent);
-                    }
-                    System.exit(0);
-                });
+                .setConfirmClickListener(dialog -> restartAPP());
         sweetAlertDialog.setCancelable(false);
         sweetAlertDialog.show();
+    }
+
+    private void restartAPP(){
+        Intent intent = getBaseContext().getPackageManager()
+                .getLaunchIntentForPackage(getBaseContext().getPackageName());
+        PendingIntent restartIntent = PendingIntent.getActivity(getApplicationContext(), 0, intent, PendingIntent.FLAG_ONE_SHOT);
+        AlarmManager mgr = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+        if(Build.VERSION.SDK_INT < 19){
+            mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 50, restartIntent);
+        }else{
+            mgr.setExact(AlarmManager.RTC, System.currentTimeMillis() + 50, restartIntent);
+        }
+        System.exit(0);
     }
 
     private Snackbar snackBar_checkUpdate;
@@ -294,10 +296,12 @@ public class MainActivity extends BaseActivity {
                 if (progess >= 1){
                     progressDialog.changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
                     progressDialog.setTitleText(getString(R.string.update_hint_finish));
+                    progressDialog.setContentText(getString(R.string.update_hint_finish_msg));
                     progressDialog.setConfirmText("OK");
                     progressDialog.setConfirmClickListener(sweetAlertDialog -> {
-                        Messenger.getDefault().sendNoMsg(TOKEN_DATA_UPDATED);
-                        sweetAlertDialog.dismiss();
+//                        Messenger.getDefault().sendNoMsg(TOKEN_DATA_UPDATED);
+//                        sweetAlertDialog.dismiss();
+                        restartAPP();
                     });
                 }
             }

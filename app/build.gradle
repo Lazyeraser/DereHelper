@@ -8,8 +8,8 @@ android {
         applicationId "com.lazyeraser.imas.derehelper"
         minSdkVersion 17
         targetSdkVersion 25
-        versionCode 14
-        versionName "1.0.4"
+        versionCode 15
+        versionName "1.0.5"
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
     }

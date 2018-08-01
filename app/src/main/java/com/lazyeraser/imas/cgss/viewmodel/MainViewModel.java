@@ -184,7 +184,10 @@ public class MainViewModel extends BaseViewModel {
                             snackBar_checkDataUpdate.dismiss();
                         }
                     }
-                }, ExceptionHandler::handleException);
+                }, throwable -> {
+                    throwable.printStackTrace();
+                    ExceptionHandler.handleException(throwable);
+                });
 
 
     }
@@ -238,7 +241,10 @@ public class MainViewModel extends BaseViewModel {
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-                }, ExceptionHandler::handleException);
+                }, throwable -> {
+            throwable.printStackTrace();
+            ExceptionHandler.handleException(throwable);
+        });
     }
 
     private Map<String, Pair<String, String>> fileToDownload;
@@ -261,7 +267,7 @@ public class MainViewModel extends BaseViewModel {
                         try {
                             FileHelper.writeFile(LZ4Helper.uncompressCGSS(responseBody.bytes()), fileToDownload.get(hash).first, fileToDownload.get(hash).second);
                             progress.set((float) ++solved / (float) total);
-                            progressTxt.set(getProgress());
+//                            progressTxt.set(getProgress());
                             downLoadFiles(i + 1, masterHash, truthVersion);
                         } catch (IOException e) {
                             e.printStackTrace();
@@ -289,7 +295,7 @@ public class MainViewModel extends BaseViewModel {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(b -> {
                     progress.set(1);
-                    progressTxt.set("100%");
+//                    progressTxt.set("100%");
                     // update masterHash
                     umi.spSave(SharedHelper.KEY_MasterDbHash, masterHash);
                     // update truth version
@@ -405,7 +411,7 @@ public class MainViewModel extends BaseViewModel {
             RetrofitProvider.getInstance().create(CardService.class)
                     .getCardList(idString)
                     .subscribeOn(Schedulers.io())
-//                    .observeOn(AndroidSchedulers.mainThread())
+                    .observeOn(AndroidSchedulers.mainThread())
                     .compose(((ActivityLifecycleProvider) mContext).bindToLifecycle())
                     .doAfterTerminate(() -> {
                         if (newCardList.size() >= total) { // 完成下载，开始写入数据库
@@ -420,17 +426,23 @@ public class MainViewModel extends BaseViewModel {
                                                 progressTxt.set(getProgress());*/
                                             } else if (!updateManifest || truthVersion == null) {
                                                 progress.set(1);
-                                                progressTxt.set("100%");
+//                                                progressTxt.set("100%");
                                             } else {
                                                 updateManifest(truthVersion);
                                             }
                                         } else {
                                             progressTxt.set(mContext.getString(R.string.update_error));
                                         }
-                                    }, ExceptionHandler::handleException);
+                                    }, throwable -> {
+                                        throwable.printStackTrace();
+                                        ExceptionHandler.handleException(throwable);
+                                    });
                         }
                     })
-                    .subscribe(newCardList::addAll, ExceptionHandler::handleException);
+                    .subscribe(newCardList::addAll, throwable -> {
+                        throwable.printStackTrace();
+                        ExceptionHandler.handleException(throwable);
+                    });
 
         }
 
