@@ -17,30 +17,30 @@ import com.lazyeraser.imas.main.BaseActivity;
 public class BeatMapActivity extends BaseActivity {
 
     private int anchor;
-
     private boolean init = false;
 
     private NestedScrollView scrollView;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_beat_map);
+        setBinding(R.layout.activity_beat_map);
+    }
+
+    @Override
+    protected void initView() {
         String noteData = umi.getIntentString("data");
 //        String name = umi.getIntentString("name");
         scrollView = (NestedScrollView)findViewById(R.id.scrollView);
+        BeatMapView beatMapView = (BeatMapView) findViewById(R.id.beat_map);
+        beatMapView.setData(noteData);
+
         VerticalSeekBar seekBar = (VerticalSeekBar)findViewById(R.id.seekBar);
         ScrollBindHelper.bind(seekBar, scrollView);
-        BeatMapView beatMapView = (BeatMapView)findViewById(R.id.beat_map);
-        beatMapView.setData(noteData);
-        setActionBarTitle(R.string.beat_map_view);
-        setActionBarTxt(String.format("%d Notes", beatMapView.getData().get(0).status));
-        initActionBar(ACTIONBAR_TYPE_TXT);
-        TextView abTxt = (TextView)findViewById(R.id.actionBar_txtBtn);
-        abTxt.setTextSize(14);
         anchor = beatMapView.getFistNoteY() - 450;
+        initToolbar(R.id.toolBar, getString(R.string.beat_map_view) + "/" + beatMapView.getData().get(0).status + " Notes");
     }
-
 
     @Override
     public void onEnterAnimationComplete() {

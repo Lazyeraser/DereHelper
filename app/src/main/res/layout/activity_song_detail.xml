@@ -17,11 +17,17 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/back"
-        android:fitsSystemWindows="true"
+        android:fitsSystemWindows="false"
         android:focusable="true"
         android:focusableInTouchMode="true">
 
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
         <com.lazyeraser.imas.cgss.utils.view.LazyScrollView
+            android:layout_below="@id/toolBar"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 

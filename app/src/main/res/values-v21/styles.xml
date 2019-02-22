@@ -7,28 +7,28 @@
         <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
 
-    <style name="Umi.CustomActionBarStyle" parent="Widget.AppCompat.ActionBar">
+    <!--<style name="Umi.CustomActionBarStyle" parent="Widget.AppCompat.ActionBar">
         <item name="contentInsetStart">0dp</item>
         <item name="contentInsetEnd">0dp</item>
         <item name="contentInsetLeft">0dp</item>
         <item name="contentInsetRight">0dp</item>
         <item name="elevation">0dp</item>
         <item name="android:icon">@color/transparent</item>
-    </style>
+    </style>-->
 
-    <style name="Umi.ActionBarTheme.White" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="Umi.ActionBarTheme.White" parent="Theme.AppCompat.Light.NoActionBar"> <!--change to no actionbar-->
         <item name="android:windowContentTransitions">true</item>
         <item name="android:windowAllowEnterTransitionOverlap">false</item>
         <item name="android:windowAllowReturnTransitionOverlap">false</item>
-        <item name="android:actionBarStyle">@style/Umi.CustomActionBarStyle</item>
-        <item name="android:actionBarSize">48dp</item>
+        <!--<item name="android:actionBarStyle">@style/Umi.CustomActionBarStyle</item>
+        <item name="android:actionBarSize">48dp</item>-->
         <item name="colorPrimary">@color/colorPrimary</item>
-        <!-- AppCompatEditText默认状态状态设置底线颜色 -->
-        <item name="colorControlNormal">@color/gray</item>
-        <!-- AppCompatEditText选择的底线颜色 -->
+        <item name="colorControlNormal">@color/white</item>
         <item name="colorControlActivated">@color/colorPrimary</item>
         <item name="android:statusBarColor">@color/colorPrimaryDark</item>
         <item name="android:navigationBarColor">@color/colorPrimary</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowTranslucentNavigation">false</item>
     </style>
 
     <style name="Umi.ActionBarTheme.White.NoActionBar" parent="Theme.AppCompat.Light.NoActionBar">

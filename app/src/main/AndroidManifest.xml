@@ -37,28 +37,28 @@
         <activity
             android:name="com.lazyeraser.imas.cgss.view.CardDetailActivity"
             android:exported="false"
-            android:label="@string/app_name"
+            android:label="@string/card_detail"
             android:screenOrientation="portrait"
             android:theme="@style/Umi.ActionBarTheme.White"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity
             android:name="com.lazyeraser.imas.cgss.view.CharaDetailActivity"
             android:exported="false"
-            android:label="@string/app_name"
+            android:label="@string/idol_info"
             android:screenOrientation="portrait"
             android:theme="@style/Umi.ActionBarTheme.White"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity
             android:name="com.lazyeraser.imas.cgss.view.SongDetailActivity"
             android:exported="false"
-            android:label="@string/app_name"
+            android:label="@string/song_detail"
             android:screenOrientation="portrait"
             android:theme="@style/Umi.ActionBarTheme.White"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity
             android:name="com.lazyeraser.imas.cgss.view.BeatMapActivity"
             android:exported="false"
-            android:label="@string/app_name"
+            android:label="@string/beat_map_view"
             android:theme="@style/Umi.ActionBarTheme.White"
             android:windowSoftInputMode="adjustUnspecified|stateHidden"
             android:configChanges="layoutDirection"/>
@@ -71,7 +71,7 @@
         <activity
             android:name="com.lazyeraser.imas.cgss.view.SettingsActivity"
             android:exported="false"
-            android:label="@string/app_name"
+            android:label="@string/settings"
             android:screenOrientation="portrait"
             android:theme="@style/Umi.ActionBarTheme.White"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />

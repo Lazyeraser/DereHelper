@@ -20,8 +20,6 @@ public class SongDetailActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setActionBarTitle(R.string.song_detail);
-        initActionBar(ACTIONBAR_TYPE_NULL);
         Song song = JsonUtils.getBeanFromJson(umi.getIntentString("data"), Song.class);
         setBinding(R.layout.activity_song_detail)
                 .setVariable(com.lazyeraser.imas.derehelper.BR.viewModel, new SongVM(this, song));

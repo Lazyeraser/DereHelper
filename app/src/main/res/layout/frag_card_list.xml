@@ -16,24 +16,29 @@
         android:id="@+id/drawerLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fitsSystemWindows="true"
+        android:fitsSystemWindows="false"
         tools:openDrawer="end">
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:background="@color/back">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolBar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
 
             <android.support.v7.widget.RecyclerView
                 android:fastScrollEnabled="true"
-                android:id="@+id/card_list"
-                android:background="@color/back"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 bind:itemView="@{viewModel.itemView}"
                 bind:items="@{viewModel.itemViewModel}"
                 bind:layoutManager="@{LayoutManagers.linear()}" />
 
-        </RelativeLayout>
+        </LinearLayout>
 
         <RelativeLayout
             android:layout_width="250dp"

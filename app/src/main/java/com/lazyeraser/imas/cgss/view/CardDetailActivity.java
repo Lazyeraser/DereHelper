@@ -20,8 +20,6 @@ public class CardDetailActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setActionBarTitle(R.string.card_detail);
-        initActionBar(ACTIONBAR_TYPE_NULL);
         Card card = JsonUtils.getBeanFromJson(umi.getIntentString("theCard"), Card.class);
         setBinding(R.layout.activity_card_detail).setVariable(com.lazyeraser.imas.derehelper.BR.viewModel, new CardViewModel(this, card));
         ViewCompat.setTransitionName(getBView(R.id.card_icon), "card_icon");

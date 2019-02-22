@@ -1,24 +1,16 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="Umi.CustomActionBarStyle" parent="Widget.AppCompat.ActionBar">
-        <item name="contentInsetStart">0dp</item>
-        <item name="contentInsetEnd">0dp</item>
-        <item name="elevation">0dp</item>
-    </style>
-
-    <style name="Umi.ActionBarTheme.White" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="actionBarStyle">@style/Umi.CustomActionBarStyle</item>
-        <item name="actionBarSize">56dp</item>
+    <style name="Umi.ActionBarTheme.White" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorControlNormal">@color/gray</item>
+        <item name="colorControlNormal">@color/white</item>
         <item name="colorControlActivated">@color/colorPrimary</item>
     </style>
 

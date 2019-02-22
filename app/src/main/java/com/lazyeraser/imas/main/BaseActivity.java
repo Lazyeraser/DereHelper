@@ -10,7 +10,10 @@ import android.support.annotation.IdRes;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.StringRes;
 import android.support.v7.app.ActionBar;
+import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.KeyEvent;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -25,25 +28,18 @@ import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 import java.util.ArrayList;
 import java.util.List;
 
+import rx.functions.Func0;
+
 /**
  * Created by Lazyeraser on 2017/1/3.
  */
 public class BaseActivity extends RxAppCompatActivity implements View.OnClickListener {
 
-    private String actionBarTitle;
-    private String actionBarTxt;
     public Context mContext;
     public Base umi;
 
     private ViewDataBinding binding;
     private List<BaseViewModel> viewModels;
-
-    //导航栏类型
-    public final static int ACTIONBAR_TYPE_NULL = 0; //无按钮
-    public final static int ACTIONBAR_TYPE_PLUS = 1; //"+"按钮
-    public final static int ACTIONBAR_TYPE_TXT = 5; //文字
-    public final static int ACTIONBAR_TYPE_MENU = 6; //菜单
-    public final static int ACTIONBAR_TYPE_CUSTOM = 7;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,19 +47,17 @@ public class BaseActivity extends RxAppCompatActivity implements View.OnClickLis
         umi = new Base();
         umi.init(this);
         mContext = this;
-    /*    if (Build.VERSION.SDK_INT >= 21) {
-            View decorView = getWindow().getDecorView();
-            int option = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                    | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
-            decorView.setSystemUiVisibility(option);
-            getWindow().setStatusBarColor(0xFFB08870);
-//            getWindow().setNavigationBarColor(0xFFB08870);
-            getWindow().setNavigationBarColor(0xFFc9a087);
-        }*/
+    }
+
+    @Override
+    public void setContentView(@LayoutRes int layoutResID) {
+        super.setContentView(layoutResID);
+//        initView();
     }
 
     public BaseActivity setBinding(@LayoutRes int layoutId){
         binding = DataBindingUtil.setContentView(this, layoutId);
+        initView();
         return this;
     }
 
@@ -82,10 +76,20 @@ public class BaseActivity extends RxAppCompatActivity implements View.OnClickLis
         return binding.getRoot();
     }
 
-    public View getBView(@IdRes int id){
-        return getBView().findViewById(id);
+    @SuppressWarnings("unchecked")
+    public <T> T getBView(@IdRes int id){
+        return (T) getBView().findViewById(id);
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home: // Toolbar 返回键
+                backBtnAction();
+                break;
+        }
+        return true;
+    }
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -103,111 +107,55 @@ public class BaseActivity extends RxAppCompatActivity implements View.OnClickLis
         return super.onKeyDown(keyCode, event);
     }
 
-    //设置标题
-    public void setActionBarTitle(String actionBarTitle) {
-        this.actionBarTitle = actionBarTitle;
+    protected void initView(){
+        initToolbar(R.id.toolBar);
     }
 
-    public void setActionBarTitle(@StringRes int actionBarTitle) {
-        this.actionBarTitle = getString(actionBarTitle);
-    }
+    protected Toolbar initToolbar(@IdRes int id, boolean backBtn, String title){
+        Toolbar toolbar = getBView(id);
+        if (toolbar == null){
+            return null;
+        }
+        toolbar.setTitleTextColor(getResources().getColor(R.color.colorInvert));
+        toolbar.setBackgroundResource(R.color.colorPrimaryStatusBar);
+        setSupportActionBar(toolbar);
 
-    public void setActionBarTxt(String actionBarTxt) {
-        this.actionBarTxt = actionBarTxt;
-    }
-
-    public void setActionBarTitleAgain(String actionBarTxt) {
-        this.actionBarTitle = actionBarTxt;
-        TextView title = (TextView) findViewById(R.id.actionBar_title);
-        title.setText(actionBarTxt);
-    }
-
-    public void setActionBarTitleAgain(@StringRes int actionBarTitle) {
-        setActionBarTitleAgain(getString(actionBarTitle));
-    }
-
-
-    //初始化导航栏（要先设置标题）
-    boolean actionBarInited = false;
-    public void initActionBar(int type) {
-        initActionBar(type, null, null);
-    }
-
-    public void initActionBar(int type, @DrawableRes Integer idStart, @DrawableRes Integer idEnd) {
-
-        if (!actionBarInited){
-            ActionBar actionBar = getSupportActionBar();
-            assert actionBar != null;
-            actionBar.setCustomView(R.layout.umi_actionbar);
-            actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-            actionBar.setDisplayShowCustomEnabled(true);
-            findViewById(R.id.actionBar_btn_start).setOnClickListener(this);
-            findViewById(R.id.actionBar_btn_end).setOnClickListener(this);
-            actionBarInited = true;
+        ActionBar actionBar = getSupportActionBar();
+        assert actionBar != null;
+        if (!TextUtils.isEmpty(title)){
+            actionBar.setTitle(title);
+        }
+        String label = toolbar.getTitle().toString();
+        if (label.contains("/")){
+            actionBar.setTitle(label.split("/")[0]);
+            toolbar.setSubtitle(label.split("/")[1]);
+            toolbar.setSubtitleTextColor(getResources().getColor(R.color.colorInvert));
         }
 
-        TextView title = (TextView) findViewById(R.id.actionBar_title);
-        title.setText(actionBarTitle);
-        ImageView actionBarBtn_Start = (ImageView) findViewById(R.id.actionBar_btn_start_img);
-        if (idStart == null) {
-//            Picasso.with(mContext).load(R.drawable.umi_ic_back).into(actionBarBtn_Start);
-            actionBarBtn_Start.setImageResource(R.drawable.ic_back);
+        actionBar.setHomeButtonEnabled(backBtn);
+        actionBar.setDisplayHomeAsUpEnabled(backBtn);
+        int resourceId = mContext.getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            int sHeight = mContext.getResources().getDimensionPixelSize(resourceId);
+            toolbar.setPadding(toolbar.getPaddingRight(), sHeight + toolbar.getPaddingTop(),
+                    toolbar.getPaddingLeft(), toolbar.getPaddingBottom());
         }
-        TextView actionBarBtn_Txt = (TextView) findViewById(R.id.actionBar_txtBtn);
-        ImageView actionBarBtn_End = (ImageView) findViewById(R.id.actionBar_btn_end_img);
-        switch (type) {
-            case 0:
-                break;
-            case 1:
-                Picasso.with(mContext).load(R.drawable.umi_ic_add).into(actionBarBtn_End);
-                actionBarBtn_End.setVisibility(View.VISIBLE);
-                actionBarBtn_End.setOnClickListener(this);
-                break;
-            case 5:
-                actionBarBtn_Txt.setText(actionBarTxt);
-                actionBarBtn_Txt.setVisibility(View.VISIBLE);
-                actionBarBtn_Txt.setOnClickListener(this);
-                break;
-            case 6:
-                actionBarBtn_End.setImageResource(R.drawable.umi_ic_menu_white);
-                actionBarBtn_End.setVisibility(View.VISIBLE);
-                actionBarBtn_End.setOnClickListener(this);
-                break;
-            case 7:
-                if (idStart != null) {
-                    actionBarBtn_Start.setVisibility(View.VISIBLE);
-                    actionBarBtn_Start.setImageResource(idStart);
-                }else {
-                    actionBarBtn_Start.setVisibility(View.GONE);
-                }
-                if (idEnd != null) {
-                    actionBarBtn_End.setVisibility(View.VISIBLE);
-                    actionBarBtn_End.setImageResource(idEnd);
-                }else {
-                    actionBarBtn_End.setVisibility(View.GONE);
-                }
-                break;
-        }
+        return toolbar;
     }
 
-    public void actionBarStartAction(View.OnClickListener onClickListener) {
-        findViewById(R.id.actionBar_btn_start).setOnClickListener(onClickListener);
+    protected Toolbar initToolbar(@IdRes int id){
+        return initToolbar(id, true, null);
     }
 
-    public void actionBarEndAction(View.OnClickListener onClickListener) {
-        findViewById(R.id.actionBar_btn_end).setOnClickListener(onClickListener);
-    }
-
-    public void hideActionBack(){
-        findViewById(R.id.actionBar_btn_start).setVisibility(View.GONE);
-        findViewById(R.id.actionBar_btn_start_img).setVisibility(View.GONE);
+    protected Toolbar initToolbar(@IdRes int id, String title){
+        return initToolbar(id, true, title);
     }
 
 
     @Override
     public void onClick(View v) {
         int i = v.getId();
-        if (i == R.id.actionBar_btn_start) {
+        /*if (i == R.id.actionBar_btn_start) {
             backBtnAction();
         } else if (i == R.id.actionBar_btn_end) {
             View view1 = findViewById(R.id.actionBar_txtBtn);
@@ -215,11 +163,23 @@ public class BaseActivity extends RxAppCompatActivity implements View.OnClickLis
             if (view1.getVisibility() == View.VISIBLE) view1.callOnClick();
             if (view3.getVisibility() == View.VISIBLE) view3.callOnClick();
 
-        }
+        }*/
+    }
+
+    // 返回true则消化掉返回键点击事件
+    private Func0<Boolean> backKeyAction;
+
+    public void setBackKeyAction(Func0<Boolean> backKeyAction) {
+        this.backKeyAction = backKeyAction;
     }
 
     //返回键动作，默认结束当前activity
     protected void backBtnAction() {
+        if (backKeyAction != null) {
+            if (backKeyAction.call()) {
+                return;
+            }
+        }
         Utils.hideAllInput(this);
         finish();
     }

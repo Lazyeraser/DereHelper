@@ -46,7 +46,7 @@ public class BeatMapView extends View {
     private Map<Note, float[]> noteXYMap = new HashMap<>();
 
     private final static int oneSecY = 600;
-    private final static float margin = 0.1f;
+    private final static float margin = 0.2f;
     private final static float noteDis = (1 - (2 * margin)) / 4;
 
     public BeatMapView(Context context, @Nullable AttributeSet attrs) {
@@ -91,6 +91,7 @@ public class BeatMapView extends View {
     }
 
 
+    @SuppressWarnings("all")
     private void drawGrid(Canvas canvas) {
         mBitPaint.setStrokeWidth(5);
         mBitPaint.setColor(0x50BABABA);

@@ -8,9 +8,14 @@ import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBar;
+import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.lazyeraser.imas.derehelper.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -84,6 +89,46 @@ public class BaseFragment extends Fragment {
     }
 
     protected void initView(){}
+
+    protected Toolbar initToolbar(@IdRes int id, boolean backBtn, String title) {
+        Toolbar toolbar = (Toolbar) getBView(id);
+        if (toolbar == null) {
+            return null;
+        }
+        toolbar.setTitleTextColor(getResources().getColor(R.color.colorInvert));
+        toolbar.setBackgroundResource(R.color.colorPrimaryStatusBar);
+        mContext.setSupportActionBar(toolbar);
+        setHasOptionsMenu(true);
+        ActionBar actionBar = mContext.getSupportActionBar();
+        assert actionBar != null;
+        if (!TextUtils.isEmpty(title)) {
+            actionBar.setTitle(title);
+        }
+        String label = toolbar.getTitle().toString();
+        if (label.contains("/")) {
+            actionBar.setTitle(label.split("/")[0]);
+            toolbar.setSubtitle(label.split("/")[1]);
+            toolbar.setSubtitleTextColor(getResources().getColor(R.color.colorInvert));
+        }
+
+        actionBar.setHomeButtonEnabled(backBtn);
+        actionBar.setDisplayHomeAsUpEnabled(backBtn);
+        int resourceId = mContext.getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            int sHeight = mContext.getResources().getDimensionPixelSize(resourceId);
+            toolbar.setPadding(toolbar.getPaddingRight(), sHeight + toolbar.getPaddingTop(),
+                    toolbar.getPaddingLeft(), toolbar.getPaddingBottom());
+        }
+        return toolbar;
+    }
+
+    protected Toolbar initToolbar(@IdRes int id) {
+        return initToolbar(id, true, null);
+    }
+
+    protected Toolbar initToolbar(@IdRes int id, String title) {
+        return initToolbar(id, false, title);
+    }
 
     public View.OnClickListener getMenuAction_start() {
         return menuAction_start;

@@ -22,8 +22,6 @@ public class CharaDetailActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setActionBarTitle(R.string.idol_info);
-        initActionBar(ACTIONBAR_TYPE_NULL);
         String charaJson = umi.getIntentString("theChara");
         String charaID = umi.getIntentString("charaID");
         if (!TextUtils.isEmpty(charaJson)){

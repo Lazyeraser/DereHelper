@@ -2,7 +2,11 @@
 <resources>
     <color name="colorPrimary">#c9a087</color>
     <color name="colorPrimaryDark">#B28570</color>
-    <color name="colorAccent">#333333</color>
+
+    <color name="colorPrimaryStatusBar">#c9a087</color>
+    <color name="colorInvert">#FFFFFF</color>
+
+    <color name="colorAccent">#FFFFFF</color>
     <color name="gray">#BBBBBB</color>
     <color name="white">#FFFFFF</color>
     <color name="black">#233333</color>

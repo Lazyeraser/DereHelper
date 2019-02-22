@@ -1,50 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:bind="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical">
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:bind="http://schemas.android.com/apk/res-auto">
 
 
     <data>
         <import type="android.view.View" />
     </data>
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fitsSystemWindows="true">
+        android:orientation="vertical"
+        android:fitsSystemWindows="false">
 
-        <android.support.v4.widget.NestedScrollView
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolBar"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/scrollView"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentStart="true">
+            android:layout_height="wrap_content"/>
 
-            <com.lazyeraser.imas.cgss.utils.view.BeatMapView
-                android:id="@+id/beat_map"
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <android.support.v4.widget.NestedScrollView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="match_parent"
+                android:id="@+id/scrollView"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentStart="true">
 
-        </android.support.v4.widget.NestedScrollView>
+                <com.lazyeraser.imas.cgss.utils.view.BeatMapView
+                    android:id="@+id/beat_map"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
 
-        <com.h6ah4i.android.widget.verticalseekbar.VerticalSeekBarWrapper
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_alignParentEnd="true">
-            <com.h6ah4i.android.widget.verticalseekbar.VerticalSeekBar
-                android:id="@+id/seekBar"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:splitTrack="false"
-                bind:seekBarRotation="CW270" />
-        </com.h6ah4i.android.widget.verticalseekbar.VerticalSeekBarWrapper>
+            </android.support.v4.widget.NestedScrollView>
 
+            <com.h6ah4i.android.widget.verticalseekbar.VerticalSeekBarWrapper
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_alignParentEnd="true">
 
+                <com.h6ah4i.android.widget.verticalseekbar.VerticalSeekBar
+                    android:id="@+id/seekBar"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:splitTrack="false"
+                    bind:seekBarRotation="CW270" />
 
-    </RelativeLayout>
+            </com.h6ah4i.android.widget.verticalseekbar.VerticalSeekBarWrapper>
+
+        </RelativeLayout>
+
+    </LinearLayout>
 
 
 </layout>

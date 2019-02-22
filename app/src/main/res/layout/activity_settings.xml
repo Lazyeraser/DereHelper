@@ -17,7 +17,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/back"
-        android:fitsSystemWindows="true">
+        android:fitsSystemWindows="false">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
         <com.lazyeraser.imas.cgss.utils.view.SettingOptionView
             android:layout_width="wrap_content"

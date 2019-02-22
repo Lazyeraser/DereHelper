@@ -3,13 +3,17 @@ package com.lazyeraser.imas.cgss.view.fragments;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.kelin.mvvmlight.messenger.Messenger;
 import com.lazyeraser.imas.cgss.utils.view.MultiLineChooseLayout;
+import com.lazyeraser.imas.cgss.view.MainActivity;
 import com.lazyeraser.imas.cgss.viewmodel.CharaListViewModel;
 import com.lazyeraser.imas.cgss.viewmodel.SongListVM;
 import com.lazyeraser.imas.derehelper.BR;
@@ -32,10 +36,6 @@ public class SongListFrag extends BaseFragment {
     public final static String TOKEN_CLOSE_FILTER = "token_song_close";
     public final static String TOKEN_RESET_FILTER = "token_song_reset";
 
-    public SongListFrag() {
-        setTitle(R.string.song_list);
-        setMenuAction_end(menu -> umi.moveDrawer(drawerLayout, Gravity.END));
-    }
 
     @Nullable
     @Override
@@ -47,12 +47,23 @@ public class SongListFrag extends BaseFragment {
 
     @Override
     protected void initView() {
+        Toolbar toolbar = initToolbar(R.id.toolBar, getString(R.string.song_list));
+        toolbar.setNavigationIcon(R.drawable.umi_ic_menu_white);
+        toolbar.setNavigationOnClickListener(view -> Messenger.getDefault().sendNoMsg(MainActivity.TOKEN_MOVE_NAVI));
+
         drawerLayout = (DrawerLayout)getBView(R.id.drawerLayout);
         // filter button
         initChooseSet();
     }
 
-
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.filter, menu);
+        menu.findItem(R.id.nav_filter).setOnMenuItemClickListener(menuItem -> {
+            umi.moveDrawer(drawerLayout, Gravity.END);
+            return true;
+        });
+    }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {

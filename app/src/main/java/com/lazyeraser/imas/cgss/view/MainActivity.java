@@ -67,6 +67,7 @@ public class MainActivity extends BaseActivity {
 
     private UpdateManager updateManager;
     public final static int TOKEN_DATA_UPDATED = 0x12450;
+    public final static int TOKEN_MOVE_NAVI = 0x114;
     private boolean needUpdateHint;
 
     private BroadcastReceiver broadcastReceiver;
@@ -76,44 +77,14 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setActionBarTitle(R.string.card_list);
-        initActionBar(ACTIONBAR_TYPE_CUSTOM, R.drawable.umi_ic_menu_white, R.drawable.ic_filter_list_white_24dp);
-        actionBarStartAction(menu -> umi.moveDrawer(drawerLayout, Gravity.START));
+//        setActionBarTitle(R.string.card_list);
+//        initActionBar(ACTIONBAR_TYPE_CUSTOM, R.drawable.umi_ic_menu_white, R.drawable.ic_filter_list_white_24dp);
+//        actionBarStartAction(menu -> umi.moveDrawer(drawerLayout, Gravity.START));
 
         mainViewModel = new MainViewModel(this);
         setBinding(R.layout.activity_main).setVariable(com.lazyeraser.imas.derehelper.BR.viewModel, mainViewModel);
         updateManager = new UpdateManager(mContext);
-        drawerLayout = (DrawerLayout)getBView(R.id.drawerLayout);
-        NavigationView navigationView = (NavigationView)getBView(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(item -> {
-            int id = item.getItemId();
-            switch (id){
-                case R.id.nav_cards:
-                    switchFrag(cardListFrag);
-                    break;
-                case R.id.nav_idols:
-                    switchFrag(charaListFrag);
-                    break;
-                case R.id.nav_check_update:
-                    manualCheck = true;
-                    mainViewModel.checkDataUpdate();
-                    break;
-                case R.id.nav_check_update_app:
-                    checkUpdate(true);
-                    break;
-                case R.id.nav_settings:
-                    umi.jumpTo(SettingsActivity.class);
-                    break;
-                case R.id.nav_about:
-                    switchFrag(aboutFrag);
-                    break;
-                case R.id.nav_song:
-                    switchFrag(songListFrag);
-                    break;
-            }
-            umi.moveDrawer(drawerLayout, Gravity.START);
-            return true;
-        });
+
 
         initDialog(); // 初始化数据更新对话框
 
@@ -148,6 +119,42 @@ public class MainActivity extends BaseActivity {
             intentFilter.addAction(Intent.ACTION_LOCALE_CHANGED);
             registerReceiver(broadcastReceiver, intentFilter);
         }
+    }
+
+    @Override
+    protected void initView() {
+        drawerLayout = (DrawerLayout)getBView(R.id.drawerLayout);
+        NavigationView navigationView = (NavigationView)getBView(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(item -> {
+            int id = item.getItemId();
+            switch (id){
+                case R.id.nav_cards:
+                    switchFrag(cardListFrag);
+                    break;
+                case R.id.nav_idols:
+                    switchFrag(charaListFrag);
+                    break;
+                case R.id.nav_check_update:
+                    manualCheck = true;
+                    mainViewModel.checkDataUpdate();
+                    break;
+                case R.id.nav_check_update_app:
+                    checkUpdate(true);
+                    break;
+                case R.id.nav_settings:
+                    umi.jumpTo(SettingsActivity.class);
+                    break;
+                case R.id.nav_about:
+                    switchFrag(aboutFrag);
+                    break;
+                case R.id.nav_song:
+                    switchFrag(songListFrag);
+                    break;
+            }
+            umi.moveDrawer(drawerLayout, Gravity.START);
+            return true;
+        });
+        Messenger.getDefault().register(mContext, TOKEN_MOVE_NAVI, () -> umi.moveDrawer(drawerLayout, Gravity.START));
     }
 
     private void askRestart(){
@@ -317,7 +324,7 @@ public class MainActivity extends BaseActivity {
 
 
     private void switchFrag(BaseFragment fragment){
-        setActionBarTitleAgain(fragment.getTitle());
+//        setActionBarTitleAgain(fragment.getTitle());
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         if (!fragments.get(fragment)){
             transaction.add(R.id.main_content, fragment);
@@ -330,10 +337,10 @@ public class MainActivity extends BaseActivity {
         transaction.commit();
         View.OnClickListener action_end = fragment.getMenuAction_end();
         if (action_end != null){
-            initActionBar(ACTIONBAR_TYPE_CUSTOM, R.drawable.umi_ic_menu_white, R.drawable.ic_filter_list_white_24dp);
-            actionBarEndAction(action_end);
+//            initActionBar(ACTIONBAR_TYPE_CUSTOM, R.drawable.umi_ic_menu_white, R.drawable.ic_filter_list_white_24dp);
+//            actionBarEndAction(action_end);
         }else {
-            initActionBar(ACTIONBAR_TYPE_CUSTOM, R.drawable.umi_ic_menu_white, null);
+//            initActionBar(ACTIONBAR_TYPE_CUSTOM, R.drawable.umi_ic_menu_white, null);
         }
     }
 
