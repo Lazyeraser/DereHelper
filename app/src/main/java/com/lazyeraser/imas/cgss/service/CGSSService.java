@@ -27,6 +27,6 @@ public interface CGSSService {
     @GET("http://346lab.org/dl/cgss_assets/{version}/manifests/Android_AHigh_SHigh")
     Observable<ResponseBody> getManifestsRP(@Path("version") String version);
 
-    @GET("http://346lab.org/dl/cgss_assets/resources/Generic/{hash}")
-    Observable<ResponseBody> getResourcesRP(@Path("hash") String hash);
+    @GET("http://346lab.org/dl/cgss_assets/resources/Generic/{head}/{hash}")
+    Observable<ResponseBody> getResourcesRP(@Path("head") String head, @Path("hash") String hash);
 }
