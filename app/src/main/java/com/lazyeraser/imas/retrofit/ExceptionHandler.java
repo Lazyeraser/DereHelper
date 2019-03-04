@@ -30,6 +30,7 @@ public class ExceptionHandler {
     private static final int GATEWAY_TIMEOUT = 504;
 
     public static void handleException(Throwable e) {
+        e.printStackTrace();
         ResponseThrowable ex;
         @StringRes int msg = R.string.network_error_0;
         if (e instanceof HttpException) {
@@ -93,7 +94,7 @@ public class ExceptionHandler {
                 }
             }.start();
         }*/
-        ex.printStackTrace();
+
     }
 
 

@@ -260,7 +260,7 @@ public class MainViewModel extends BaseViewModel {
             String hash = hashToDownload.get(i);
             Observable<ResponseBody> file = useReverseProxy ?
                     RetrofitProvider.getInstance(false).create(CGSSService.class).getResourcesRP(hash) :
-                    RetrofitProvider.getInstance(false).create(CGSSService.class).getResources(hash, umi.spRead(SharedHelper.KEY_UNITY_VERSION));
+                    RetrofitProvider.getInstance(false).create(CGSSService.class).getResources(hash.substring(0, 2), hash, umi.spRead(SharedHelper.KEY_UNITY_VERSION));
             file.subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(responseBody -> {

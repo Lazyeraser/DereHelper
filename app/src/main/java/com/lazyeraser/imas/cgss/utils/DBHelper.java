@@ -150,6 +150,12 @@ public class DBHelper extends SQLiteOpenHelper  {
         }
     }
 
+    @Override
+    public void onOpen(SQLiteDatabase db) {
+        super.onOpen(db);
+        db.disableWriteAheadLogging();
+    }
+
     public void beginTran(){
         getWritableDatabase().beginTransaction();
     }

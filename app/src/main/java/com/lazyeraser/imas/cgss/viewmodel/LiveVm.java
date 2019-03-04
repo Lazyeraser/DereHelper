@@ -110,7 +110,7 @@ public class LiveVm extends BaseViewModel {
                         Manifest manifest = (Manifest)o;
                         Observable<ResponseBody> file = umi.getSP(SharedHelper.KEY_USE_REVERSE_PROXY) ?
                                 RetrofitProvider.getInstance(false).create(CGSSService.class).getResourcesRP(manifest.getHash()) :
-                                RetrofitProvider.getInstance(false).create(CGSSService.class).getResources(manifest.getHash(), umi.spRead(SharedHelper.KEY_UNITY_VERSION));
+                                RetrofitProvider.getInstance(false).create(CGSSService.class).getResources(manifest.getHash().substring(0, 2), manifest.getHash(), umi.spRead(SharedHelper.KEY_UNITY_VERSION));
                         file.subscribeOn(Schedulers.io())
                                 .subscribe(responseBody -> {
                                     try {

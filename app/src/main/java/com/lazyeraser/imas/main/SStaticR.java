@@ -22,7 +22,7 @@ public class SStaticR {
     public final static boolean isJp = Locale.getDefault().getLanguage().endsWith("ja");
     public final static boolean isEN = !(isCn || isJp);
 
-    public final static String SERVER_URL_RES = "https://truecolor.kirara.ca";
+    public final static String SERVER_URL_RES = "https://hidamarirhodonite.kirara.ca";
     public final static String SERVER_URL_UPDATE = "https://raw.githubusercontent.com/Lazyeraser/DereHelper/master/appupdate/";
 
     private final static String SERVER_URL_CN = "http://starlight.346lab.org";
