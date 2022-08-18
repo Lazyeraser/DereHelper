@@ -82,4 +82,4 @@ dependencies {
     compile 'com.google.android.gms:play-services-analytics:11.0.4'
     compile 'com.h6ah4i.android.widget.verticalseekbar:verticalseekbar:0.7.2'
 }
-apply plugin: 'com.google.gms.google-services'
+//apply plugin: 'com.google.gms.google-services'

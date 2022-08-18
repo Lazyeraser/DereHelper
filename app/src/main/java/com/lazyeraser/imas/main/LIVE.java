@@ -27,7 +27,7 @@ import java.util.Locale;
 
 public class LIVE extends Application {
 
-    private Tracker mTracker;
+//    private Tracker mTracker;
 
     @Override
     public void onCreate() {
@@ -56,15 +56,15 @@ public class LIVE extends Application {
         MultiDex.install(this);
     }
 
-    @Override
+    /*@Override
     public void onTerminate() {
         super.onTerminate();
     }
 
-    /**
+    *//**
      * Gets the default {@link Tracker} for this {@link Application}.
      * @return tracker
-     */
+     *//*
     synchronized public Tracker getDefaultTracker() {
         if (mTracker == null) {
             GoogleAnalytics analytics = GoogleAnalytics.getInstance(this);
@@ -72,5 +72,5 @@ public class LIVE extends Application {
             mTracker = analytics.newTracker(R.xml.global_tracker);
         }
         return mTracker;
-    }
+    }*/
 }

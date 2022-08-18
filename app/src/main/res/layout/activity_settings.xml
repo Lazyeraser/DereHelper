@@ -53,6 +53,7 @@
         </RelativeLayout>
 
         <com.lazyeraser.imas.cgss.utils.view.SettingOptionView
+            android:visibility="gone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             bind:titleTxt="@{R.string.settings_analytics}"

@@ -56,13 +56,13 @@ public class Base {
         loadingDialog.setOnCancelListener((dialogInterface -> canceled = true));
         String screenName = activity.getClass().getSimpleName();
         activityMap.put(screenName  + System.currentTimeMillis(), activity);
-        if (SStaticR.ANALYTICS_ON){
+        /*if (SStaticR.ANALYTICS_ON){
             // Obtain the shared Tracker instance.
             LIVE application = (LIVE)baseActivity.getApplication();
             Tracker mTracker = application.getDefaultTracker();
             mTracker.setScreenName(screenName);
             mTracker.send(new HitBuilders.ScreenViewBuilder().build());
-        }
+        }*/
     }
 
     public void init(BaseFragment fragment){
