@@ -97,10 +97,10 @@
     <string name="skill_type">Skill type</string>
     <string name="song_beat_map">BeatMap</string>
     <string name="song_description">Description</string>
-    <string name="song_detail">Song Detail</string>
-    <string name="song_info">Song Info</string>
-    <string name="song_list">Song List</string>
-    <string name="song_mv_position">Mv Position</string>
+    <string name="song_detail">Music Detail</string>
+    <string name="song_info">Music Information</string>
+    <string name="song_list">Music List</string>
+    <string name="song_mv_position">MV Position</string>
     <string name="song_name_kana">Name(Hiragana)</string>
     <string name="sort_method">Sort method</string>
     <string name="sort_method_0">Desc</string>
